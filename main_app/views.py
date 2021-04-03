@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from .models import Listing, Bid, Thread, Message
 
 # Create your views here.
 def home(request):
@@ -21,3 +23,8 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+@login_required
+def message_index(request):
+    threads = Thread.objects.filter(user1_id==request.user | user2_id==request.user)
+    return render(request, 'messages/index.html', {'threads': threads})
