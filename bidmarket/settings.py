@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import os #<-----environment variables 
 import environ #<-----environment variables 
 environ.Env() #<-----environment variables 
 environ.Env.read_env() #<-----environment variables 
+
 
 from pathlib import Path
 
@@ -23,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'pith+mhpg*fal1of2*%cyn38e*y(r1_9(5nrw3vm%vjf(y(i&7'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,7 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bidmarket',
-        'USER': 'postgres'
+        # 'USER': 'postgres'
     }
 }
 
