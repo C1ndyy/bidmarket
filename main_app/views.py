@@ -26,11 +26,14 @@ def signup(request):
 
 @login_required
 def message_index(request):
-    print(request.user.id)
-    print(Thread.objects.all())
     threads = Thread.objects.filter(user1__id=request.user.id) | Thread.objects.filter(user2__id=request.user.id)
-
     return render(request, 'messages/index.html', {'threads': threads})
+
+@login_required
+def message_detail(request, thread_id):
+    messages = Message.objects.filter(parent_thread__id=thread_id)
+    return render(request, 'messages/detail.html', {'messages': messages})
+
 
 def listings_index(request):
     items = Listing.objects.all()
