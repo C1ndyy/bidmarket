@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+
+
+{% block content %}
+<h1>LOG IN PAGE</h1>
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Log in</button>
+    <input type="hidden" name="next" value="{{ next }}">
+</form>
+
+<script>
+    const form_fields = document.getElementsByTagName('input')
+    form_fields[1].classList.add("form-control")
+    form_fields[2].classList.add("form-control")
+</script>
+
+{% endblock %}
