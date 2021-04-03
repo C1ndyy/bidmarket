@@ -81,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bidmarket',
-        'USER': 'postgres'
+        # 'USER': 'postgres'
     }
 }
 
