@@ -28,3 +28,7 @@ def signup(request):
 def message_index(request):
     threads = Thread.objects.filter(user1_id==request.user | user2_id==request.user)
     return render(request, 'messages/index.html', {'threads': threads})
+    
+def listings_index(request):
+    items = Listing.objects.all()
+    return render(request, 'listings/index.html', {'items': items})
