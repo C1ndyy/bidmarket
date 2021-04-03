@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
 
-def login(request):
-    return render(request, 'accounts/login.html')
 
 def signup(request):
     error_message = ''
@@ -15,9 +14,10 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('index')
+            return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
+            print(form.errors)
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
-    return render(request, 'accounts/signup.html', context)
+    return render(request, 'registration/signup.html', context)
