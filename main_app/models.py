@@ -14,6 +14,7 @@ class Listing(models.Model):
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=50, choices=CATEGORIES)
     address = models.CharField(max_length=50)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
     min_bid_price = models.DecimalField(
         max_digits=9,
         decimal_places=2,
@@ -43,4 +44,16 @@ class Bid(models.Model):
 
     def __str__(self):
         return self.name
+
+class Thread(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    user1 = models.ForeignKey(User,related_name="user1", on_delete=models.CASCADE)
+    user2 = models.ForeignKey(User,related_name="user2", on_delete=models.CASCADE)
+
+class Message(models.Model):
+    parent_thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    message = models.TextField(max_length=500)
+    datetime = models.DateTimeField()
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+
 

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Listing, Bid
+from django.contrib.auth.decorators import login_required
+from .models import Listing, Bid, Thread, Message
+from datetime import date
 
 # Create your views here.
 def home(request):
@@ -22,6 +24,23 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+@login_required
+def message_index(request):
+    threads = Thread.objects.filter(user1__id=request.user.id) | Thread.objects.filter(user2__id=request.user.id)
+    return render(request, 'messages/index.html', {'threads': threads})
+
+@login_required
+def message_detail(request, thread_id):
+    thread = Thread.objects.get(id=thread_id)     
+    messages = Message.objects.filter(parent_thread__id=thread_id).order_by('datetime')
+    return render(request, 'messages/detail.html', {'messages': messages, 'thread': thread})
+
+@login_required
+def send_message(request, thread_id):
+    thread = Thread.objects.get(id=thread_id)
+    thread.message_set.create(message= request.POST['message'], sender= request.user, datetime= date.today(),)    
+    return redirect('message_detail', thread_id = thread_id)
 
 def listings_index(request):
     items = Listing.objects.all()
