@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Listing, Bid, Thread, Message
+from datetime import date
 
 # Create your views here.
 def home(request):
@@ -31,9 +32,15 @@ def message_index(request):
 
 @login_required
 def message_detail(request, thread_id):
-    messages = Message.objects.filter(parent_thread__id=thread_id)
-    return render(request, 'messages/detail.html', {'messages': messages})
+    thread = Thread.objects.get(id=thread_id)     
+    messages = Message.objects.filter(parent_thread__id=thread_id).order_by('datetime')
+    return render(request, 'messages/detail.html', {'messages': messages, 'thread': thread})
 
+@login_required
+def send_message(request, thread_id):
+    thread = Thread.objects.get(id=thread_id)
+    thread.message_set.create(message= request.POST['message'], sender= request.user, datetime= date.today(),)    
+    return redirect('message_detail', thread_id = thread_id)
 
 def listings_index(request):
     items = Listing.objects.all()
