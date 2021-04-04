@@ -1,6 +1,39 @@
+/********************* Messages Index *********************/
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#thread-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.thread {
+    border-bottom: 1px solid grey;
+}
+
+
+
+
+
+
+
+/********************* Messages Detail *********************/
 main {
     height: 70vh;
 }
+
+#message-header{
+    display: flex;
+    align-items: center;
+}
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
 
 #chat-window{
     overflow-y: scroll;
@@ -22,6 +55,7 @@ main {
 .my-messages div {
     background-color: rgb(174, 209, 255);
     border-radius: 10px;
+    overflow-wrap: break-word;
 }
 
 .other-messages {
@@ -31,6 +65,7 @@ main {
 .other-messages div {
     background-color: rgb(226, 223, 223);
     border-radius: 10px;
+    overflow-wrap: break-word;
 }
 
 .message {
