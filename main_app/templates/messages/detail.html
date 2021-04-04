@@ -1,26 +1,66 @@
 {% extends 'base.html' %}
+
 {% block title %} Messages {% endblock %}
 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/messages.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>MESSAGES FOR: {{thread.listing.name}}</h1>
-{% for message in messages%}
-<p>{{ message.message }}</p>
-<p>{{ message.datetime }}</p>
-<p>sent by: {{ message.sender.username }}</p>
-{% endfor %}
+<div id="message-header">
+    <a href="{% url 'message_index' %}">
+        <span class="material-icons md-36">
+            arrow_back_ios
+        </span>
+    </a>
+    <div>
+        <h2>Your messages about '{{thread.listing.name}}' with {{ other_user }} </h2>
+    </div>
+</div>
+<div id="chat-window">
+    {% for message in messages%}
+    {% if message.sender.id == user_id %}
+
+    <div class="message-container my-messages">
+        <span>{{ message.datetime|date:'M d g:i A' }}</span>
+        <div class="message">
+            <p>{{ message.message }}</p>
+        </div>
+    </div>
+    {% else %}
+
+    <div class="message-container other-messages">
+        <span>{{ message.datetime|date:'M d g:i A' }}</span>
+        <div class="message">
+            <p>{{ message.message }}</p>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
 
 <form action="{% url 'send_message' thread.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
     {% csrf_token %}
-    <div class="col-12">
-        <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
-        <input type="text" name="message" class="form-control" id="inlineFormInputGroupUsername"
-            placeholder="Message..">
-    </div>
-
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="input-group">
+        <div id="textbox">
+            <input type="text" id="textbox" name="message" class="form-control" placeholder="Message.."
+                autocomplete="off">
+        </div>
+        <div>
+            <button id="send-button" type="submit" class="btn btn-primary"><span class="material-icons">
+                    send
+                </span></button>
+        </div>
     </div>
 </form>
 
+<script>
+    let input = document.getElementById("textbox")
+    input.focus()
+
+    let chatWindow = document.getElementById("chat-window")
+    chatWindow.scrollTop = chatWindow.scrollHeight
+</script>
 {% endblock %}
