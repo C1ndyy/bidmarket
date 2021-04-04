@@ -52,6 +52,12 @@ class Thread(models.Model):
     user1 = models.ForeignKey(User,related_name="user1", on_delete=models.CASCADE)
     user2 = models.ForeignKey(User,related_name="user2", on_delete=models.CASCADE)
 
+    def latest_message(self):
+        return self.message_set.all().order_by('-datetime')[0].message
+    
+    def latest_message_date(self):
+        return self.message_set.all().order_by('-datetime')[0].datetime
+
 class Message(models.Model):
     parent_thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
     message = models.TextField(max_length=500)
