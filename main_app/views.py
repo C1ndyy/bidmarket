@@ -49,9 +49,9 @@ def listings_index(request):
     items = Listing.objects.all()
     bids = Bid.objects.all()
     for item in items:
-        bids = Bid.objects.get(bid.listing=item.name):
-            # for bid in bids:
-            #     if str(bid.listing) == item.name:
-            print(bid.bidder)
-            print(bid.listing)
+        bids = Bid.objects.get(bid.listing==item.name)
+        for bid in bids:
+            if str(bid.listing) == item.name:
+                print(bid.bidder)
+                print(bid.listing)
     return render(request, 'listings/index.html', {'items': items})
