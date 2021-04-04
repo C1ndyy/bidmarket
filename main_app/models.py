@@ -47,3 +47,15 @@ class Bid(models.Model):
     def __str__(self):
         return str(self.listing)
 
+class Thread(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    user1 = models.ForeignKey(User,related_name="user1", on_delete=models.CASCADE)
+    user2 = models.ForeignKey(User,related_name="user2", on_delete=models.CASCADE)
+
+class Message(models.Model):
+    parent_thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    message = models.TextField(max_length=500)
+    datetime = models.DateTimeField()
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+
+

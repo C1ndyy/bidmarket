@@ -24,6 +24,9 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'message_index' %}">Messages</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
                     </li>
                     {% else %}

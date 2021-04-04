@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Messages {% endblock %}
+
+
+{% block content %}
+<h1>MESSAGES FOR: {{thread.listing.name}}</h1>
+{% for message in messages%}
+<p>{{ message.message }}</p>
+<p>{{ message.datetime }}</p>
+<p>sent by: {{ message.sender.username }}</p>
+{% endfor %}
+
+<form action="{% url 'send_message' thread.id %}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+    {% csrf_token %}
+    <div class="col-12">
+        <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
+        <input type="text" name="message" class="form-control" id="inlineFormInputGroupUsername"
+            placeholder="Message..">
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+{% endblock %}
