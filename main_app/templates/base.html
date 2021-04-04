@@ -16,7 +16,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div id="sidenav-overlay"></div>
+    <nav id="desktop-nav" class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container-fluid d-flex justify-content-between">
             <a class="navbar-brand " href="#">Home</a>
             <div>
@@ -44,8 +45,66 @@
         </div>
     </nav>
 
+    <nav id="mobile-nav" class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="d-flex justify-content-between">
+            <span id="menu-icon" class="material-icons md-36">
+                menu
+            </span>
+            <a class="navbar-brand" href="#">LOGO</a>
+            <span class="material-icons md-36">
+                notifications
+            </span>
+        </div>
+    </nav>
+
+    <div id="side-nav">
+        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+        {% if user.is_authenticated %}
+        <a href="{% url 'listings_index' %}">All Listings</a>
+        <a href="{% url 'message_index' %}">Messagess</a>
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}">Signup</a>
+        {% endif %}
+    </div>
+
     <main class="container">{% block content %} {% endblock %}</main>
 
 </body>
+
+<script>
+    let overlay = document.getElementById("sidenav-overlay")
+    let menu = document.getElementById("menu-icon");
+    menu.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (menu.classList.contains("open")) {
+            closeNav();
+            menu.classList.toggle("open")
+        } else {
+            openNav();
+            menu.classList.toggle("open")
+
+        }
+    })
+
+
+    document.addEventListener("click", function (e) {
+        if (menu.classList.contains("open")) {
+            closeNav();
+        }
+    })
+
+
+    function openNav() {
+        document.getElementById("side-nav").style.width = "250px";
+        overlay.style.display = "block"
+
+    }
+    function closeNav() {
+        document.getElementById("side-nav").style.width = "0";
+        overlay.style.display = "none"
+    }
+</script>
 
 </html>

@@ -8,3 +8,73 @@
     }
 }
  */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+ 
+/******************** Top Nav Mobile ************************/
+#mobile-nav {
+  z-index: 999;
+}
+
+#mobile-nav >div {
+  width:100%;
+  margin-left: 10px;
+  margin-right: 10px
+}
+
+
+/******************** Side Nav Mobile ************************/
+#side-nav {
+  background-color: rgb(247, 247, 247);
+  display: absolute;
+  position: fixed;
+  left: 0;
+  height: 100%;
+  transition: 0.3s;
+  width: 0px;
+  overflow-x: hidden;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+}
+
+#side-nav a{
+  margin: 10px 20px;
+  text-decoration: none;
+  color:black;
+}
+
+#sidenav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 997;
+  display: none;
+}
+/******************** Top Nav Desktop ************************/
+#desktop-nav {
+  display: none;
+}
+
+
+@media only screen and (min-width: 768px) {
+  #side-nav {
+    display: none;
+  }
+  #mobile-nav{
+    display: none;
+   }
+  
+  #desktop-nav {
+    display: flex;
+  }
+
+
+
+}
