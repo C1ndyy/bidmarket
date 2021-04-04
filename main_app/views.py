@@ -28,6 +28,10 @@ def signup(request):
 @login_required
 def message_index(request):
     threads = Thread.objects.filter(user1__id=request.user.id) | Thread.objects.filter(user2__id=request.user.id)
+    for thread in threads:
+        print(thread.message_set.all().order_by('-datetime')[0])
+
+
     return render(request, 'messages/index.html', {'threads': threads})
 
 @login_required

@@ -15,8 +15,8 @@
     <a href="{% url 'message_detail' thread.id %}">
         <div class="thread">
             <h5 class="card-title">{{ thread.listing.name }}</h5>
-            <p class="card-text">Last Message Test Goes Here</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <p class="card-text">{{ thread.latest_message}}</p>
+            <p class="card-text"><small class="text-muted">Last message on {{ thread.latest_message_date }}</small></p>
         </div>
     </a>
     {% endfor %}
