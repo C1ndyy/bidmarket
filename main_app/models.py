@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from datetime import datetime    
 
 CATEGORIES = (
     ("Home","Home"),
@@ -14,6 +15,7 @@ class Listing(models.Model):
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=50, choices=CATEGORIES)
     address = models.CharField(max_length=50)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
     min_bid_price = models.DecimalField(
         max_digits=9,
         decimal_places=2,
@@ -39,8 +41,9 @@ class Bid(models.Model):
         max_digits=9,
         decimal_places=2,
     )
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(default=datetime.now, blank=True)
+    # datetime = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return str(self.listing)
 

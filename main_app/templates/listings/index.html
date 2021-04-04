@@ -1,17 +1,30 @@
-{% extends 'base.html'%} {% block content %}
+{% extends 'base.html'%} 
+
+{% block content %}
 
 <div class="card-group">
+  <!-- display each listing as a card  -->
   {% for item in items%}
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">{{ item.name}}</h5>
       <p class="card-tex">
+        seller: {{ item.seller }} <br>
         Catetgory: {{ item.category }} <br />
         Description: {{ item.description }} <br />
         Starting Bid Price: {{ item.min_bid_price }} <br />
         Current Bid Price: {{ item.current_highest_bid }} <br />
         Item listing date: {{ item.created_date }} <br />
         Bid ends on: {{ item.expiry_date }} <br />
+        <ul>
+        {% for bid in bids%}
+          {% if bid.listing == item.name%}  
+          <li>  
+            Bids: {{ bid.bidder}}
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
       </p>
     </div>
   </div>
