@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from datetime import datetime
+from django.utils import timezone
 
 CATEGORIES = (
     ("Home","Home"),
@@ -32,6 +34,16 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.name
+
+    def time_remaining(self):
+        difference=self.expiry_date-timezone.now()
+        if difference.days > 0:
+            return f'{difference.days}d {difference.seconds//3600}h'
+        else:
+            return f'{difference.seconds//3600}h {(difference.seconds//60)%60}m'
+    
+    def number_of_bids(self):
+        return self.bid_set.filter(listing__id=self.id).count()
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

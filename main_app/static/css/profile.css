@@ -1,3 +1,4 @@
+/**************************** Profile ******************************/
 #profile {
     display: flex;
     flex-direction: column;
@@ -6,12 +7,12 @@
     margin: 10px;
 }
 
-
 #profile-image {
     width: 100px;
     margin: 10px;
 }
 
+/**************************** Navigation Tabs ******************************/
 #tab-header {
     display: flex;
     align-items: center;
@@ -40,14 +41,40 @@
     left: 0px;
     transition:all 0.2s ease-in-out;
 }
-
+#content {
+    position: relative;
+}
 #content > section {
     opacity: 0;
     position: absolute;
-    /* top: -200%; */
+    top: 10px;
 }
 
 #content > section.active {
     opacity: 1;
-    top: 36%;
+}
+
+/**************************** Listings ******************************/
+
+#listing-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+#listing-container>a {
+    margin: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+#listing-container img{
+    min-width: 140px;
+    margin: 0px;
+}
+
+.listing-card {
+    display: flex;
+    flex-direction: column;
 }

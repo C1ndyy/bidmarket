@@ -32,20 +32,39 @@
 
     <div id="content">
         <section class="active">
-            <h2>My Listings</h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea dolorem sequi, quo tempore
-            in
-            eum obcaecati atque quibusdam officiis est dolorum minima deleniti ratione molestias numquam. Voluptas
-            voluptates quibusdam cum?
+            {% if listings.count %}
+
+            <h2>My Listings</h2>
+            <div id="listing-container">
+                {% for listing in listings %}
+                <a href="#">
+                    <div class="listing-card">
+                        <div>
+                            <h6 class="card-title">{{ listing.name }} </h6>
+                        </div>
+                        <img id="profile-image" src="{% static 'images/placeholder.png' %}">
+                        <span>${{ listing.current_highest_bid }}</span>
+                        <div>
+                            <span> {{ listing.number_of_bids }} bids </span>&#8226
+                            <span> {{ listing.time_remaining}}</span>
+                        </div>
+
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h2>You have no listings</h2>
+            {% endif %}
+
         </section>
         <section>
             <h2>My Bids</h2>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quas adipisci a accusantium eius ut
-            voluptatibus ad impedit nulla, ipsa qui. Quasi temporibus eos commodi aliquid impedit amet, similique nulla.
+            TODO
         </section>
         <section>
             <h2>Watchlist</h2>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt
-            voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.
+            TODO
         </section>
     </div>
 </div>
@@ -68,7 +87,6 @@
             indicator.style.left = `calc(calc(100% / 3) * ${i})`;
         })
     }
-
 
 </script>
 
