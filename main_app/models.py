@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from datetime import datetime    
 
 CATEGORIES = (
     ("Home","Home"),
@@ -40,10 +41,11 @@ class Bid(models.Model):
         max_digits=9,
         decimal_places=2,
     )
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(default=datetime.now, blank=True)
+    # datetime = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return str(self.listing)
 
 class Thread(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
