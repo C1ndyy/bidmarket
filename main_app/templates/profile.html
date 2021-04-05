@@ -42,10 +42,10 @@
                         <div>
                             <h6 class="card-title">{{ listing.name }} </h6>
                         </div>
-                        <img id="profile-image" src="{% static 'images/placeholder.png' %}">
+                        <img class="listing-image" src="{% static 'images/placeholder.png' %}">
                         <span>${{ listing.current_highest_bid }}</span>
                         <div>
-                            <span> {{ listing.number_of_bids }} bids </span>&#8226
+                            <span> {{ listing.number_of_bids }} bids </span>
                             <span> {{ listing.time_remaining}}</span>
                         </div>
 

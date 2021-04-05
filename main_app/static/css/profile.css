@@ -71,6 +71,7 @@
 
 #listing-container img{
     min-width: 150px;
+    max-width: 150px;
     margin: 0px;
 }
 

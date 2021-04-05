@@ -1,50 +1,74 @@
-{% extends 'base.html'%} 
+{% extends 'base.html'%}
 
 {% block content %}
 
-<div class="card-group">
-  <!-- display each listing as a card  -->
-  {% for item in items%}
-  <div class="card">
-    <a href="{% url 'listings_detail' item.id %}">
-    <div class="card-body">
-      <h5 class="card-title">{{ item.name}}</h5>
-      <p class="card-tex">
-        seller: {{ item.seller }} <br>
-        Catetgory: {{ item.category }} <br />
-        Description: {{ item.description }} <br />
-        Starting Bid Price: {{ item.min_bid_price }} <br />
-        Current Bid Price: {{ item.current_highest_bid }} <br />
-        Item listing date: {{ item.created_date }} <br />
-        Bid ends on: {{ item.expiry_date }} <br />
-        Bids:
-        <ul>
-        {% for bid in bids%}
-          {% if bid.listing|stringformat:'s' == item.name %}
-          <li>{{bid.bidder}} : ${{bid.amount}} on {{bid.datetime}}</li> 
-          {% endif %}
-        {% endfor %}
-      </ul>
-  </a>
-        <a href="{% url 'listings_update' item.id %}">
-          <button>
-            Edit Listing
-          </button>
-        </a>
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}">
+{% endblock %}
 
-          <a href="{% url 'listings_delete' item.id %}">
-            <button>
-              Delete Listing
-            </button>
-          </a>
-      </p>
-    </div>
+
+
+<form method="get" action="">
+  <div id="search-bar">
+    <input type="text" placeholder="What are you looking for?" required>
+    <button type="submit">
+      <span class="material-icons">
+        search
+      </span>
+    </button>
+  </div>
+</form>
+
+<div id="icons">
+  <div>
+    <span class="material-icons md-24">
+      unfold_more
+    </span>
+    <p>sort</p>
   </div>
 
-  {% endfor %}
-  <ul>
+  <div>
+    <span class="material-icons md-24">
+      tune
+    </span>
+    <p>filter</p>
+  </div>
 
-        
-  </ul>
+</div>
+
+
+
+<div class="">
+  <!-- display each listing as a card  -->
+  {% for item in items%}
+  <a href="{% url 'listings_detail' item.id %}">
+    <div class="card">
+
+      <div class="card-image">
+        <img class="listing-image" src="{% static 'images/placeholder.png' %}">
+      </div>
+
+      <div class="card-text">
+        <h5 class="card-title">{{ item.name }}</h5>
+        <p>${{ item.current_highest_bid }}</p>
+        <p>{{ item.number_of_bids }} bids &#8226 {{ item.time_remaining }}</p>
+      </div>
+    </div>
+  </a>
+
+  <!-- <a href="{% url 'listings_update' item.id %}">
+    <button>
+      Edit Listing
+    </button>
+  </a>
+
+  <a href="{% url 'listings_delete' item.id %}">
+    <button>
+      Delete Listing
+    </button>
+  </a> -->
+
+  {% endfor %}
 </div>
 {% endblock %}

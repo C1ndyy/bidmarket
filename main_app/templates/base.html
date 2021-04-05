@@ -103,11 +103,15 @@
     function openNav() {
         document.getElementById("side-nav").style.width = "250px";
         overlay.style.display = "block"
+        document.documentElement.style.overflow = 'hidden';
+        document.body.scroll = "no";
 
     }
     function closeNav() {
         document.getElementById("side-nav").style.width = "0";
         overlay.style.display = "none"
+        document.documentElement.style.overflow = 'scroll';
+        document.body.scroll = "yes";
     }
 </script>
 
