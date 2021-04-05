@@ -1,11 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Listing, Bid, Thread, Message
-from datetime import datetime
+from datetime import date, datetime
+from django.contrib.auth.models import User
+
 
 # Create your views here.
+
+
 def home(request):
     return render(request, 'home.html')
 
@@ -56,3 +60,23 @@ def profile(request):
     listings = Listing.objects.filter(seller__id=request.user.id)
     bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
     return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})
+    bids = Bid.objects.all()
+    return render(request, 'listings/index.html', {'items': items, 'bids': bids})
+
+def listings_create(request):
+    print(request.body)
+    return HttpResponse("Add me")
+
+def listings_detail(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    return render(request, 'listings/detail.html', 
+    {'item': item}
+    )
+
+def listings_update(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    return HttpResponse("edit me")
+
+def listings_delete(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    return HttpResponse("delete me")

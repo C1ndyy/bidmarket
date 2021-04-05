@@ -52,10 +52,11 @@ class Bid(models.Model):
         max_digits=9,
         decimal_places=2,
     )
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(default=datetime.now, blank=True)
+    # datetime = models.DateTimeField(auto_now=True)
 
-    # def __str__(self):
-    #     return self.listing
+    def __str__(self):
+        return str(self.listing)
 
 class Thread(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
