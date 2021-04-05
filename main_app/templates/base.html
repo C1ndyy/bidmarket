@@ -74,7 +74,6 @@
     </div>
 
     <main class="container">{% block content %} {% endblock %}</main>
-
 </body>
 
 <script>
@@ -92,13 +91,11 @@
         }
     })
 
-
     document.addEventListener("click", function (e) {
         if (menu.classList.contains("open")) {
             closeNav();
         }
     })
-
 
     function openNav() {
         document.getElementById("side-nav").style.width = "250px";

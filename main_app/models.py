@@ -6,7 +6,7 @@ from django.utils import timezone
 
 CATEGORIES = (
     ("Home","Home"),
-    ("Fasion","Fasion"),
+    ("Fashion","Fashion"),
     ("Tech","Tech"),
     ("Sporting","Sporting"),
     ("Books","Books"),
