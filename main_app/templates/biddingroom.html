@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<h1>Bidding Room</h1>
+  
+<label for="exampleFormControlTextarea1" class = 'h4 pt-5'>Bidroom</label>
+<textarea class = 'form-control' id = "bid-text" rows = '10'></textarea><br>          
+<input class = 'form-control'  id = "input" type = "text"><br>            
+<input class = 'btn btn-seconday btn-leg btn-black' id = "submit-message" type = "button" value = "Send">
+
+
+{{ room_name|json_script:"room-name" }}
+
+<script>
+
+    const roomName = JSON.parse(document.getElementById('room-name').textContent)
+
+    const chatSocket = new WebSocket(
+        'ws://'+
+        window.location.host +
+        '/ws/bid/' +
+        roomName +
+        '/' 
+    )
+    
+    chatSocket.onmessage = function (e) {
+        console.log("chatSocket onmessage activate")
+        const data = JSON.parse(e.data);
+        console.log(data)
+        document.querySelector('#bid-text').value += (data.message) + '\n'
+    }
+
+    document.querySelector('#input').focus();
+
+    document.querySelector('#submit-message').onclick = function(e){
+        console.log("Submit activate")
+        const messageInputDom = document.querySelector('#input')
+        const message = messageInputDom.value
+        console.log(message)
+        
+        chatSocket.send(JSON.stringify({'message': message}))
+
+        messageInputDom.value = ''
+        console.log("chatSocket send activate?  I think if it did, then onmessage would aswell")
+    }
+</script>
+    
+</body>
+</html>

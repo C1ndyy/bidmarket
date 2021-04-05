@@ -51,3 +51,8 @@ def send_message(request, thread_id):
 def listings_index(request):
     items = Listing.objects.all()
     return render(request, 'listings/index.html', {'items': items})
+
+def room(request, room_name):
+    return render(request, 'biddingroom.html', {
+        'room_name': room_name
+    })
