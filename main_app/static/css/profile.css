@@ -48,6 +48,7 @@
     opacity: 0;
     position: absolute;
     top: 10px;
+    width: 100%;
 }
 
 #content > section.active {
@@ -59,7 +60,6 @@
 #listing-container {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: center; */
     align-items: center;
 }
 
@@ -70,7 +70,7 @@
 }
 
 #listing-container img{
-    min-width: 140px;
+    min-width: 150px;
     margin: 0px;
 }
 
@@ -78,3 +78,5 @@
     display: flex;
     flex-direction: column;
 }
+
+/**************************** Bids ******************************/

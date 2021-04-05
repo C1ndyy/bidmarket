@@ -54,4 +54,5 @@ def listings_index(request):
 
 def profile(request):
     listings = Listing.objects.filter(seller__id=request.user.id)
-    return render(request, 'profile.html', {'listings': listings, 'username': request.user.username})
+    bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
+    return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})

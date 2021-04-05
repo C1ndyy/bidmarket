@@ -58,10 +58,32 @@
             {% endif %}
 
         </section>
-        <section>
+        <section class="bids">
+            {% if bids.count %}
             <h2>My Bids</h2>
-            TODO
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Listing</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid in bids %}
+                    <tr>
+                        <td>{{ bid.datetime|date:'M d g:i A' }}</td>
+                        <td>{{ bid.listing.name }}</td>
+                        <td>${{ bid.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h2>You have no bids</h2>
+            {% endif %}
         </section>
+
         <section>
             <h2>Watchlist</h2>
             TODO
