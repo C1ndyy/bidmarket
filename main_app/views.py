@@ -51,3 +51,7 @@ def send_message(request, thread_id):
 def listings_index(request):
     items = Listing.objects.all()
     return render(request, 'listings/index.html', {'items': items})
+
+def profile(request):
+    listings = Listing.objects.filter(seller__id=request.user.id)
+    return render(request, 'profile.html', {'listings': listings, 'username': request.user.username})

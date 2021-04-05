@@ -30,6 +30,9 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'message_index' %}">Messages</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">My Profile</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
                     </li>
                     {% else %}
@@ -61,7 +64,8 @@
         <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
         {% if user.is_authenticated %}
         <a href="{% url 'listings_index' %}">All Listings</a>
-        <a href="{% url 'message_index' %}">Messagess</a>
+        <a href="{% url 'message_index' %}">Messages</a>
+        <a href="{% url 'profile' %}">My Profile</a>
         <a href="{% url 'logout' %}">Logout</a>
         {% else %}
         <a href="{% url 'login' %}">Login</a>

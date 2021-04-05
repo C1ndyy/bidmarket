@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %} Profile {% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="profile">
+    <img id="profile-image" src="{% static 'images/user.png' %}">
+    <h4> {{ username }}</h4>
+</div>
+
+<div class="tabs">
+
+    <div id="tab-header">
+        <div class="active">
+            Listings
+        </div>
+        <div>
+            Bids
+        </div>
+        <div>
+            Watchlist
+        </div>
+
+    </div>
+
+
+    <div id="indicator"></div>
+
+    <div id="content">
+        <section class="active">
+            <h2>My Listings</h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea dolorem sequi, quo tempore
+            in
+            eum obcaecati atque quibusdam officiis est dolorum minima deleniti ratione molestias numquam. Voluptas
+            voluptates quibusdam cum?
+        </section>
+        <section>
+            <h2>My Bids</h2>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quas adipisci a accusantium eius ut
+            voluptatibus ad impedit nulla, ipsa qui. Quasi temporibus eos commodi aliquid impedit amet, similique nulla.
+        </section>
+        <section>
+            <h2>Watchlist</h2>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt
+            voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.
+        </section>
+    </div>
+</div>
+
+
+
+<script>
+    let tabHeader = document.getElementById("tab-header")
+    let indicator = document.getElementById("indicator")
+    let contents = document.getElementById("content")
+    let tabs = tabHeader.querySelectorAll("div")
+    let sections = document.querySelectorAll("#content > section")
+
+    for (let i = 0; i < 3; i++) {
+        tabs[i].addEventListener("click", function (e) {
+            tabHeader.querySelector(".active").classList.remove("active");
+            tabs[i].classList.add("active");
+            contents.querySelector(".active").classList.remove("active");
+            sections[i].classList.add("active");
+            indicator.style.left = `calc(calc(100% / 3) * ${i})`;
+        })
+    }
+
+
+</script>
+
+{% endblock %}

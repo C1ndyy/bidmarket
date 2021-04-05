@@ -42,8 +42,8 @@ class Bid(models.Model):
     )
     datetime = models.DateTimeField()
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.listing
 
 class Thread(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

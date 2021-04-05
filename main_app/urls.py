@@ -9,4 +9,5 @@ urlpatterns = [
     path('messages/<int:thread_id>/', views.message_detail, name='message_detail'),
     path('messages/<int:thread_id>/send_message', views.send_message, name='send_message'),
     path('listings/', views.listings_index, name='listings_index'),
+    path('profile/', views.profile, name='profile'),
 ]
