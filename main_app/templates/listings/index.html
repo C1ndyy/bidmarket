@@ -6,6 +6,7 @@
   <!-- display each listing as a card  -->
   {% for item in items%}
   <div class="card">
+    <a href="{% url 'listings_detail' item.id %}">
     <div class="card-body">
       <h5 class="card-title">{{ item.name}}</h5>
       <p class="card-tex">
@@ -24,14 +25,14 @@
           {% endif %}
         {% endfor %}
       </ul>
-
-        <a href="{% url 'listings_update', items.id}">
+  </a>
+        <a href="{% url 'listings_update' item.id %}">
           <button>
             Edit Listing
           </button>
         </a>
 
-          <a href="{% url 'listings_delete' items.id }">
+          <a href="{% url 'listings_delete' item.id %}">
             <button>
               Delete Listing
             </button>

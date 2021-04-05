@@ -57,8 +57,20 @@ def listings_index(request):
     bids = Bid.objects.all()
     return render(request, 'listings/index.html', {'items': items, 'bids': bids})
 
-def listings_update(request):
+def listings_create(request):
+    print(request.body)
+    return HttpResponse("Add me")
+
+def listings_detail(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    return render(request, 'listings/detail.html', 
+    {'item': item}
+    )
+
+def listings_update(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
     return HttpResponse("edit me")
 
-def listings_delete(request):
+def listings_delete(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
     return HttpResponse("delete me")
