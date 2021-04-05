@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Listing, Bid, Thread, Message
+from .models import Listing, Bid, Thread, Message, CATEGORIES
 from datetime import date, datetime
 from django.contrib.auth.models import User
 
@@ -66,8 +66,27 @@ def profile(request):
     return render(request, 'listings/index.html', {'items': items, 'bids': bids})
 
 def listings_create(request):
-    print(request.body)
-    return HttpResponse("Add me")
+    return render(request, 'listings/create.html', 
+    {"categories": CATEGORIES}
+    )
+
+@login_required
+def listings_new(request):
+    item = Listing(name=request.POST.get("name"),
+    seller_id=request.user.id,
+    description=request.POST.get("description"),
+    address=request.POST.get("address"),
+    category=request.POST.get("category"),
+    min_bid_price=int(request.POST.get("min_bid_price")),
+    current_highest_bid=int(request.POST.get("min_bid_price")),
+    buy_now_price=int(request.POST.get("buy_now_price")),
+    created_date=datetime.now(),
+    expiry_date=request.POST.get("expiry_date"),
+    )
+    item.save()
+    response = redirect('/listings/')
+    return response
+
 
 def listings_detail(request, listing_id):
     item = Listing.objects.get(id=listing_id)
@@ -75,10 +94,15 @@ def listings_detail(request, listing_id):
     {'item': item}
     )
 
+
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     return HttpResponse("edit me")
 
+@login_required
 def listings_delete(request, listing_id):
     item = Listing.objects.get(id=listing_id)
-    return HttpResponse("delete me")
+    item.delete()
+    response = redirect('/listings/')
+    return response
+
