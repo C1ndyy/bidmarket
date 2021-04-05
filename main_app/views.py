@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -54,4 +54,11 @@ def send_message(request, thread_id):
 
 def listings_index(request):
     items = Listing.objects.all()
-    return render(request, 'listings/index.html', {'items': items})
+    bids = Bid.objects.all()
+    return render(request, 'listings/index.html', {'items': items, 'bids': bids})
+
+def listings_update(request):
+    return HttpResponse("edit me")
+
+def listings_delete(request):
+    return HttpResponse("delete me")

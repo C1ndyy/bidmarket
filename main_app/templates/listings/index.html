@@ -16,19 +16,34 @@
         Current Bid Price: {{ item.current_highest_bid }} <br />
         Item listing date: {{ item.created_date }} <br />
         Bid ends on: {{ item.expiry_date }} <br />
+        Bids:
         <ul>
         {% for bid in bids%}
-          {% if bid.listing == item.name%}  
-          <li>  
-            Bids: {{ bid.bidder}}
-          </li>
+          {% if bid.listing|stringformat:'s' == item.name %}
+          <li>{{bid.bidder}} : ${{bid.amount}} on {{bid.datetime}}</li> 
           {% endif %}
         {% endfor %}
-        </ul>
+      </ul>
+
+        <a href="{% url 'listings_update', items.id}">
+          <button>
+            Edit Listing
+          </button>
+        </a>
+
+          <a href="{% url 'listings_delete' items.id }">
+            <button>
+              Delete Listing
+            </button>
+          </a>
       </p>
     </div>
   </div>
 
   {% endfor %}
+  <ul>
+
+        
+  </ul>
 </div>
 {% endblock %}
