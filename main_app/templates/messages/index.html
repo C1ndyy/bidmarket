@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %} Messages {% endblock %}
 
 {% block css %}
@@ -7,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+
 <h1>MESSAGE INDEX</h1>
 
 {% if threads.count %}

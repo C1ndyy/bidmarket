@@ -54,6 +54,12 @@ def send_message(request, thread_id):
 
 def listings_index(request):
     items = Listing.objects.all()
+    return render(request, 'listings/index.html', {'items': items})
+
+def profile(request):
+    listings = Listing.objects.filter(seller__id=request.user.id)
+    bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
+    return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})
     bids = Bid.objects.all()
     return render(request, 'listings/index.html', {'items': items, 'bids': bids})
 
