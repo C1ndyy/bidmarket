@@ -11,7 +11,7 @@
 
 <form method="get" action="">
   <div id="search-bar">
-    <input name='q' type="text" placeholder="What are you looking for?" required>
+    <input name='q' value='{{ q }}' type="text" placeholder="What are you looking for?" autocomplete="off">
     <button type="submit">
       <span class="material-icons">
         search
@@ -38,7 +38,6 @@
 </div>
 
 
-
 <div class="">
   <!-- display each listing as a card  -->
   {% for item in items%}
@@ -57,18 +56,21 @@
     </div>
   </a>
 
-  <!-- <a href="{% url 'listings_update' item.id %}">
-    <button>
-      Edit Listing
-    </button>
-  </a>
-
-  <a href="{% url 'listings_delete' item.id %}">
-    <button>
-      Delete Listing
-    </button>
-  </a> -->
-
   {% endfor %}
 </div>
+
+
+<div id="sort-popup">
+  <form method="get" action="">
+    <input type="radio" id="male" name="sortby" value="price-LH">
+    <label for="male">price low to high</label><br>
+    <input type="radio" id="female" name="sortby" value="price-HL">
+    <label for="female">price high to low</label><br>
+    <input type="radio" id="other" name="sortby" value="time-remaining">
+    <label for="other">ending soonest</label>
+    <button type='submit'>Save</button>
+  </form>
+</div>
+
+
 {% endblock %}

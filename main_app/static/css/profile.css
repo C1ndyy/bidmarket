@@ -67,6 +67,7 @@
     margin: 10px;
     text-decoration: none;
     color: black;
+    z-index:900;
 }
 
 #listing-container img{
