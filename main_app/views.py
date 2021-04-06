@@ -108,6 +108,7 @@ def listings_delete(request, listing_id):
     response = redirect('/listings/')
     return response
 
+#websocket room
 def room(request, room_name):
     return render(request, 'biddingroom.html', {
         'room_name': room_name

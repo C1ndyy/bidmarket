@@ -9,13 +9,13 @@ urlpatterns = [
     path('messages/<int:thread_id>/', views.message_detail, name='message_detail'),
     path('messages/<int:thread_id>/send_message', views.send_message, name='send_message'),
     path('listings/', views.listings_index, name='listings_index'),
-    #websocket, needs to be combined with details view
-    path('bid/<str:room_name>/', views.room, name = 'room'),
-
     path('profile/', views.profile, name='profile'),
     path('listings/create/', views.listings_create, name='listings_create'),
     path('listings/new/', views.listings_new, name='listings_new'),
     path('listings/<int:listing_id>/', views.listings_detail, name='listings_detail'),
     path('listings/<int:listing_id>/update', views.listings_update, name='listings_update'),
     path('listings/<int:listing_id>/delete', views.listings_delete, name='listings_delete'),
+
+     #websocket, needs to be combined with details view
+    path('bid/<str:room_name>/', views.room, name = 'room'),
 ]

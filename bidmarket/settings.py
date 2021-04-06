@@ -130,6 +130,7 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+#websocket settings
 ASGI_APPLICATION = "bidmarket.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
