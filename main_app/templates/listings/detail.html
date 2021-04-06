@@ -1,0 +1,115 @@
+{% extends 'base.html'%}
+{% block title %} {{ item.name }}{% endblock %}
+{% block content %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/detail.css' %}">
+{% endblock %}
+
+<a href="{% url 'listings_update' item.id %}">
+  <button>Edit Listing</button>
+</a>
+
+<a href="{% url 'listings_delete' item.id %}">
+  <button>Delete Listing</button>
+</a>
+
+<div id="status-info">
+  <div id="highest-bid">Highest ${{ item.current_highest_bid }}</div>
+  <div id="time-remaining"> {{ item.time_remaining}} left</div>
+  <div id="number-bids"> {{ item.number_of_bids }} bids </div>
+</div>
+
+<div id="image">
+  <img class="listing-image" src="{% static 'images/no-image.png' %}">
+  <div class="item-name">{{ item.name }}</div>
+</div>
+
+
+<div class="tabs">
+
+
+  <div id="tab-header">
+    <div class="active">
+      Bid
+    </div>
+    <div>
+      History
+    </div>
+    <div>
+      Info
+    </div>
+
+  </div>
+
+
+  <div id="indicator"></div>
+
+  <div id="content">
+    <section class="active">
+      <h2>TODO</h2>
+
+    </section>
+    <section class="bids">
+      {% if item.bids.count %}
+      <h2>Bid History</h2>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Bidder</th>
+            <th scope="col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bid in item.bids %}
+          <tr>
+            <td>{{ bid.datetime|date:'M d g:i A' }}</td>
+            <td>{{ bid.bidder.username }}</td>
+            <td>${{ bid.amount }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h2>Be the first to bid on this item!</h2>
+      {% endif %}
+    </section>
+
+    <section>
+      <h2>Description</h2>
+      {{ item.description }}
+      <p>Category: {{ item.category }}</p>
+      <p>Starting Bid Price: {{ item.min_bid_price }}</p>
+      <p>Item listing date: {{ item.created_date }}</p>
+      <p>Bid ends on: {{ item.expiry_date }}</p>
+    </section>
+  </div>
+</div>
+
+
+
+<script>
+  let tabHeader = document.getElementById("tab-header")
+  let indicator = document.getElementById("indicator")
+  let contents = document.getElementById("content")
+  let tabs = tabHeader.querySelectorAll("div")
+  let sections = document.querySelectorAll("#content > section")
+
+  for (let i = 0; i < 3; i++) {
+    tabs[i].addEventListener("click", function (e) {
+      tabHeader.querySelector(".active").classList.remove("active");
+      tabs[i].classList.add("active");
+      contents.querySelector(".active").classList.remove("active");
+      sections[i].classList.add("active");
+      indicator.style.left = `calc(calc(100% / 3) * ${i})`;
+    })
+  }
+
+</script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %} Profile {% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="profile">
+    <img id="profile-image" src="{% static 'images/user.png' %}">
+    <h4> {{ username }}</h4>
+</div>
+
+<div class="tabs">
+
+    <div id="tab-header">
+        <div class="active">
+            Listings
+        </div>
+        <div>
+            Bids
+        </div>
+        <div>
+            Watchlist
+        </div>
+
+    </div>
+
+
+    <div id="indicator"></div>
+
+    <div id="content">
+        <section class="active">
+            {% if listings.count %}
+
+            <h2>My Listings</h2>
+            <div id="listing-container">
+                {% for listing in listings %}
+                <a href="{% url 'listings_detail' listing.id %}">
+                    <div class="listing-card">
+                        <div>
+                            <h6 class="card-title">{{ listing.name }} </h6>
+                        </div>
+                        <img class="listing-image" src="{% static 'images/placeholder.png' %}">
+                        <span>${{ listing.current_highest_bid }}</span>
+                        <div>
+                            <span> {{ listing.number_of_bids }} bids </span>
+                            <span> {{ listing.time_remaining}}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h2>You have no listings</h2>
+            {% endif %}
+
+        </section>
+        <section class="bids">
+            {% if bids.count %}
+            <h2>My Bids</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Listing</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid in bids %}
+                    <tr>
+                        <td>{{ bid.datetime|date:'M d g:i A' }}</td>
+                        <td>{{ bid.listing.name }}</td>
+                        <td>${{ bid.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h2>You have no bids</h2>
+            {% endif %}
+        </section>
+
+        <section>
+            <h2>Watchlist</h2>
+            TODO
+        </section>
+    </div>
+</div>
+
+
+
+<script>
+    let tabHeader = document.getElementById("tab-header")
+    let indicator = document.getElementById("indicator")
+    let contents = document.getElementById("content")
+    let tabs = tabHeader.querySelectorAll("div")
+    let sections = document.querySelectorAll("#content > section")
+
+    for (let i = 0; i < 3; i++) {
+        tabs[i].addEventListener("click", function (e) {
+            tabHeader.querySelector(".active").classList.remove("active");
+            tabs[i].classList.add("active");
+            contents.querySelector(".active").classList.remove("active");
+            sections[i].classList.add("active");
+            indicator.style.left = `calc(calc(100% / 3) * ${i})`;
+        })
+    }
+
+</script>
+
+{% endblock %}

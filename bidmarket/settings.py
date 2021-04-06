@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',  
+    'django.contrib.humanize',
+
 ]
 
 MIDDLEWARE = [
@@ -129,7 +131,7 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-ASGI_APPLICATION = "bidmarket.routing.application"
+ASGI_APPLICATION = "bidmarket.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"

@@ -1,57 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8"/>
+    <title>Bid Room</title>
 </head>
 <body>
+    <textarea id="bid-log" cols="100" rows="20"></textarea><br>
+    <input id="bid-message-input" type="text" size="100"><br>
+    <input id="bid-message-submit" type="button" value="Send">
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-<h1>Bidding Room</h1>
-  
-<label for="exampleFormControlTextarea1" class = 'h4 pt-5'>Bidroom</label>
-<textarea class = 'form-control' id = "bid-text" rows = '10'></textarea><br>          
-<input class = 'form-control'  id = "input" type = "text"><br>            
-<input class = 'btn btn-seconday btn-leg btn-black' id = "submit-message" type = "button" value = "Send">
+        const bidSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/bid/'
+            + roomName
+            + '/'
+        );
 
+        bidSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#bid-log').value += (data.message + '\n');
+        };
 
-{{ room_name|json_script:"room-name" }}
+        bidSocket.onclose = function(e) {
+            console.error('Bid socket closed unexpectedly');
+        };
 
-<script>
+        document.querySelector('#bid-message-input').focus();
+        document.querySelector('#bid-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#bid-message-submit').click();
+            }
+        };
 
-    const roomName = JSON.parse(document.getElementById('room-name').textContent)
-
-    const chatSocket = new WebSocket(
-        'ws://'+
-        window.location.host +
-        '/ws/bid/' +
-        roomName +
-        '/' 
-    )
-    
-    document.querySelector('#input').focus();
-
-    document.querySelector('#submit-message').onclick = function(e){
-        console.log("Submit activate")
-        const messageInputDom = document.querySelector('#input')
-        const message = messageInputDom.value
-        console.log(JSON.stringify({'message': message,}))
-        try{
-        chatSocket.send(JSON.stringify({'message': message,}))
-        console.log("Activate Send")
-        }
-        catch{console.log("Send failed")}
-        messageInputDom.value = ''
-    }
-
-    chatSocket.onmessage = function (e) {
-        console.log("chatSocket onmessage activate")
-        const data = JSON.parse(e.data);
-        console.log(data)
-        document.querySelector('#bid-text').value += (data.message) + '\n'
-    }
-</script>
-    
+        document.querySelector('#bid-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#bid-message-input');
+            const message = messageInputDom.value;
+            bidSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
 </body>
 </html>

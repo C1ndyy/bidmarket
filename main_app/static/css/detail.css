@@ -1,0 +1,87 @@
+
+/**************************** Status Info ******************************/
+#status-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px;
+}
+#status-info >div {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#highest-bid {
+    color: rgb(11, 148, 114)
+}
+
+#time-remaining {
+    color: rgb(212, 74, 74)
+}
+
+
+
+/**************************** Image ******************************/
+#image {
+    position: relative;
+    text-align: center;
+}
+
+
+#image >img {
+    max-width: 100%;
+    max-height: 50vh;
+}
+
+.item-name {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 24px;
+    font-weight: 800;
+  }
+  
+/**************************** Navigation Tabs ******************************/
+#tab-header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+#tab-header div {
+    font-size: 18px;
+    font-weight: bold;
+    width: 33%;
+    text-align: center;
+    cursor: pointer;
+    color: rgb(107, 107, 107)
+}
+
+#tab-header div.active {
+    color: rgb(67, 110, 228)
+}
+
+#indicator {
+    position: relative;
+    width: 33%;
+    height: 4px;
+    background-color: rgb(67, 110, 228);
+    border-radius: 3px;
+    left: 0px;
+    transition:all 0.2s ease-in-out;
+}
+#content {
+    position: relative;
+}
+#content > section {
+    opacity: 0;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+}
+
+#content > section.active {
+    opacity: 1;
+}
+
+/**************************** Bids ******************************/
