@@ -66,8 +66,7 @@ def profile(request):
     listings = Listing.objects.filter(seller__id=request.user.id)
     bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
     return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})
-    bids = Bid.objects.all()
-    return render(request, 'listings/index.html', {'items': items, 'bids': bids})
+
 
 def listings_create(request):
     return render(request, 'listings/create.html', 
@@ -95,8 +94,7 @@ def listings_new(request):
 def listings_detail(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     return render(request, 'listings/detail.html', 
-    {'item': item}
-    )
+    {'item': item})
 
 
 def listings_update(request, listing_id):

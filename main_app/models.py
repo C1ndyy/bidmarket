@@ -45,6 +45,9 @@ class Listing(models.Model):
     def number_of_bids(self):
         return self.bid_set.filter(listing__id=self.id).count()
 
+    def bids(self):
+        return self.bid_set.all().order_by('-datetime')
+
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
