@@ -8,7 +8,7 @@ requests = "*"
 django = "*"
 psycopg2-binary = "*"
 django-environ = "*"
-
+channels = "*"
 [dev-packages]
 
 [requires]
