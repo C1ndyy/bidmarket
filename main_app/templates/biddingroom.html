@@ -30,25 +30,26 @@
         '/' 
     )
     
-    chatSocket.onmessage = function (e) {
-        console.log("chatSocket onmessage activate")
-        const data = JSON.parse(e.data);
-        console.log(data)
-        document.querySelector('#bid-text').value += (data.message) + '\n'
-    }
-
     document.querySelector('#input').focus();
 
     document.querySelector('#submit-message').onclick = function(e){
         console.log("Submit activate")
         const messageInputDom = document.querySelector('#input')
         const message = messageInputDom.value
-        console.log(message)
-        
-        chatSocket.send(JSON.stringify({'message': message}))
-
+        console.log(JSON.stringify({'message': message,}))
+        try{
+        chatSocket.send(JSON.stringify({'message': message,}))
+        console.log("Activate Send")
+        }
+        catch{console.log("Send failed")}
         messageInputDom.value = ''
-        console.log("chatSocket send activate?  I think if it did, then onmessage would aswell")
+    }
+
+    chatSocket.onmessage = function (e) {
+        console.log("chatSocket onmessage activate")
+        const data = JSON.parse(e.data);
+        console.log(data)
+        document.querySelector('#bid-text').value += (data.message) + '\n'
     }
 </script>
     
