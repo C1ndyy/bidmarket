@@ -1,0 +1,24 @@
+{% extends 'base.html'%} {% block content %}
+
+<h1>Listing Item Detail</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ item.name }}</span>
+    <p>Category: {{ item.category }}</p>
+    <p>Description: {{ item.description }}</p>
+    <p>Starting Bid Price: {{ item.min_bid_price }}</p>
+    <p>Current Bid Price: {{ item.current_highest_bid }}</p>
+    <p>Item listing date: {{ item.created_date }}</p>
+    <p>Bid ends on: {{ item.expiry_date }}</p>
+  </div>
+  <a href="{% url 'listings_update' item.id %}">
+    <button>Edit Listing</button>
+  </a>
+
+  <a href="{% url 'listings_delete' item.id %}">
+    <button>Delete Listing</button>
+  </a>
+</div>
+
+{% endblock %}
