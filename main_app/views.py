@@ -53,7 +53,6 @@ def send_message(request, thread_id):
     return redirect('message_detail', thread_id = thread_id)
 
 def listings_index(request):
-    items = Listing.objects.all()
     # query by keyword
     q=request.GET.get('q', '')
     print(request.GET.get('sortby'))
