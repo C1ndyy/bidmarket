@@ -53,9 +53,15 @@ def send_message(request, thread_id):
     return redirect('message_detail', thread_id = thread_id)
 
 def listings_index(request):
-    items = Listing.objects.all()
-    return render(request, 'listings/index.html', {'items': items})
+    # query by keyword
+    q=request.GET.get('q', '')
+    print(request.GET.get('sortby'))
+    items = Listing.objects.filter(name__icontains=q)
+    #sort options
+    sortby = request.GET.get('sortby')
+    return render(request, 'listings/index.html', {'items': items, 'q': q})
 
+@login_required
 def profile(request):
     listings = Listing.objects.filter(seller__id=request.user.id)
     bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
