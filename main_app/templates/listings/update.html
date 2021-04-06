@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+
+{% block content %} 
+
+<form action="{% url 'listings_new' %}" method="POST">
+{% csrf_token %}
+
+
+<h1>Edit me</h1>
+{{item_info.name}}
+{{item_info.id}}
+
+</form>
+{% endblock %}
+<form action="{% url 'listings_new' %}" method="POST">
+{% csrf_token %}

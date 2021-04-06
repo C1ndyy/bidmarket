@@ -5,6 +5,18 @@ from django.contrib.auth.decorators import login_required
 from .models import Listing, Bid, Thread, Message, CATEGORIES
 from datetime import date, datetime
 from django.contrib.auth.models import User
+import uuid
+import boto3
+import os #<-----environment variables 
+import environ #<-----environment variables 
+environ.Env() #<-----environment variables
+environ.Env.read_env() #<-----environment variables 
+
+# to use your own S3 bucket, place your definitions in your .env file
+S3_BASE_URL = os.environ['S3_BASE_URL']
+BUCKET = os.environ['BUCKET']
+
+
 
 
 # Create your views here.
@@ -99,7 +111,19 @@ def listings_detail(request, listing_id):
 
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
-    return HttpResponse("edit me")
+    item_info = {
+        'id': item.id,
+        'name': item.name,
+        'description': item.description,
+        'address': item.address,
+        'min_bid_price': item.min_bid_price,
+        'buy_now_price': item.buy_now_price,
+        'expiry_date': item.expiry_date,
+    }   
+    print(BUCKET)
+    return render(request, 'listings/update.html', 
+    {'item': item,
+    'item_info': item_info,})
 
 @login_required
 def listings_delete(request, listing_id):
