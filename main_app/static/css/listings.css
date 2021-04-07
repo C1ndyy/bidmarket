@@ -32,15 +32,31 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    
 }
 
 #icons > div {
     margin: 0 10px 0 10px;
     margin-top: -5px;
+    cursor: pointer;
+}
+
+#icons img {
+    max-width: 30px;
 }
 
 #icons > div >p {
     margin: 0px;
+}
+
+#clear-filters{
+    justify-self: flex-start;
+    align-self: center;
+}
+
+#clear-filters input{
+    border: 0px;
+    background-color: white;
 }
 
 /**************************** Results ******************************/
@@ -71,4 +87,74 @@ a {
 
 .card-text p {
     margin-bottom: 5px;
+}
+
+/**************************** Sort/Filter Options ******************************/
+
+.popup {
+    height: 0px;
+    overflow: hidden;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.popup > div{
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.popup.visible {
+    height: 200px;
+}
+
+
+
+.popup > button {
+    width: 90px;
+    padding: 4px;
+    background-color: white;
+}
+
+.popup label {
+    cursor: pointer;
+}
+
+.popup > div >div{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+/********************* Custom Radio Button *************/
+input[type=radio] {
+    display: none; 
+}
+
+input[type=radio]:checked ~ .radio-button::after {
+    transform: scale(1);
+}
+
+.radio-button {
+    width: 1.25em;
+    height: 1.25em;
+    border: 2px solid grey;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-sizing: border-box;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.radio-button::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: grey;
+    border-radius: 50%;
+    transform: scale(0)
 }

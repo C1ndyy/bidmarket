@@ -67,11 +67,27 @@ def send_message(request, thread_id):
 def listings_index(request):
     # query by keyword
     q=request.GET.get('q', '')
-    print(request.GET.get('sortby'))
     items = Listing.objects.filter(name__icontains=q)
+    # filter by category
+    category = request.GET.get('category', '')
+    items = items.filter(category__icontains=category)
     #sort options
     sortby = request.GET.get('sortby')
-    return render(request, 'listings/index.html', {'items': items, 'q': q})
+    if sortby == 'price-LH':
+        items = items.order_by("current_highest_bid")
+    elif sortby == 'price-HL':
+        items = items.order_by("-current_highest_bid")
+    elif sortby == 'oldest-first':
+        items = items.order_by("created_date")
+    elif sortby == 'newest-first':
+        items = items.order_by("-created_date")
+    else:
+        items = items.order_by("expiry_date")
+    return render(request, 'listings/index.html', 
+    {'items': items, 
+    'q': q, 
+    'sortby': sortby, 
+    'category': category})
 
 @login_required
 def profile(request):
