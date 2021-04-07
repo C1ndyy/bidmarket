@@ -82,3 +82,10 @@ class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"Photo for listing_id: {self.listing_id} @{self.url}"
+        

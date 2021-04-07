@@ -2,9 +2,21 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Listing, Bid, Thread, Message, CATEGORIES
+from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
 from datetime import date, datetime
 from django.contrib.auth.models import User
+import uuid
+import boto3
+import os #<-----environment variables 
+import environ #<-----environment variables 
+environ.Env() #<-----environment variables
+environ.Env.read_env() #<-----environment variables 
+
+# to use your own S3 bucket, place your definitions in your .env file
+S3_BASE_URL = os.environ['S3_BASE_URL']
+BUCKET = os.environ['BUCKET']
+
+
 
 
 # Create your views here.
@@ -55,11 +67,27 @@ def send_message(request, thread_id):
 def listings_index(request):
     # query by keyword
     q=request.GET.get('q', '')
-    print(request.GET.get('sortby'))
     items = Listing.objects.filter(name__icontains=q)
+    # filter by category
+    category = request.GET.get('category', '')
+    items = items.filter(category__icontains=category)
     #sort options
     sortby = request.GET.get('sortby')
-    return render(request, 'listings/index.html', {'items': items, 'q': q})
+    if sortby == 'price-LH':
+        items = items.order_by("current_highest_bid")
+    elif sortby == 'price-HL':
+        items = items.order_by("-current_highest_bid")
+    elif sortby == 'oldest-first':
+        items = items.order_by("created_date")
+    elif sortby == 'newest-first':
+        items = items.order_by("-created_date")
+    else:
+        items = items.order_by("expiry_date")
+    return render(request, 'listings/index.html', 
+    {'items': items, 
+    'q': q, 
+    'sortby': sortby, 
+    'category': category})
 
 @login_required
 def profile(request):
@@ -101,10 +129,25 @@ def listings_detail(request, listing_id):
         'user': request.user
     })
 
-
+@login_required
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
-    return HttpResponse("edit me")
+    item_info = {
+        'id': item.id,
+        'name': item.name,
+        'description': item.description,
+        'address': item.address,
+        'min_bid_price': item.min_bid_price,
+        'buy_now_price': item.buy_now_price,
+        'expiry_date': item.expiry_date,
+    }   
+    print(BUCKET)
+    print(S3_BASE_URL)
+    return render(request, 'listings/update.html', 
+    {'item': item,
+    'item_info': item_info,})
+
+
 
 @login_required
 def listings_delete(request, listing_id):
@@ -112,3 +155,20 @@ def listings_delete(request, listing_id):
     item.delete()
     response = redirect('/listings/')
     return response
+
+
+# AWS s3 photo upload:
+
+def add_photo(request, listing_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = Photo(url=url, listing_id=listing_id)
+            photo.save()
+        except:
+            print('An error occurred uploading file to S3')
+    return redirect('listings_update', listing_id=listing_id)

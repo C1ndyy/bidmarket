@@ -21,10 +21,19 @@
   <div id="number-bids"> {{ item.number_of_bids }} bids </div>
 </div>
 
+<!-- make into carousel? -->
+{% for photo in item.photo_set.all %}
+<div id="image">
+  <img class="listing-image" src="{{photo.url}}">
+</div>
+{% empty %}
 <div id="image">
   <img class="listing-image" src="{% static 'images/no-image.png' %}">
   <div class="item-name">{{ item.name }}</div>
 </div>
+{% endfor %}
+<!-- add Bootstrap class/id item.name -->
+<div >{{ item.name }}</div>
 
 <div class="tabs">
   <div id="tab-header">
