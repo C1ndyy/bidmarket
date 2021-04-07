@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 {% endblock %}
 
-<form method="get" action="">
+<form method="get" action="{% url 'listings_index'%}">
     <div id="search-bar">
         <input name='q' value='{{ q }}' type="text" placeholder="What are you looking for?" autocomplete="off">
         <button type="submit">
