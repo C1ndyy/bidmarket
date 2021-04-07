@@ -23,26 +23,31 @@
     <div class="sort-options" id="id-{{ sortby }}">
       <div>
         <input type="radio" id="price-LH" name="sortby" value="price-LH">
+        <div class="radio-button"></div>
         <label for="price-LH">price low to high</label>
       </div>
       <div>
         <input type="radio" id="price-HL" name="sortby" value="price-HL">
+        <div class="radio-button"></div>
         <label for="price-HL">price high to low</label>
       </div>
       <div>
         <input type="radio" id="ending-soon" name="sortby" value="ending-soon">
+        <div class="radio-button"></div>
         <label for="ending-soon">ending soon</label>
       </div>
       <div>
         <input type="radio" id="oldest-first" name="sortby" value="oldest-first">
+        <div class="radio-button"></div>
         <label for="oldest-first">oldest first</label>
       </div>
       <div>
         <input type="radio" id="newest-first" name="sortby" value="newest-first">
+        <div class="radio-button"></div>
         <label for="newest-first">newest-first</label>
       </div>
-      <button type='submit'>Save</button>
     </div>
+    <button type='submit'>Save</button>
   </div>
 
   <div id="filter-popup" class="popup">
@@ -50,30 +55,40 @@
     <div class="category-options" id="id-{{ category }}">
       <div>
         <input type="radio" id="home" name="category" value="home">
+        <div class="radio-button"></div>
         <label for="home">Home</label>
       </div>
       <div>
         <input type="radio" id="tech" name="category" value="tech">
-        <label for="tech">Tech</label><br>
+        <div class="radio-button"></div>
+        <label for="tech">Tech</label>
       </div>
       <div>
         <input type="radio" id="fashion" name="category" value="fashion">
+        <div class="radio-button"></div>
         <label for="fashion">Fashion</label>
       </div>
       <div>
         <input type="radio" id="sporting" name="category" value="sporting">
+        <div class="radio-button"></div>
         <label for="sporting">Sporting</label>
       </div>
       <div>
         <input type="radio" id="books" name="category" value="books">
+        <div class="radio-button"></div>
         <label for="books">Books</label>
       </div>
-      <button type='submit'>Save</button>
     </div>
+    <button type='submit'>Save</button>
   </div>
 </form>
 
 <div id="icons">
+  <div id="clear-filters">
+    <form method="get" action="">
+      <input type="submit" value="clear filters">
+    </form>
+  </div>
   <div id="sort-icon">
     <span class="material-icons md-24">
       unfold_more
@@ -129,13 +144,12 @@
   let chosenCategoryId = chosenCategory.id.substring(3);
   let target2 = document.getElementById(`${chosenCategoryId}`);
   if (target2 !== null) {
-    target2.checked = true;
+    target2.checked = "checked";
   }
 
   // popup for sort options
   let sortPopup = document.getElementById("sort-popup")
   let sortIcon = document.getElementById("sort-icon")
-
   sortIcon.addEventListener("click", function (e) {
     sortPopup.classList.toggle("visible")
   })
@@ -143,7 +157,6 @@
   // popup for filter options
   let filterPopup = document.getElementById("filter-popup")
   let filterIcon = document.getElementById("filter-icon")
-
   filterIcon.addEventListener("click", function (e) {
     filterPopup.classList.toggle("visible")
   })
