@@ -16,20 +16,25 @@
 </a>
 
 <div id="status-info">
-  <div id="highest-bid">Highest ${{ item.current_highest_bid }}</div>
+  <div id="highest-bid">Current bid: ${{ item.current_highest_bid }}</div>
   <div id="time-remaining"> {{ item.time_remaining}} left</div>
   <div id="number-bids"> {{ item.number_of_bids }} bids </div>
 </div>
 
+<!-- make into carousel? -->
+{% for photo in item.photo_set.all %}
+<div id="image">
+  <img class="listing-image" src="{{photo.url}}">
+</div>
+{% empty %}
 <div id="image">
   <img class="listing-image" src="{% static 'images/no-image.png' %}">
   <div class="item-name">{{ item.name }}</div>
 </div>
-
+{% endfor %}
+<!-- add Bootstrap class/id item.name -->
 
 <div class="tabs">
-
-
   <div id="tab-header">
     <div class="active">
       Bid
@@ -40,45 +45,20 @@
     <div>
       Info
     </div>
-
   </div>
-
 
   <div id="indicator"></div>
 
   <div id="content">
    
     <section class="active">
-      <h2>TODO</h2>
-      <input id="bid-message-input" type="text" size="50">
+      <h2>Make a Bid</h2>
+      <input id="bid-message-input" type="number" size="50">
       <input id="bid-message-submit" type="button" value="Send">
     </section>
 
     <section class="bids">
       <textarea id="bid-log" cols="200" rows="10"></textarea><br>
-      {% if item.bids.count %}
-      <h2>Bid History</h2>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Bidder</th>
-            <th scope="col">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for bid in item.bids %}
-          <tr>
-            <td>{{ bid.datetime|date:'M d g:i A' }}</td>
-            <td>{{ bid.bidder.username }}</td>
-            <td>${{ bid.amount }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% else %}
-      <h2>Be the first to bid on this item!</h2>
-      {% endif %}
     </section>
 
     <section>
@@ -92,8 +72,6 @@
     
   </div>
 </div>
-
-
 
 <script>
   let tabHeader = document.getElementById("tab-header")
@@ -116,9 +94,15 @@
 
 <!-- Websocket scripting-->
 {{ room_name|json_script:"room-name" }}
+
+<input type = "hidden" value = {{request.user.username}} id = "user-name">
+<input type = "hidden" value = {{request.user.id}} id = "userId">
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
+    const username = document.getElementById('user-name').value
+    const userId = document.getElementById('userId').value
+    
+    console.log('room name: ' + roomName)
     const bidSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -129,7 +113,8 @@
 
     bidSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-        document.querySelector('#bid-log').value += (data.message + '\n');
+        document.querySelector('#bid-log').value += (data.username + ': ' + data.message + '\n');
+        document.querySelector('#highest-bid').innerHTML = 'Highest bid: $' + data.highest_bid
     };
 
     bidSocket.onclose = function(e) {
@@ -146,9 +131,17 @@
     document.querySelector('#bid-message-submit').onclick = function(e) {
         const messageInputDom = document.querySelector('#bid-message-input');
         const message = messageInputDom.value;
-        bidSocket.send(JSON.stringify({
-            'message': message
-        }));
+        console.log(message)
+        if (username){
+          bidSocket.send(JSON.stringify({
+              'message': message,
+              'username': username,
+              'userId': userId,
+              'listingId': roomName
+              //roomName should be same as listing.id
+          }));
+      }
+
         messageInputDom.value = '';
     };
 </script>
