@@ -143,8 +143,6 @@ def listings_update(request, listing_id):
         'buy_now_price': item.buy_now_price,
         'expiry_date': item.expiry_date,
     }   
-    print(BUCKET)
-    print(S3_BASE_URL)
     return render(request, 'listings/update.html', 
     {'item': item,
     'item_info': item_info,})
