@@ -5,15 +5,27 @@ main.container {
 }
 
 /**************************** Status Info ******************************/
-#status-info {
+.status-info {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 5px;
 }
-#status-info >div {
+.status-info >div {
     font-size: 18px;
     font-weight: 700;
+}
+
+#message-icon {
+    cursor: pointer;
+}
+
+:root {
+    --svgcolor: black;
+  }
+
+#message-icon:hover {
+    --svgcolor:#F2C34F;
 }
 
 #highest-bid {

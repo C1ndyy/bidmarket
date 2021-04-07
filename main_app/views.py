@@ -50,7 +50,7 @@ def signup(request):
 @login_required
 def message_index(request):
     threads = Thread.objects.filter(user1__id=request.user.id) | Thread.objects.filter(user2__id=request.user.id)
-    threads = threads.filter(int(Thread.number_of_messages) > 0)
+    threads = threads.annotate(number_of_messages=Count('message')).filter(number_of_messages__gt=0)
     return render(request, 'messages/index.html', {'threads': threads})
 
 @login_required
