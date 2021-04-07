@@ -15,6 +15,8 @@ environ.Env.read_env() #<-----environment variables
 # to use your own S3 bucket, place your definitions in your .env file
 S3_BASE_URL = os.environ['S3_BASE_URL']
 BUCKET = os.environ['BUCKET']
+AWS_ACCESS_ID = os.environ['AWS_ACCESS_ID']
+AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
 
 
@@ -167,7 +169,11 @@ def room(request, room_name):
 def add_photo(request, listing_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
-        s3 = boto3.client('s3')
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id=AWS_ACCESS_ID,
+            aws_secret_access_key=AWS_ACCESS_KEY,
+        )
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
