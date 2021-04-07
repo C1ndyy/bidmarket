@@ -142,9 +142,12 @@ def listings_update(request, listing_id):
         'expiry_date': item.expiry_date,
     }   
     print(BUCKET)
+    print(S3_BASE_URL)
     return render(request, 'listings/update.html', 
     {'item': item,
     'item_info': item_info,})
+
+
 
 @login_required
 def listings_delete(request, listing_id):
@@ -159,7 +162,6 @@ def room(request, room_name):
         'room_name': room_name
     })
 
-
 # AWS s3 photo upload:
 
 def add_photo(request, listing_id):
@@ -169,9 +171,9 @@ def add_photo(request, listing_id):
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
-            url = f'{S3_BASE_URL}{BUCKET}/{key}'
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
             photo = Photo(url=url, listing_id=listing_id)
             photo.save()
         except:
-            print('An error occurred uploading file to s3')
-    return redirect('listings_detail', listing_id=listing_id)
+            print('An error occurred uploading file to S3')
+    return redirect('listings_update', listing_id=listing_id)

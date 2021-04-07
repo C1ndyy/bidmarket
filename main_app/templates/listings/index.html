@@ -123,7 +123,7 @@
     <div class="card">
       
       <!-- AWS photo uploads -->
-    {% for photo in listing.photo_set.all %}
+    {% for photo in item.photo_set.all %}
     <div class="card-image">
       <img class="listing-image" src="{{photo.url}}">
     </div>
