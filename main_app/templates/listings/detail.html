@@ -47,11 +47,15 @@
   <div id="indicator"></div>
 
   <div id="content">
+   
     <section class="active">
       <h2>TODO</h2>
-
+      <input id="bid-message-input" type="text" size="50">
+      <input id="bid-message-submit" type="button" value="Send">
     </section>
+
     <section class="bids">
+      <textarea id="bid-log" cols="200" rows="10"></textarea><br>
       {% if item.bids.count %}
       <h2>Bid History</h2>
       <table class="table table-hover">
@@ -85,6 +89,7 @@
       <p>Item listing date: {{ item.created_date }}</p>
       <p>Bid ends on: {{ item.expiry_date }}</p>
     </section>
+    
   </div>
 </div>
 
@@ -107,6 +112,45 @@
     })
   }
 
+</script>
+
+<!-- Websocket scripting-->
+{{ room_name|json_script:"room-name" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const bidSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/bid/'
+        + roomName
+        + '/'
+    );
+
+    bidSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        document.querySelector('#bid-log').value += (data.message + '\n');
+    };
+
+    bidSocket.onclose = function(e) {
+        console.error('Bid socket closed unexpectedly');
+    };
+
+    document.querySelector('#bid-message-input').focus();
+    document.querySelector('#bid-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#bid-message-submit').click();
+        }
+    };
+
+    document.querySelector('#bid-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#bid-message-input');
+        const message = messageInputDom.value;
+        bidSocket.send(JSON.stringify({
+            'message': message
+        }));
+        messageInputDom.value = '';
+    };
 </script>
 
 
