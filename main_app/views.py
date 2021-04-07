@@ -16,7 +16,6 @@ def home(request):
     ending_soon_listings = Listing.objects.order_by('expiry_date')[:10]
     return render(request, 'home.html', {'hottest_listings': hottest_listings, 'ending_soon_listings': ending_soon_listings})
 
-
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -32,9 +31,11 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+#----------------------------------Messaging---------------------------------#
 @login_required
 def message_index(request):
     threads = Thread.objects.filter(user1__id=request.user.id) | Thread.objects.filter(user2__id=request.user.id)
+    threads = threads.filter(number_of_messages > 0)
     return render(request, 'messages/index.html', {'threads': threads})
 
 @login_required
@@ -54,6 +55,26 @@ def send_message(request, thread_id):
     thread = Thread.objects.get(id=thread_id)
     thread.message_set.create(message= request.POST['message'], sender= request.user, datetime= datetime.now(),)    
     return redirect('message_detail', thread_id = thread_id)
+
+@login_required
+def new_message(request, listing_id):
+    listing = Listing.objects.get(id = listing_id)
+    listing_threads = Thread.objects.filter(listing__id = listing_id)
+    existing_thread = listing_threads.filter(user1__id = request.user.id) | listing_threads.filter(user2__id=request.user.id)
+    if existing_thread.exists():
+        return redirect('message_detail', thread_id= existing_thread[0].id)
+    else: 
+        new_thread = Thread.objects.create(listing_id = listing_id, user1_id= listing.seller_id, user2_id = request.user.id)
+        return redirect('message_detail', thread_id= new_thread.id)
+
+
+
+
+
+
+
+#----------------------------------Listings---------------------------------#
+
 
 def listings_index(request):
     # query by keyword
