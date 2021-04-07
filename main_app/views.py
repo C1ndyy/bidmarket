@@ -2,10 +2,26 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Listing, Bid, Thread, Message, CATEGORIES
+from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
 from datetime import date, datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
+import uuid
+import logging #TEMP
+import boto3
+from botocore.exceptions import ClientError #TEMP
+import os #<-----environment variables 
+import environ #<-----environment variables 
+environ.Env() #<-----environment variables
+environ.Env.read_env() #<-----environment variables 
+
+# to use your own S3 bucket, place your definitions in your .env file
+S3_BASE_URL = os.environ['S3_BASE_URL']
+BUCKET = os.environ['BUCKET']
+AWS_ACCESS_ID = os.environ['AWS_ACCESS_ID']
+AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
+
+
 
 
 # Create your views here.
@@ -120,10 +136,25 @@ def listings_detail(request, listing_id):
         'room_name': room_name
     })
 
-
+@login_required
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
-    return HttpResponse("edit me")
+    item_info = {
+        'id': item.id,
+        'name': item.name,
+        'description': item.description,
+        'address': item.address,
+        'min_bid_price': item.min_bid_price,
+        'buy_now_price': item.buy_now_price,
+        'expiry_date': item.expiry_date,
+    }   
+    print(BUCKET)
+    print(S3_BASE_URL)
+    return render(request, 'listings/update.html', 
+    {'item': item,
+    'item_info': item_info,})
+
+
 
 @login_required
 def listings_delete(request, listing_id):
@@ -137,3 +168,29 @@ def room(request, room_name):
     return render(request, 'biddingroom.html', {
         'room_name': room_name
     })
+
+# AWS s3 photo upload:
+
+def add_photo(request, listing_id):
+    photo_file = request.FILES.get('photo-file', None)
+
+    
+
+    if photo_file:
+        # s3 = boto3.client('s3')
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id=AWS_ACCESS_ID,
+            aws_secret_access_key=AWS_ACCESS_KEY,
+        )
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            print(BUCKET)
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            print(url)
+            photo = Photo(url=url, listing_id=listing_id)
+            photo.save()
+        except ClientError as e:
+            print(e)
+    return redirect('listings_update', listing_id=listing_id)
