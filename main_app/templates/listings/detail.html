@@ -16,7 +16,7 @@
 </a>
 
 <div class="status-info">
-  <div id="highest-bid">Top Bid: ${{ item.current_highest_bid }}</div>
+  Top Bid: $<div id="highest-bid">{{ item.current_highest_bid }}</div>
   <a id="message-icon" href="{% url 'new_message' item.id %}">
     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172"
       style=" fill:'var(--svgcolor)';">
@@ -116,52 +116,54 @@
 <input type="hidden" value={{request.user.username}} id="user-name">
 <input type="hidden" value={{request.user.id}} id="userId">
 <script>
-  const roomName = JSON.parse(document.getElementById('room-name').textContent);
-  const username = document.getElementById('user-name').value
-  const userId = document.getElementById('userId').value
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    const username = document.getElementById('user-name').value
+    const userId = document.getElementById('userId').value
+    
+    console.log('room name: ' + roomName)
+    const bidSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/bid/'
+        + roomName
+        + '/'
+    );
 
-  console.log('room name: ' + roomName)
-  const bidSocket = new WebSocket(
-    'ws://'
-    + window.location.host
-    + '/ws/bid/'
-    + roomName
-    + '/'
-  );
+    bidSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        document.querySelector('#bid-log').value += (data.username + ': ' + data.message + '\n');
+        document.querySelector('#highest-bid').innerHTML = data.highest_bid
+    };
 
-  bidSocket.onmessage = function (e) {
-    const data = JSON.parse(e.data);
-    document.querySelector('#bid-log').value += (data.username + ': ' + data.message + '\n');
-    document.querySelector('#highest-bid').innerHTML = 'Highest bid: $' + data.highest_bid
-  };
+    bidSocket.onclose = function(e) {
+        console.error('Bid socket closed unexpectedly');
+    };
 
-  bidSocket.onclose = function (e) {
-    console.error('Bid socket closed unexpectedly');
-  };
+    document.querySelector('#bid-message-input').focus();
+    document.querySelector('#bid-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#bid-message-submit').click();
+        }
+    };
 
-  document.querySelector('#bid-message-input').focus();
-  document.querySelector('#bid-message-input').onkeyup = function (e) {
-    if (e.keyCode === 13) {  // enter, return
-      document.querySelector('#bid-message-submit').click();
-    }
-  };
+    document.querySelector('#bid-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#bid-message-input');
+        const message = messageInputDom.value;
+        
+        high_bid = parseInt(document.querySelector('#highest-bid').innerHTML)
+        console.log(message + ",  " + high_bid)
+        if (username && high_bid < message){
+          bidSocket.send(JSON.stringify({
+              'message': message,
+              'username': username,
+              'userId': userId,
+              'listingId': roomName
+              //roomName should be same as listing.id
+          }));
+      }
 
-  document.querySelector('#bid-message-submit').onclick = function (e) {
-    const messageInputDom = document.querySelector('#bid-message-input');
-    const message = messageInputDom.value;
-    console.log(message)
-    if (username) {
-      bidSocket.send(JSON.stringify({
-        'message': message,
-        'username': username,
-        'userId': userId,
-        'listingId': roomName
-        //roomName should be same as listing.id
-      }));
-    }
-
-    messageInputDom.value = '';
-  };
+        messageInputDom.value = '';
+    };
 </script>
 
 
