@@ -3,5 +3,64 @@
 
 
 {% block content %}
-<h1>HOME PAGE HERE</h1>
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+<form method="get" action="{% url 'listings_index'%}">
+    <div id="search-bar">
+        <input name='q' value='{{ q }}' type="text" placeholder="What are you looking for?" autocomplete="off">
+        <button type="submit">
+            <span class="material-icons">
+                search
+            </span>
+        </button>
+    </div>
+</form>
+
+<div>
+    <img class="listing-image" src="{% static 'images/no-image.png' %}">
+</div>
+
+<h4>Hot items right now</h4>
+<div id="listing-container">
+    {% for listing in hottest_listings %}
+    <a href="{% url 'listings_detail' listing.id %}">
+        <div class="listing-card">
+            <div class="listing-title">
+                <h6 class="card-title">{{ listing.name }} </h6>
+            </div>
+            <img class="listing-image" src="{% static 'images/no-image.png' %}">
+            <span>${{ listing.current_highest_bid }}</span>
+            <div>
+                <span> {{ listing.number_of_bids }} bids </span>
+                <span> {{ listing.time_remaining}}</span>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<h4>Items expiring soon</h4>
+<div id="listing-container">
+    {% for listing in ending_soon_listings %}
+    <a href="{% url 'listings_detail' listing.id %}">
+        <div class="listing-card">
+            <div class="listing-title">
+                <h6 class="card-title">{{ listing.name }} </h6>
+            </div>
+            <img class="listing-image" src="{% static 'images/no-image.png' %}">
+            <span>${{ listing.current_highest_bid }}</span>
+            <div>
+                <span> {{ listing.number_of_bids }} bids </span>
+                <span> {{ listing.time_remaining}}</span>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+
 {% endblock %}

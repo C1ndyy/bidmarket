@@ -5,8 +5,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
 from datetime import date, datetime
 from django.contrib.auth.models import User
+from django.db.models import Count
 import uuid
+import logging #TEMP
 import boto3
+from botocore.exceptions import ClientError #TEMP
 import os #<-----environment variables 
 import environ #<-----environment variables 
 environ.Env() #<-----environment variables
@@ -15,6 +18,8 @@ environ.Env.read_env() #<-----environment variables
 # to use your own S3 bucket, place your definitions in your .env file
 S3_BASE_URL = os.environ['S3_BASE_URL']
 BUCKET = os.environ['BUCKET']
+AWS_ACCESS_ID = os.environ['AWS_ACCESS_ID']
+AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
 
 
@@ -23,8 +28,9 @@ BUCKET = os.environ['BUCKET']
 
 
 def home(request):
-    return render(request, 'home.html')
-
+    hottest_listings = Listing.objects.annotate(number_of_bids = Count('bid')).order_by('-number_of_bids')[:10]
+    ending_soon_listings = Listing.objects.order_by('expiry_date')[:10]
+    return render(request, 'home.html', {'hottest_listings': hottest_listings, 'ending_soon_listings': ending_soon_listings})
 
 def signup(request):
     error_message = ''
@@ -41,9 +47,11 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+#----------------------------------Messaging---------------------------------#
 @login_required
 def message_index(request):
     threads = Thread.objects.filter(user1__id=request.user.id) | Thread.objects.filter(user2__id=request.user.id)
+    threads = threads.annotate(number_of_messages=Count('message')).filter(number_of_messages__gt=0)
     return render(request, 'messages/index.html', {'threads': threads})
 
 @login_required
@@ -63,6 +71,26 @@ def send_message(request, thread_id):
     thread = Thread.objects.get(id=thread_id)
     thread.message_set.create(message= request.POST['message'], sender= request.user, datetime= datetime.now(),)    
     return redirect('message_detail', thread_id = thread_id)
+
+@login_required
+def new_message(request, listing_id):
+    listing = Listing.objects.get(id = listing_id)
+    listing_threads = Thread.objects.filter(listing__id = listing_id)
+    existing_thread = listing_threads.filter(user1__id = request.user.id) | listing_threads.filter(user2__id=request.user.id)
+    if existing_thread.exists():
+        return redirect('message_detail', thread_id= existing_thread[0].id)
+    else: 
+        new_thread = Thread.objects.create(listing_id = listing_id, user1_id= listing.seller_id, user2_id = request.user.id)
+        return redirect('message_detail', thread_id= new_thread.id)
+
+
+
+
+
+
+
+#----------------------------------Listings---------------------------------#
+
 
 def listings_index(request):
     # query by keyword
@@ -162,13 +190,20 @@ def listings_delete(request, listing_id):
 def add_photo(request, listing_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
-        s3 = boto3.client('s3')
+        # s3 = boto3.client('s3')
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id=AWS_ACCESS_ID,
+            aws_secret_access_key=AWS_ACCESS_KEY,
+        )
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
+            print(BUCKET)
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            print(url)
             photo = Photo(url=url, listing_id=listing_id)
             photo.save()
-        except:
-            print('An error occurred uploading file to S3')
+        except ClientError as e:
+            print(e)
     return redirect('listings_update', listing_id=listing_id)
