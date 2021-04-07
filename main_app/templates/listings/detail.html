@@ -16,7 +16,7 @@
 </a>
 
 <div id="status-info">
-  <div id="highest-bid">Highest bid: ${{ item.current_highest_bid }}</div>
+  <div id="highest-bid">Current bid: ${{ item.current_highest_bid }}</div>
   <div id="time-remaining"> {{ item.time_remaining}} left</div>
   <div id="number-bids"> {{ item.number_of_bids }} bids </div>
 </div>
@@ -33,7 +33,7 @@
 </div>
 {% endfor %}
 <!-- add Bootstrap class/id item.name -->
-<div >{{ item.name }}</div>
+
 
 <div class="tabs">
   <div id="tab-header">
@@ -132,7 +132,7 @@
     document.querySelector('#bid-message-submit').onclick = function(e) {
         const messageInputDom = document.querySelector('#bid-message-input');
         const message = messageInputDom.value;
-        
+        console.log(message)
         if (username){
           bidSocket.send(JSON.stringify({
               'message': message,

@@ -40,7 +40,7 @@ class BidConsumer(AsyncWebsocketConsumer):
 
         #construct new bid, store in database
         #set highest bid
-
+        print("recieve step 1")
         listingId = int(listingId)
         userId = int(userId)
         value = int(message)
@@ -52,10 +52,11 @@ class BidConsumer(AsyncWebsocketConsumer):
 
         if new_bid.amount > listing_item.current_highest_bid:
             listing_item.current_highest_bid = new_bid.amount
+       
         highest_bid = listing_item.current_highest_bid
         await database_sync_to_async(listing_item.save)()
        
-
+      
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -66,14 +67,16 @@ class BidConsumer(AsyncWebsocketConsumer):
                 'highest_bid': highest_bid
             }
         )
+        
     
 
     # Receive message from room group
     async def bid_message(self, event):
-
+        print("bid_message step 1")
         message = event['message']
         username = event['username']
         highest_bid = event['highest_bid']
+        print('bid_message step 2')
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
@@ -81,3 +84,4 @@ class BidConsumer(AsyncWebsocketConsumer):
             'highest_bid': highest_bid
             
         }))
+        print('bid message complete')
