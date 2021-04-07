@@ -41,6 +41,14 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Photo',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('url', models.CharField(max_length=200)),
+                ('listing', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main_app.listing')),
+            ],
+        ),
+        migrations.CreateModel(
             name='Message',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
