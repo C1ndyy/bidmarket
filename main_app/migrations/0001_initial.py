@@ -41,6 +41,8 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+<<<<<<< HEAD
+=======
             name='Photo',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -49,6 +51,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+>>>>>>> d53e6916064b96cad736ee274d345d7e157986ea
             name='Message',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
