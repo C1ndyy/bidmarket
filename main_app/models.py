@@ -74,6 +74,9 @@ class Thread(models.Model):
     
     def latest_message_date(self):
         return self.message_set.all().order_by('-datetime')[0].datetime
+    
+    def number_of_messages(self):
+        return self.message_set.all().count()
 
 class Message(models.Model):
     parent_thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
