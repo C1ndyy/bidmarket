@@ -19,7 +19,7 @@
     <div id="sidenav-overlay"></div>
     <nav id="desktop-nav" class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container-fluid d-flex justify-content-between">
-            <a class="navbar-brand " href="#">Home</a>
+            <a class="navbar-brand " href="{% url 'home' %}">Home</a>
             <div>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                     <li class="nav-item">
@@ -53,7 +53,7 @@
             <span id="menu-icon" class="material-icons md-36">
                 menu
             </span>
-            <a class="navbar-brand" href="#">LOGO</a>
+            <a class="navbar-brand" href="{% url 'home' %}">LOGO</a>
             <span class="material-icons md-36">
                 notifications
             </span>
@@ -61,7 +61,6 @@
     </nav>
 
     <div id="side-nav">
-        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
         {% if user.is_authenticated %}
         <a href="{% url 'listings_index' %}">All Listings</a>
         <a href="{% url 'message_index' %}">Messages</a>

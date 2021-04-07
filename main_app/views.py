@@ -5,13 +5,16 @@ from django.contrib.auth.decorators import login_required
 from .models import Listing, Bid, Thread, Message, CATEGORIES
 from datetime import date, datetime
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 
 # Create your views here.
 
 
 def home(request):
-    return render(request, 'home.html')
+    hottest_listings = Listing.objects.annotate(number_of_bids = Count('bid')).order_by('-number_of_bids')[:10]
+    ending_soon_listings = Listing.objects.order_by('expiry_date')[:10]
+    return render(request, 'home.html', {'hottest_listings': hottest_listings, 'ending_soon_listings': ending_soon_listings})
 
 
 def signup(request):
