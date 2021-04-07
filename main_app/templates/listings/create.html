@@ -3,7 +3,10 @@
 {% block content %} 
 
 <form action="{% url 'listings_new' %}" method="POST">
-{% csrf_token %}    
+{% csrf_token %}
+<label for="photo-file">
+<input type="file" name="photo-file">
+</label>  <br>
 <label for="name">
     Item Name: <input type="text" name="name" placeholder="Item name" required>
 </label><br>
