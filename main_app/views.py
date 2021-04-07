@@ -50,7 +50,7 @@ def signup(request):
 @login_required
 def message_index(request):
     threads = Thread.objects.filter(user1__id=request.user.id) | Thread.objects.filter(user2__id=request.user.id)
-    threads = threads.filter(number_of_messages > 0)
+    threads = threads.filter(int(Thread.number_of_messages) > 0)
     return render(request, 'messages/index.html', {'threads': threads})
 
 @login_required
@@ -188,9 +188,6 @@ def listings_delete(request, listing_id):
 
 def add_photo(request, listing_id):
     photo_file = request.FILES.get('photo-file', None)
-
-    
-
     if photo_file:
         # s3 = boto3.client('s3')
         s3 = boto3.client(

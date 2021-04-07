@@ -72,12 +72,24 @@ a {
     margin: 5px 0px 5px 0px;
 }
 
+.card-image {
+    height: 150px;
+    width: 180px;
+    display: flex;
+    /* justify-content: center;
+    align-self: center; */
+}
+
 .card img {
-    width: 150px;
+
+    height: 100%;
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .card-text {
     margin: 10px ;
+    width: 40vw;
 }
 .card-text h5 {
     font-weight: 500;
