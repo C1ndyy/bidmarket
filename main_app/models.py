@@ -18,15 +18,15 @@ class Listing(models.Model):
     address = models.CharField(max_length=50)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     min_bid_price = models.DecimalField(
-        max_digits=9,
+        max_digits=10,
         decimal_places=2,
     )
     buy_now_price= models.DecimalField(
-        max_digits=9,
+        max_digits=10,
         decimal_places=2,
     )
     current_highest_bid = models.DecimalField(
-        max_digits=9,
+        max_digits=10,
         decimal_places=2,
     )
     created_date = models.DateTimeField()
@@ -47,6 +47,9 @@ class Listing(models.Model):
 
     def bids(self):
         return self.bid_set.all().order_by('-datetime')
+    
+    def bids_by_value(self):
+        return self.bid_set.all().order_by('-amount')
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

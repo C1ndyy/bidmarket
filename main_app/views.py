@@ -91,14 +91,14 @@ def listings_new(request):
     return response
 
 #now has websocket functionality
-
 def listings_detail(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     room_name = str(listing_id)
     return render(request, 'listings/detail.html', 
     {
         'item': item,
-        'room_name': room_name
+        'room_name': room_name,
+        'user': request.user
     })
 
 
@@ -112,9 +112,3 @@ def listings_delete(request, listing_id):
     item.delete()
     response = redirect('/listings/')
     return response
-
-#websocket room
-def room(request, room_name):
-    return render(request, 'biddingroom.html', {
-        'room_name': room_name
-    })
