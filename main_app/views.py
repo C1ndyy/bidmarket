@@ -106,11 +106,16 @@ def listings_new(request):
     response = redirect('/listings/')
     return response
 
+#now has websocket functionality
 
 def listings_detail(request, listing_id):
     item = Listing.objects.get(id=listing_id)
+    room_name = str(listing_id)
     return render(request, 'listings/detail.html', 
-    {'item': item})
+    {
+        'item': item,
+        'room_name': room_name
+    })
 
 
 def listings_update(request, listing_id):

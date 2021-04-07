@@ -12,10 +12,9 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('listings/create/', views.listings_create, name='listings_create'),
     path('listings/new/', views.listings_new, name='listings_new'),
+
     path('listings/<int:listing_id>/', views.listings_detail, name='listings_detail'),
+
     path('listings/<int:listing_id>/update', views.listings_update, name='listings_update'),
     path('listings/<int:listing_id>/delete', views.listings_delete, name='listings_delete'),
-
-     #websocket, needs to be combined with details view
-    path('bid/<str:room_name>/', views.room, name = 'room'),
 ]
