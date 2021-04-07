@@ -43,10 +43,17 @@
   {% for item in items%}
   <a href="{% url 'listings_detail' item.id %}">
     <div class="card">
-
-      <div class="card-image">
-        <img class="listing-image" src="{% static 'images/placeholder.png' %}">
-      </div>
+      
+      <!-- AWS photo uploads -->
+    {% for photo in listing.photo_set.all %}
+    <div class="card-image">
+      <img class="listing-image" src="{{photo.url}}">
+    </div>
+    {% empty %}
+    <div class="card-image">
+      <img class="listing-image" src="{% static 'images/placeholder.png' %}">
+    </div>
+    {% endfor %}
 
       <div class="card-text">
         <h5 class="card-title">{{ item.name }}</h5>

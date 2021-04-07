@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Listing, Bid, Thread, Message, CATEGORIES
+from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
 from datetime import date, datetime
 from django.contrib.auth.models import User
 import uuid
@@ -108,7 +108,7 @@ def listings_detail(request, listing_id):
     return render(request, 'listings/detail.html', 
     {'item': item})
 
-
+@login_required
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     item_info = {
@@ -137,3 +137,19 @@ def room(request, room_name):
     return render(request, 'biddingroom.html', {
         'room_name': room_name
     })
+
+
+# AWS s3 photo upload:
+def add_photo(request, listing_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f'{S3_BASE_URL}{BUCKET}/{key}'
+            photo = Photo(url=url, listing_id=listing_id)
+            photo.save()
+        except:
+            print('An error occurred uploading file to s3')
+    return redirect('detail', listing_id=listing_id)
