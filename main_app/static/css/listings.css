@@ -41,6 +41,10 @@
     cursor: pointer;
 }
 
+#icons img {
+    max-width: 30px;
+}
+
 #icons > div >p {
     margin: 0px;
 }
