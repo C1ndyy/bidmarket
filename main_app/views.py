@@ -145,6 +145,7 @@ def room(request, room_name):
 
 
 # AWS s3 photo upload:
+
 def add_photo(request, listing_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -157,4 +158,4 @@ def add_photo(request, listing_id):
             photo.save()
         except:
             print('An error occurred uploading file to s3')
-    return redirect('detail', listing_id=listing_id)
+    return redirect('listings_detail', listing_id=listing_id)

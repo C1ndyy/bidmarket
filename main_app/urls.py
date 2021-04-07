@@ -17,10 +17,7 @@ urlpatterns = [
 
     path('listings/<int:listing_id>/update', views.listings_update, name='listings_update'),
     path('listings/<int:listing_id>/delete', views.listings_delete, name='listings_delete'),
-<<<<<<< HEAD
     path('listings/<int:listing_id>/add_photo/', views.add_photo, name='add_photo'),
      #websocket, needs to be combined with details view
     path('bid/<str:room_name>/', views.room, name = 'room'),
-=======
->>>>>>> 613c5a402546db9317cdc0eeeb6b6ab4b830ca20
 ]
