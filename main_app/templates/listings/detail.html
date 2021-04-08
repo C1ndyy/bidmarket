@@ -15,10 +15,23 @@
   <button>Delete Listing</button>
 </a>
 
-<div id="status-info">
-  <div id="highest-bid">Current bid: ${{ item.current_highest_bid }}</div>
-  <div id="time-remaining"> {{ item.time_remaining}} left</div>
-  <div id="number-bids"> {{ item.number_of_bids }} bids </div>
+<div class="status-info">
+  Top Bid: $<div id="highest-bid">{{ item.current_highest_bid }}</div>
+  <a id="message-icon" href="{% url 'new_message' item.id %}">
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172"
+      style=" fill:'var(--svgcolor)';">
+      <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
+        stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+        font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+        <path d="M0,172v-172h172v172z" fill="none"></path>
+        <g fill="var(--svgcolor)">
+          <path
+            d="M86,16.125c-20.36621,0 -38.88477,5.98389 -52.57422,15.99903c-13.71045,9.99414 -22.67578,24.35547 -22.67578,40.43847c0,19.50537 13.29053,36.0083 32.25,45.96045v37.35205l36.26026,-27.21094c2.20459,0.16797 4.43018,0.33594 6.73974,0.33594c20.36621,0 38.88477,-5.98389 52.57422,-15.97803c13.71045,-10.01514 22.67578,-24.37646 22.67578,-40.45947c0,-16.08301 -8.96533,-30.44433 -22.67578,-40.43847c-13.68945,-10.01514 -32.20801,-15.99903 -52.57422,-15.99903zM86,26.875c18.22461,0 34.64356,5.45898 46.2334,13.92041c11.58984,8.46143 18.2666,19.65234 18.2666,31.76709c0,12.11474 -6.67676,23.30567 -18.2666,31.76709c-11.58984,8.46143 -28.00879,13.92041 -46.2334,13.92041c-2.64551,0 -5.29102,-0.14697 -7.93652,-0.39893l-2.05762,-0.16797l-22.25586,16.6919v-22.25586l-3.10742,-1.42773c-18.01465,-8.46143 -29.14258,-22.61279 -29.14258,-38.12891c0,-12.11474 6.67676,-23.30566 18.2666,-31.76709c11.58984,-8.46143 28.00879,-13.92041 46.2334,-13.92041z">
+          </path>
+        </g>
+      </g>
+    </svg>
+  </a>
 </div>
 
 <!-- make into carousel? -->
@@ -33,6 +46,11 @@
 </div>
 {% endfor %}
 <!-- add Bootstrap class/id item.name -->
+<div class="status-info">
+  <div id="number-bids"> {{ item.number_of_bids }} bids </div>
+  <div id="time-remaining"> {{ item.time_remaining}} left</div>
+</div>
+
 
 <div class="tabs">
   <div id="tab-header">
@@ -50,7 +68,7 @@
   <div id="indicator"></div>
 
   <div id="content">
-   
+
     <section class="active">
       <h2>Make a Bid</h2>
       <input id="bid-message-input" type="number" size="50">
@@ -69,7 +87,7 @@
       <p>Item listing date: {{ item.created_date }}</p>
       <p>Bid ends on: {{ item.expiry_date }}</p>
     </section>
-    
+
   </div>
 </div>
 
@@ -95,8 +113,8 @@
 <!-- Websocket scripting-->
 {{ room_name|json_script:"room-name" }}
 
-<input type = "hidden" value = {{request.user.username}} id = "user-name">
-<input type = "hidden" value = {{request.user.id}} id = "userId">
+<input type="hidden" value={{request.user.username}} id="user-name">
+<input type="hidden" value={{request.user.id}} id="userId">
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
     const username = document.getElementById('user-name').value
@@ -114,7 +132,7 @@
     bidSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         document.querySelector('#bid-log').value += (data.username + ': ' + data.message + '\n');
-        document.querySelector('#highest-bid').innerHTML = 'Highest bid: $' + data.highest_bid
+        document.querySelector('#highest-bid').innerHTML = data.highest_bid
     };
 
     bidSocket.onclose = function(e) {
@@ -131,8 +149,10 @@
     document.querySelector('#bid-message-submit').onclick = function(e) {
         const messageInputDom = document.querySelector('#bid-message-input');
         const message = messageInputDom.value;
-        console.log(message)
-        if (username){
+        
+        high_bid = parseInt(document.querySelector('#highest-bid').innerHTML)
+        console.log(message + ",  " + high_bid)
+        if (username && high_bid < message){
           bidSocket.send(JSON.stringify({
               'message': message,
               'username': username,
