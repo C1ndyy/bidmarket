@@ -178,6 +178,10 @@ def photo_upload(request, item_id):
 
 def add_photo(request, listing_id):
     photo_upload(request, listing_id)
+    response = listings_update(request, listing_id)
+    return response
+
+def update_item(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     item.name = request.POST.get("name")
     item.address = request.POST.get("address")
@@ -187,6 +191,13 @@ def add_photo(request, listing_id):
     response = redirect('/listings/')
     return response
 
+
+def delete_photo(request, photo_id,):
+    photo = Photo.objects.get(id=photo_id)
+    listing_id = photo.listing_id
+    photo.delete()
+    response = listings_update(request, listing_id)
+    return response
 
 @login_required
 def listings_new(request):
