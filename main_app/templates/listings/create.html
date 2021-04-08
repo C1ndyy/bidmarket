@@ -1,52 +1,66 @@
 {% extends 'base.html'%}
+{% block title %} New Listing {% endblock %}
 
-{% block content %} 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/create.css' %}">
+{% endblock %}
 
+
+{% block content %}
 <form action="{% url 'listings_new' %}" enctype="multipart/form-data" method="POST">
-{% csrf_token %}
+    {% csrf_token %}
+    <h4>Ad Details</h4>
+    <label for="name">
+        Item Name: <input type="text" name="name" placeholder="Item name" required>
+    </label><br>
+    <label for="category">
+        <!-- to do: replace with for loop/ allow for dynamic 'category'  -->
+        Category:
+        <select name="category" id="category" required>
+            <option value="" selected disabled hidden>Category</option>
+            <option value="Books">Books</option>
+            <option value="Home">Home</option>
+            <option value="Sporting">Sporting</option>
+            <option value="Tech">Tech</option>
+            <option value="Fashion">Fashion</option>
+        </select>
+    </label><br>
+    <label for="description">
+        A brief description: <input type="text" name="description" placeholder="Description" required>
+    </label><br>
 
-<label for="name">
-    Item Name: <input type="text" name="name" placeholder="Item name" required>
-</label><br><br>
-<label for="category">
-    <!-- to do: replace with for loop/ allow for dynamic 'category'  -->
-    Category: 
-    <select name="category" id="category" required>
-        <option value="" selected disabled hidden>Category</option>
-        <option value="Books">Books</option>
-        <option value="Home">Home</option>
-        <option value="Sporting">Sporting</option>
-        <option value="Tech">Tech</option>
-        <option value="Fashion">Fashion</option>
-    </select>
-</label><br><br>
-<label for="description">
-    A brief description: <input type="text" name="description" placeholder="Description" required>
-</label><br><br>
-<label for="address">
-    Pickup address: <input type="text" name="address" placeholder="Address">
-</label><br><br>
-<label for="min_bid_price">
-    Starting bid price: <input type="number" name="min_bid_price" min="0" laceholder="Starting bid price" step="0.05" required >
-</label><br><br>
-<label for="buy_now_price">
-    Buy now price: <input type="number" name="buy_now_price" min="0" placeholder="Buy now price" required>
-</label><br><br>
-    Expiry date for bid: <input type="datetime-local" name="expiry_date" id="id_date" required> 
-</label><br><br>
-<label for="photo-file">
-    <input type="file" name="photo-file">
-    </label><br><br>
-<button type="submit">Add to my listing</button>
+    <h4>Location</h4>
+    <label for="address">
+        Pickup address: <input type="text" name="address" placeholder="Address">
+    </label><br>
+    <h4>Price</h4>
+    <label for="min_bid_price">
+        Starting bid price: <input type="number" name="min_bid_price" min="0" laceholder="Starting bid price"
+            step="0.05" required>
+    </label><br>
+    <label for="buy_now_price">
+        Buy now price: <input type="number" name="buy_now_price" min="0" placeholder="Buy now price" required>
+    </label><br>
+
+    <h4>Timeline</h4>
+    Expiry date for bid: <input type="datetime-local" name="expiry_date" id="id_date" required>
+    </label><br>
+
+    <h4>Upload Photos</h4>
+    <label for="photo-file">
+        <input type="file" name="photo-file">
+    </label><br>
+    <button type="submit">Add to my listing</button>
 </form>
 
 <script>
     var dateEl = document.getElementById('id_date');
     M.Datepicker.init(dateEl, {
-      format: 'yyyy-mm-dd',
-      defaultDate: new Date(),
-      setDefaultDate: true,
-      autoClose: true
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
     });
-  </script>
+</script>
 {% endblock %}

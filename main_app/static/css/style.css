@@ -1,13 +1,7 @@
-/* .card-columns {
-    display: inline-block
-    @include media-breakpoint-only(lg) {
-      column-count: 4;
-    }
-    @include media-breakpoint-only(xl) {
-      column-count: 5;
-    }
+:root{
+  --yellow: #F2C34F;
 }
- */
+
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }
@@ -16,6 +10,7 @@
 /******************** Top Nav Mobile ************************/
 #mobile-nav {
   z-index: 999;
+  background-color: #f8f8f8 !important;
 }
 
 #mobile-nav >div {
@@ -24,10 +19,17 @@
   margin-right: 10px
 }
 
+.navbar-brand {
+  margin-left:50px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #F2C34F !important;
+  font-weight: 500;
+  font-size: 25px !important;
+}
 
 /******************** Side Nav Mobile ************************/
 #side-nav {
-  background-color: rgb(247, 247, 247);
+  background-color: white !important;
   display: absolute;
   position: fixed;
   left: 0;
@@ -60,6 +62,7 @@
 /******************** Top Nav Desktop ************************/
 #desktop-nav {
   display: none;
+  background-color: #f8f8f8 !important;
 }
 
 
@@ -79,9 +82,6 @@
 
 }
 
-body {
-  padding: 20px;
-}
 .image-area {
   position: relative;
   width: 50%;
