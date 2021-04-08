@@ -122,15 +122,15 @@
     <div class="card">
 
       <!-- AWS photo uploads -->
-      {% for photo in item.photo_set.all %}
+      {% if item.photo_set.all %}
       <div class="card-image">
-        <img class="listing-image" src="{{photo.url}}">
+        <img class="listing-image" src="{{ item.photo_set.first.url }}">
       </div>
-      {% empty %}
+      {% else %}
       <div class="card-image">
         <img class="listing-image" src="{% static 'images/no-image.png' %}">
       </div>
-      {% endfor %}
+      {% endif %}
 
       <div class="card-text">
         <h5 class="card-title">{{ item.name }}</h5>
