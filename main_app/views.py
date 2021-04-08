@@ -144,18 +144,8 @@ def listings_detail(request, listing_id):
 @login_required
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
-    item_info = {
-        'id': item.id,
-        'name': item.name,
-        'description': item.description,
-        'address': item.address,
-        'min_bid_price': item.min_bid_price,
-        'buy_now_price': item.buy_now_price,
-        'expiry_date': item.expiry_date,
-    }   
     return render(request, 'listings/update.html', 
-    {'item': item,
-    'item_info': item_info,})
+    {'item': item,})
 
 
 
@@ -188,7 +178,14 @@ def photo_upload(request, item_id):
 
 def add_photo(request, listing_id):
     photo_upload(request, listing_id)
-    return redirect('listings_update', listing_id=listing_id)
+    item = Listing.objects.get(id=listing_id)
+    item.name = request.POST.get("name")
+    item.address = request.POST.get("address")
+    item.description = request.POST.get("description")
+    item.expiry_date = request.POST.get("expiry_date")
+    item.save()
+    response = redirect('/listings/')
+    return response
 
 
 @login_required
