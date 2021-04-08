@@ -3,11 +3,57 @@
     --yellow: #F2C34F;
   }
 
-/****************************  ******************************/
+/**************************** Create Form ******************************/
+h3 {
+    text-align: center;
+}
+
 h4 {
     color: var(--yellow)
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+}
+
 input {
     height: 40px;
+    margin:10px 0px 10px 0px;
+}
+
+textarea {
+    margin:10px 0px 10px 0px;
+}
+
+select {
+    margin:10px 0px 10px 0px;
+    height: 40px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    margin:10px;
+}
+
+button {
+    margin:auto;
+    height: 40px;
+    width: 100px;
+    color: white;
+    background-color: var(--yellow);
+    border: none;
+}
+
+
+/**************************** Update Form ******************************/
+
+.remove-image {
+    width: 40px;
+}
+
+button.edit {
+    width: 120px;
+    margin-bottom: 20px;
 }
