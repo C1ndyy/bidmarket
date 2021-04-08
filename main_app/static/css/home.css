@@ -56,9 +56,17 @@ h4 {
     z-index:900;
 }
 
+.card-image {
+    min-width: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    min-height: 150px;
+}
+
 #listing-container img{
     min-width: 150px;
     max-width: 150px;
+    max-height: 150px;
     margin: 0px;
 }
 
@@ -66,4 +74,12 @@ h4 {
     display: flex;
     flex-direction: column;
     max-width: 160px;
+}
+
+#number-of-bids {
+    color:rgb(192, 77, 77);
+}
+
+#expring-soon {
+    color:rgb(192, 77, 77);
 }
