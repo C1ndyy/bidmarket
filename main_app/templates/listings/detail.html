@@ -151,9 +151,9 @@
 
   console.log('room name: ' + roomName)
   const bidSocket = new WebSocket(
-    'ws://'
+    'wss://'
     + window.location.host
-    + '/ws/bid/'
+    + '/wss/bid/'
     + roomName
     + '/'
   );
