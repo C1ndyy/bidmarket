@@ -20,6 +20,7 @@
 }
 
 .navbar-brand {
+  margin-left:50px;
   font-family: 'Courier New', Courier, monospace;
   color: #F2C34F !important;
   font-weight: 500;

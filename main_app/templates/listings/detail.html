@@ -17,7 +17,8 @@
 {% endif %}
 
 <div class="status-info">
-  Top Bid: $<div id="highest-bid">{{ item.current_highest_bid }}</div>
+  <div>Top Bid: $<div id="highest-bid">{{ item.current_highest_bid|floatformat:0 }}</div>
+  </div>
   <a id="message-icon" href="{% url 'new_message' item.id %}">
     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172"
       style=" fill:'var(--svgcolor)';">
@@ -39,6 +40,7 @@
 {% for photo in item.photo_set.all %}
 <div id="image">
   <img class="listing-image" src="{{photo.url}}">
+  <div class="item-name">{{ item.name }}</div>
 </div>
 {% empty %}
 <div id="image">
@@ -70,10 +72,24 @@
 
   <div id="content">
 
-    <section class="active">
-      <h2>Make a Bid</h2>
-      <input id="bid-message-input" type="number" size="50">
-      <input id="bid-message-submit" type="button" value="Send">
+    <section id="bid" class="active">
+      <h4>Quick Bids</h4>
+      <div id="quickbids">
+        <input type="button" value="$1">
+        <input type="button" value="$2">
+        <input type="button" value="$5">
+        <input type="button" value="$10">
+        <input type="button" value="$20">
+        <input type="button" value="$50">
+      </div>
+
+      <div>
+        <span class="material-icons">
+          attach_money
+        </span>
+        <input id="bid-message-input" type="number" size="50" placeholder="enter bid..">
+        <input id="bid-message-submit" type="button" value="BID">
+      </div>
     </section>
 
     <section class="bids">
@@ -93,6 +109,7 @@
 </div>
 
 <script>
+  // JS for Navigation Tabs
   let tabHeader = document.getElementById("tab-header")
   let indicator = document.getElementById("indicator")
   let contents = document.getElementById("content")
@@ -109,6 +126,14 @@
     })
   }
 
+  // JS for QuickBids
+  let quickBidsContainer = document.getElementById("quickbids")
+  quickBidsContainer.addEventListener("click", function (e) {
+    let adder = e.target.value.substring(1)
+    let base = document.getElementById("highest-bid").innerHTML
+    document.getElementById("bid-message-input").value = Number(base) + Number(adder);
+  })
+
 </script>
 
 <!-- Websocket scripting-->
@@ -116,6 +141,7 @@
 
 <input type="hidden" value={{request.user.username}} id="user-name">
 <input type="hidden" value={{request.user.id}} id="userId">
+
 <script>
   const roomName = JSON.parse(document.getElementById('room-name').textContent);
   const username = document.getElementById('user-name').value
