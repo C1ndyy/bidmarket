@@ -17,7 +17,8 @@ environ.Env.read_env() #<-----environment variables
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+#Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -84,7 +85,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bidmarket',
-        # 'USER': 'postgres'
+        'USER': 'postgres'
     }
 }
 
@@ -134,3 +135,5 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
 }
+import django_heroku
+django_heroku.settings(locals())
