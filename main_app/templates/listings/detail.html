@@ -32,7 +32,7 @@
     </div>
   </div>
   {% endif %}
-
+  <div class="item-name">{{ item.name }}</div>
   <div class="status-info">
     <div>Top Bid: $<div id="highest-bid">{{ item.current_highest_bid|floatformat:0 }}</div>
     </div>
@@ -53,19 +53,41 @@
     </a>
   </div>
 
-  <!-- make into carousel? -->
-  {% for photo in item.photo_set.all %}
-  <div id="image">
-    <img class="listing-image" src="{{photo.url}}">
-    <div class="item-name">{{ item.name }}</div>
+  <!-- Courousel Photos -->
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% if item.photo_set.all %}
+      {% for photo in item.photo_set.all %}
+      {% if forloop.first %}
+      <div class="carousel-item active image">
+        <img src="{{ photo.url }}" class="d-block w-100" alt="...">
+      </div>
+      {% else %}
+      <div class="carousel-item image">
+        <img src="{{ photo.url }}" class="d-block w-100" alt="...">
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% else %}
+      <div id="image">
+        <img class="listing-image" src="{% static 'images/no-image.png' %}">
+      </div>
+      {% endif %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  {% empty %}
-  <div id="image">
-    <img class="listing-image" src="{% static 'images/no-image.png' %}">
-    <div class="item-name">{{ item.name }}</div>
-  </div>
-  {% endfor %}
-  <!-- add Bootstrap class/id item.name -->
+
+
+  <!-- Tab Sections -->
   <div class="status-info">
     <div id="number-bids"> {{ item.number_of_bids }} bids </div>
     <div id="time-remaining"> {{ item.time_remaining}} left</div>
@@ -145,6 +167,7 @@
     })
   }
 
+
   // JS for QuickBids
   let quickBidsContainer = document.getElementById("quickbids")
   quickBidsContainer.addEventListener("click", function (e) {
@@ -168,7 +191,7 @@
 
   console.log('room name: ' + roomName)
   const bidSocket = new WebSocket(
-    'ws://'
+    'wss://'
     + window.location.host
     + '/ws/bid/'
     + roomName
@@ -183,6 +206,10 @@
 
   bidSocket.onclose = function (e) {
     console.error('Bid socket closed unexpectedly');
+  };
+
+  bidSocket.onerror = error => {
+    console.error(error);
   };
 
   document.querySelector('#bid-message-input').focus();

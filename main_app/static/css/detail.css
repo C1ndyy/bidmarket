@@ -5,11 +5,12 @@
 
 /**************************** General ******************************/
 
-main.container {
+main{
     height: 100vh;
     overflow-x: hidden;
     max-width: 100vw;
     font-family: helvetica;
+    padding: 10px;
 }
 /**************************** Edit/Delete******************************/
 #edit-delete {
@@ -61,33 +62,31 @@ main.container {
 }
 
 /**************************** Image ******************************/
-#image {
+.image {
     position: relative;
     text-align: center;
     width: 94vw;
     height: 94vw;
     max-width: 500px;
     max-height: 500px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     background-color: rgb(247, 247, 247);
 }
 
 
-#image >img {
+.image >img {
     max-width: 100%;
     max-height:100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin:auto;
 }
 
 .item-name {
-    position: absolute;
-    top: 8px;
-    left: 16px;
     font-size: 24px;
     font-weight: 800;
     color:black;
+    margin: 0px 5px -10px 5px;
   }
   
 /**************************** Navigation Tabs ******************************/
@@ -206,13 +205,13 @@ input[type="button"]:hover{
 
 /**************************** MediaQuery ******************************/
 @media only screen and (min-width: 768px) {
-    main.container {
+    main{
         display: flex;
         flex-direction: row;
         max-width: 80vw;
     }
 
-    main.container>div {
+    main>div {
         width:50vw;
     }
 
