@@ -28,14 +28,24 @@
             <div class="card-text">
                 <h6 class="card-title">{{ thread.listing.name }}</h6>
                 <p class="card-message">{{ thread.latest_message}}</p>
-                <p class="card-date"><span class="material-icons">
+                <p class="card-date">
+                    <span class="material-icons">
                         account_circle
-                    </span><small class="text-muted">Last message on {{ thread.latest_message_date }}</small>
+                    </span>
+                    <span>
+                        {% if userid != thread.user1.id %}
+                        {{ thread.user1.username }}
+                        {% else %}
+                        {{ thread.user2.username }}
+                        {% endif %}
+                    </span>
+                    <small class="text-muted">{{ thread.latest_message_date|date:'M d g:i A' }}</small>
                 </p>
             </div>
         </div>
+    </a>
 </div>
-</a>
+
 
 {% endfor %}
 {% else %}
