@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.utils import timezone
 import pytz
+import datetime
 import uuid
 import logging #TEMP
 import boto3
@@ -88,21 +89,14 @@ def new_message(request, listing_id):
 
 
 
-
-
-
-
 #----------------------------------Listings---------------------------------#
 
 
 def listings_index(request):
-    # now
-    # now = (utc.localize(datetime.now())).replace(tzinfo=utc)
-    # print(now)
-    # print(type(now))
     
     count = 0
-
+    d1 = datetime.datetime(2020, 5, 13, 22, 50, 55) 
+    print(d1)
     # query by keyword
     q=request.GET.get('q', '')
     items = Listing.objects.filter(name__icontains=q)
@@ -112,9 +106,10 @@ def listings_index(request):
 
     # compare datetime with now
     for i in items: 
-        print(i.name)
-        bid_expiry = (utc.localize(i.expiry_date)).replace(tzinfo=utc)
-        print(type(bid_expiry))
+        print(i.expiry_date)
+
+        # bid_expiry = i.expiry_date.strftime("%C")
+        # print(bid_expiry)
         
     #     if i.expiry_date > now:
     #         count += 1
