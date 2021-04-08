@@ -1,15 +1,30 @@
 # bidmarket
-Local marketplace to sell used items using an auction concept
+**Internet community auction house.**
+
+The purpose of bidmarket is to buy and sell personal items by auction, over the internet.  Bid in real time bidding rooms, against other prospective buyers.  Sell your painting.  Sell your chair.  Sell your shoes.  Sell your collections.  Selling = more $$$.  Enough said.  Need something, but everyone is overcharging for it?  Buy it for what its really worth by auction with bidmarket.
+
+This project was developed for educational purposes, and is a protype, not designed for real use.  This app allows the user to create, edit and delete listings(items), add photos to listings, and also search for listings posted and view them.  Upon viewing them the user is brought to a room with other users also bidding on an item.  A user can then place bids on the listing, updating the room dynamically.  A user can also message another user, for the purposes of enquiring about a listing.  
+![image](https://git.generalassemb.ly/robin10125/Shogi-Game/blob/gh-pages/Assets/Shogi_Screenshot.png)
+![image](https://git.generalassemb.ly/robin10125/Shogi-Game/blob/gh-pages/Assets/Shogi_Screenshot.png)
+![image](https://git.generalassemb.ly/robin10125/Shogi-Game/blob/gh-pages/Assets/Shogi_Screenshot.png)
+
+**Link**
+![alt text](/enter_image)](http://enter_address/ "Click This Link to Visit App")
+
+**Technologies Used**
+    * Python, Javascript, CSS, HTML
+    * Django, Channels
+    * Amazon Web Services, Heroku 
 
 
-
-Scrum Master: the leader of the Agile processes (user stories, stand-ups, etc.) and manager of Trello.
-GitHub Manager: the primary person for managing the repo and GitHub team workflow (merging pull requests, etc.).
-Documenter: the person in charge of the README, etc.
-Designer: the person in charge of UI design/layout and styling.
-Database manager: this person will be in charge of creating and managing the models and their relationships.
-API Manager: the person in charge of researching, registering with, etc. APIs.
-
-built by C1ndyy, robin10125, and pdccheung
+built by [C1ndyy](http_link), [robin10125](http_link), and [pdccheung](http_link)
 designed by Charissa Ho, Quentin Caron, and Roseanna Meas
 
+
+For Alex, Aidan.
+Executive TaskMaster: Phillip
+GitHub DataBender: Cindy
+Readme Scribe: Robin et alii
+Styling Wizard: Cindy
+Database Architect: Phillip
+Channels Monger: Robin
