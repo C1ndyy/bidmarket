@@ -17,7 +17,7 @@
 {% endif %}
 
 <div class="status-info">
-  <div id="highest-bid">Top Bid: ${{ item.current_highest_bid }}</div>
+  Top Bid: $<div id="highest-bid">{{ item.current_highest_bid }}</div>
   <a id="message-icon" href="{% url 'new_message' item.id %}">
     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172"
       style=" fill:'var(--svgcolor)';">
@@ -133,7 +133,7 @@
   bidSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     document.querySelector('#bid-log').value += (data.username + ': ' + data.message + '\n');
-    document.querySelector('#highest-bid').innerHTML = 'Top Bid: $' + data.highest_bid
+    document.querySelector('#highest-bid').innerHTML = data.highest_bid
   };
 
   bidSocket.onclose = function (e) {
@@ -150,8 +150,10 @@
   document.querySelector('#bid-message-submit').onclick = function (e) {
     const messageInputDom = document.querySelector('#bid-message-input');
     const message = messageInputDom.value;
-    console.log(message)
-    if (username) {
+
+    high_bid = parseInt(document.querySelector('#highest-bid').innerHTML)
+    console.log(message + ",  " + high_bid)
+    if (username && high_bid < message) {
       bidSocket.send(JSON.stringify({
         'message': message,
         'username': username,

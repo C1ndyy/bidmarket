@@ -67,16 +67,14 @@ class BidConsumer(AsyncWebsocketConsumer):
                 'highest_bid': highest_bid
             }
         )
-        
-    
 
     # Receive message from room group
     async def bid_message(self, event):
-        print("bid_message step 1")
+    
         message = event['message']
         username = event['username']
         highest_bid = event['highest_bid']
-        print('bid_message step 2')
+      
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
@@ -84,4 +82,4 @@ class BidConsumer(AsyncWebsocketConsumer):
             'highest_bid': highest_bid
             
         }))
-        print('bid message complete')
+      

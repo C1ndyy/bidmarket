@@ -23,6 +23,7 @@ AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
 
 
+
 # Create your views here.
 
 
@@ -128,22 +129,6 @@ def listings_create(request):
     {"categories": CATEGORIES}
     )
 
-@login_required
-def listings_new(request):
-    item = Listing(name=request.POST.get("name"),
-    seller_id=request.user.id,
-    description=request.POST.get("description"),
-    address=request.POST.get("address"),
-    category=request.POST.get("category"),
-    min_bid_price=int(request.POST.get("min_bid_price")),
-    current_highest_bid=int(request.POST.get("min_bid_price")),
-    buy_now_price=int(request.POST.get("buy_now_price")),
-    created_date=datetime.now(),
-    expiry_date=request.POST.get("expiry_date"),
-    )
-    item.save()
-    response = redirect('/listings/')
-    return response
 
 #now has websocket functionality
 def listings_detail(request, listing_id):
@@ -168,8 +153,6 @@ def listings_update(request, listing_id):
         'buy_now_price': item.buy_now_price,
         'expiry_date': item.expiry_date,
     }   
-    print(BUCKET)
-    print(S3_BASE_URL)
     return render(request, 'listings/update.html', 
     {'item': item,
     'item_info': item_info,})
@@ -185,11 +168,9 @@ def listings_delete(request, listing_id):
 
 
 # AWS s3 photo upload:
-
-def add_photo(request, listing_id):
+def photo_upload(request, item_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
-        # s3 = boto3.client('s3')
         s3 = boto3.client(
             's3',
             aws_access_key_id=AWS_ACCESS_ID,
@@ -197,12 +178,34 @@ def add_photo(request, listing_id):
         )
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
-            print(BUCKET)
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            print(url)
-            photo = Photo(url=url, listing_id=listing_id)
+            photo = Photo(url=url, listing_id=item_id)
             photo.save()
         except ClientError as e:
             print(e)
+
+
+def add_photo(request, listing_id):
+    photo_upload(request, listing_id)
     return redirect('listings_update', listing_id=listing_id)
+
+
+@login_required
+def listings_new(request):
+    photo_file = request.FILES.get('photo-file', None)
+    item = Listing(name=request.POST.get("name"),
+    seller_id=request.user.id,
+    description=request.POST.get("description"),
+    address=request.POST.get("address"),
+    category=request.POST.get("category"),
+    min_bid_price=int(request.POST.get("min_bid_price")),
+    current_highest_bid=int(request.POST.get("min_bid_price")),
+    buy_now_price=int(request.POST.get("buy_now_price")),
+    created_date=datetime.now(),
+    expiry_date=request.POST.get("expiry_date"),
+    )
+    item.save()
+    photo_upload(request, item.id)
+    response = redirect('/listings/')
+    return response
