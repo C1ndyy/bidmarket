@@ -1,38 +1,48 @@
 {% extends 'base.html'%}
+{% block title %} {{ item.name }} {% endblock %}
 
-{% block content %} 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/create.css' %}">
+{% endblock %}
 
-<div><h3>{{ item.name }}</h3></div><br><br>
+{% block content %}
+<div>
+    <h3>{{ item.name }}</h3>
+</div>
+<h4>Edit Photos</h4>
 {% for photo in item.photo_set.all %}
 <div class="card-image image-area">
     <img class="listing-image" src="{{photo.url}}">
-   <form action="{% url 'delete_photo' photo.id %}">
-       <button class="remove-image" name="photo.id" value={{photo.id}} style="display: inline;">&#215;</button>
+    <form action="{% url 'delete_photo' photo.id %}">
+        <button class="remove-image" name="photo.id" value={{photo.id}} style="display: inline;">&#215;</button>
     </form>
 </div>
 {% endfor %}
 <form action="{% url 'add_photo' item.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
     {% csrf_token %}
-    <input type="file" name="photo-file"> <br><br>
-    <button type="submit">Upload Photo</button>
+    <input type="file" name="photo-file">
+    <button class="edit" type="submit">Upload Photo</button>
 </form>
 
-    <form action="{% url 'update_item' item.id %}" method="POST" class="card-panel">
+<h4>Edit Ad Details</h4>
+<form action="{% url 'update_item' item.id %}" method="POST" class="card-panel">
     {% csrf_token %}
-    <br><br>
     <label for="name"> Item Name:
         <input type="text" name="name" value="{{item.name}}" placeholder="{{item.name}}">
-    </label><br><br>
+    </label>
     <label for="description">A brief description:
-        <input type="text" name="description" value="{{item.description}}" placeholder="{{item.description}}">
-    </label><br><br>
+        <textarea name="description" placeholder="{{item.description}}" value="{{item.description}}"
+            style="height:150px" required></textarea>
+    </label>
     <label for="address">Pickup address:
         <input type="text" name="address" value="{{item.address}}" placeholder="{{item.address}}">
-    </label><br><br>
-    <label for="expiry_date"> Current Expiry Date:  {{item.expiry_date}} <br><br>
-        Create new expiry date: <input type="datetime-local" name="expiry_date" value="{{item.expiry_date}}" placeholder="{{item.expiry_date}}">
-    </label><br><br>
-    <button type="submit">Update item</button>
+    </label>
+    <label for="expiry_date"> Current Expiry Date: {{item.expiry_date}} <br><br>
+        Create new expiry date: <input type="datetime-local" name="expiry_date" value="{{item.expiry_date}}"
+            placeholder="{{item.expiry_date}}">
+    </label>
+    <button class="edit" type="submit">Update item</button>
 </form>
 
 {% endblock %}
