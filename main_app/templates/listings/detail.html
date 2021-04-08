@@ -7,13 +7,14 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/detail.css' %}">
 {% endblock %}
 
-<a href="{% url 'listings_update' item.id %}">
-  <button>Edit Listing</button>
-</a>
+<!-- Only Seller can Edit/Delete their listings -->
+{% if user.id == item.seller.id %}
+<div id="edit-delete">
+  <a href="{% url 'listings_update' item.id %}">Edit Listing</a> /
 
-<a href="{% url 'listings_delete' item.id %}">
-  <button>Delete Listing</button>
-</a>
+  <a href="{% url 'listings_delete' item.id %}">Delete Listing</a>
+</div>
+{% endif %}
 
 <div class="status-info">
   <div id="highest-bid">Top Bid: ${{ item.current_highest_bid }}</div>
@@ -79,13 +80,13 @@
       <textarea id="bid-log" cols="200" rows="10"></textarea><br>
     </section>
 
-    <section>
-      <h2>Description</h2>
-      {{ item.description }}
+    <section id="description">
+      <h3>Description</h3>
+      <h6>{{ item.description }}</h6>
       <p>Category: {{ item.category }}</p>
-      <p>Starting Bid Price: {{ item.min_bid_price }}</p>
-      <p>Item listing date: {{ item.created_date }}</p>
-      <p>Bid ends on: {{ item.expiry_date }}</p>
+      <p>Pick up: {{ item.address}}</p>
+      <p>Listing created on: {{ item.created_date }}</p>
+      <p>Bidding ends on: {{ item.expiry_date }}</p>
     </section>
 
   </div>
@@ -132,7 +133,7 @@
   bidSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     document.querySelector('#bid-log').value += (data.username + ': ' + data.message + '\n');
-    document.querySelector('#highest-bid').innerHTML = 'Highest bid: $' + data.highest_bid
+    document.querySelector('#highest-bid').innerHTML = 'Top Bid: $' + data.highest_bid
   };
 
   bidSocket.onclose = function (e) {
