@@ -78,6 +78,13 @@ class Thread(models.Model):
     def number_of_messages(self):
         return self.message_set.all().count()
 
+    def thread_photo(self):
+        photo = Photo.objects.filter(listing__id = self.listing_id)
+        if photo:
+            return photo[0].url
+        else:
+            return None
+
 class Message(models.Model):
     parent_thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
     message = models.TextField(max_length=500)
