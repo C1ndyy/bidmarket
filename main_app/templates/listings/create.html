@@ -1,48 +1,66 @@
 {% extends 'base.html'%}
+{% block title %} New Listing {% endblock %}
 
-{% block content %} 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/create.css' %}">
+{% endblock %}
 
-<form action="{% url 'listings_new' %}" method="POST">
-{% csrf_token %}    
-<label for="name">
-    Item Name: <input type="text" name="name" placeholder="Item name" required>
-</label><br>
-<label for="category">
-    <!-- to do: replace with for loop/ allow for dynamic 'category'  -->
-    Category: 
-    <select name="category" id="category" required>
-        <option value="" selected disabled hidden>Category</option>
-        <option value="Books">Books</option>
-        <option value="Home">Home</option>
-        <option value="Sporting">Sporting</option>
-        <option value="Tech">Tech</option>
-        <option value="Fashion">Fashion</option>
-    </select>
-</label><br>
-<label for="description">
-    A brief description: <input type="text" name="description" placeholder="Description" required>
-</label><br>
-<label for="address">
-    Pickup address: <input type="text" name="address" placeholder="Address">
-</label><br>
-<label for="min_bid_price">
-    Starting bid price: <input type="number" name="min_bid_price" min="0" laceholder="Starting bid price" step="0.05" required >
-</label><br>
-<label for="buy_now_price">
-    Buy now price: <input type="number" name="buy_now_price" min="0" placeholder="Buy now price" required>
-</label><br>
-    Expiry date for bid: <input type="datetime-local" name="expiry_date" id="id_date" required> 
-</label><br>
-<button type="submit">Add to my listing</button>
+
+{% block content %}
+<h3>Post New Ad</h3>
+
+<form action="{% url 'listings_new' %}" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    <h4>Ad Details</h4>
+    <label for="name">
+        <input type="text" name="name" placeholder="Item name" autocomplete="off" required>
+    </label>
+    <label for="category">
+        <!-- to do: replace with for loop/ allow for dynamic 'category'  -->
+        <select name="category" id="category" required>
+            <option value="" selected disabled hidden>Category</option>
+            <option value="Books">Books</option>
+            <option value="Home">Home</option>
+            <option value="Sporting">Sporting</option>
+            <option value="Tech">Tech</option>
+            <option value="Fashion">Fashion</option>
+        </select>
+    </label>
+    <label for="description">
+        <textarea name="description" placeholder="A brief description" style="height:150px" required></textarea>
+    </label>
+
+    <h4>Location</h4>
+    <label for="address">
+        <input type="text" name="address" placeholder="Pickup address">
+    </label>
+    <h4>Price</h4>
+    <label for="min_bid_price">
+        <input type="number" name="min_bid_price" min="0" placeholder="Starting bid price" step="1" required>
+    </label>
+    <label for="buy_now_price">
+        <input type="number" name="buy_now_price" min="0" placeholder="Buy now price" required>
+    </label>
+
+    <h4>Timeline</h4>
+    Expiry date for bid: <input type="datetime-local" name="expiry_date" id="id_date" required>
+    </label>
+
+    <h4>Upload Photos</h4>
+    <label for="photo-file">
+        <input type="file" name="photo-file">
+    </label>
+    <button type="submit">Post Ad</button>
 </form>
 
 <script>
     var dateEl = document.getElementById('id_date');
     M.Datepicker.init(dateEl, {
-      format: 'yyyy-mm-dd',
-      defaultDate: new Date(),
-      setDefaultDate: true,
-      autoClose: true
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
     });
-  </script>
+</script>
 {% endblock %}
