@@ -149,9 +149,11 @@
   const username = document.getElementById('user-name').value
   const userId = document.getElementById('userId').value
 
+  var endpoint = 'wss://' + window.location.host + window.location.pathname
+
   console.log('room name: ' + roomName)
   const bidSocket = new WebSocket(
-    'ws://'
+    'wss://'
     + window.location.host
     + '/ws/bid/'
     + roomName
