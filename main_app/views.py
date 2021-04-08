@@ -6,6 +6,8 @@ from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
 from datetime import date, datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.utils import timezone
+import pytz
 import uuid
 import logging #TEMP
 import boto3
@@ -21,7 +23,7 @@ BUCKET = os.environ['BUCKET']
 AWS_ACCESS_ID = os.environ['AWS_ACCESS_ID']
 AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
-
+utc=pytz.UTC
 
 
 # Create your views here.
@@ -93,12 +95,32 @@ def new_message(request, listing_id):
 
 
 def listings_index(request):
+    # now
+    # now = (utc.localize(datetime.now())).replace(tzinfo=utc)
+    # print(now)
+    # print(type(now))
+    
+    count = 0
+
     # query by keyword
     q=request.GET.get('q', '')
     items = Listing.objects.filter(name__icontains=q)
     # filter by category
     category = request.GET.get('category', '')
     items = items.filter(category__icontains=category)
+
+    # compare datetime with now
+    for i in items: 
+        print(i.name)
+        bid_expiry = (utc.localize(i.expiry_date)).replace(tzinfo=utc)
+        print(type(bid_expiry))
+        
+    #     if i.expiry_date > now:
+    #         count += 1
+    # print(count)
+
+
+
     #sort options
     sortby = request.GET.get('sortby')
     if sortby == 'price-LH':
@@ -125,7 +147,7 @@ def profile(request):
 
 
 def listings_create(request):
-    return render(request, 'listings/create.html', 
+    return render(request, 'listings/create.html',
     {"categories": CATEGORIES}
     )
 

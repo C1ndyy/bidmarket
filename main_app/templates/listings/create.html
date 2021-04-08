@@ -17,14 +17,11 @@
         <input type="text" name="name" placeholder="Item name" autocomplete="off" required>
     </label>
     <label for="category">
-        <!-- to do: replace with for loop/ allow for dynamic 'category'  -->
         <select name="category" id="category" required>
             <option value="" selected disabled hidden>Category</option>
-            <option value="Books">Books</option>
-            <option value="Home">Home</option>
-            <option value="Sporting">Sporting</option>
-            <option value="Tech">Tech</option>
-            <option value="Fashion">Fashion</option>
+            {% for key, val in categories%}
+            <option value="{{val}}">{{val}}</option>
+            {% endfor %}
         </select>
     </label>
     <label for="description">
@@ -37,10 +34,12 @@
     </label>
     <h4>Price</h4>
     <label for="min_bid_price">
-        <input type="number" name="min_bid_price" min="0" placeholder="Starting bid price" step="1" required>
+        <input type="number" name="min_bid_price" min="0" placeholder="Starting bid price" step="1" required
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
     </label>
     <label for="buy_now_price">
-        <input type="number" name="buy_now_price" min="0" placeholder="Buy now price" required>
+        <input type="number" name="buy_now_price" min="0" placeholder="Buy now price" required
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
     </label>
 
     <h4>Timeline</h4>

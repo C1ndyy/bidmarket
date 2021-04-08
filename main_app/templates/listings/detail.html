@@ -11,9 +11,25 @@
   <!-- Only Seller can Edit/Delete their listings -->
   {% if user.id == item.seller.id %}
   <div id="edit-delete">
-    <a href="{% url 'listings_update' item.id %}">Edit Listing</a> /
+    <button><a href="{% url 'listings_update' item.id %}">Edit Listing</a></button>
 
-    <a href="{% url 'listings_delete' item.id %}">Delete Listing</a>
+    <button onclick="document.getElementById('delete-listing').style.display='block'">Delete Listing</button>
+
+    <div id="delete-listing" class="modal">
+      <span onclick="document.getElementById('delete-listing').style.display='none'" class="close" title="Close Modal">×</span>
+      <form class="modal-content" action="/action_page.php">
+        <div class="container">
+          <h1>Delete This Listing?</h1>
+          <p>Are you sure you want to delete your listing for "{{item.name}}"?</p>
+        
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('delete-listing').style.display='none'" class="cancelbtn">Cancel</button>
+            <a href="{% url 'listings_delete' item.id %}" id="delete-listing"><button type="button" onclick="document.getElementById('delete-listing').style.display='none'" class="deletebtn">
+              Delete Listing</button></a>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
   {% endif %}
 
@@ -88,7 +104,8 @@
           <span class="material-icons">
             attach_money
           </span>
-          <input id="bid-message-input" type="number" size="50" placeholder="enter bid..">
+          <input id="bid-message-input" min='0' type="number" size="50" placeholder="enter bid.."
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57">
           <input id="bid-message-submit" type="button" value="BID">
         </div>
       </section>
@@ -195,7 +212,17 @@
   };
 </script>
 
-
+<script>
+  // Get the modal
+  var modal = document.getElementById('delete-listing');
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
 
 
 {% endblock %}
