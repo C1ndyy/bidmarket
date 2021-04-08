@@ -40,15 +40,15 @@
                         <div>
                             <h6 class="card-title">{{ listing.name }} </h6>
                         </div>
-                        {% for photo in listing.photo_set.all %}
+                        {% if listing.photo_set.all %}
                         <div class="card-image">
-                            <img class="listing-image" src="{{photo.url}}">
+                            <img class="listing-image" src="{{ listing.photo_set.first.url}}">
                         </div>
-                        {% empty %}
+                        {% else %}
                         <div class="card-image">
                             <img class="listing-image" src="{% static 'images/placeholder.png' %}">
                         </div>
-                        {% endfor %}
+                        {% endif %}
                         <span>${{ listing.current_highest_bid }}</span>
                         <div>
                             <span> {{ listing.number_of_bids }} bids </span>
