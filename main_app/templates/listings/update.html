@@ -32,15 +32,18 @@
         <input type="text" name="name" value="{{item.name}}" placeholder="{{item.name}}">
     </label>
     <label for="description">A brief description:
-        <textarea name="description" placeholder="{{item.description}}" value="{{item.description}}"
-            style="height:150px" required></textarea>
+        <textarea name="description"  value="{{item.description}}" placeholder="{{item.description}}"
+            style="height:150px" required>{{item.description}}</textarea>
     </label>
     <label for="address">Pickup address:
         <input type="text" name="address" value="{{item.address}}" placeholder="{{item.address}}">
     </label>
     <label for="expiry_date"> Current Expiry Date: {{item.expiry_date}} <br><br>
-        Create new expiry date: <input type="datetime-local" name="expiry_date" value="{{item.expiry_date}}"
-            placeholder="{{item.expiry_date}}">
+        New bidding expiry date (from now): 
+        {% for key, val in duration.items %}
+        <input type="radio" name="expiry_date" value="{{val}}" required>
+        <label for="expiry_date">{{key}}</label><br>
+        {% endfor %}
     </label>
     <button class="edit" type="submit">Update item</button>
 </form>

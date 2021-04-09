@@ -45,7 +45,7 @@
     <h4>Timeline</h4>
     Set the bid duration for your item: 
         {% for key, val in duration.items %}
-        <input type="radio" name="expiry_date" value="{{val}}">
+        <input type="radio" name="expiry_date" value="{{val}}" required>
         <label for="expiry_date">{{key}}</label><br>
         {% endfor %}
 

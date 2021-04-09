@@ -87,12 +87,22 @@ def new_message(request, listing_id):
 
 
 #----------------------------------Listings---------------------------------#
+# get current datetime now (type datetime.datetime)
+now = datetime.now(timezone.utc)
 
+# get time intervals for bidding
+duration = {
+    "three_hour": (now+timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M:%S'),
+    "one_day" : (now+timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S'),
+    "three_days" : (now+timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S'),
+    "one_week" : (now+timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'),
+    "two_weeks" : (now+timedelta(days=14)).strftime('%Y-%m-%d %H:%M:%S'),
+    "one_month": (now+timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S'),
+    "two_months" : (now+timedelta(days=60)).strftime('%Y-%m-%d %H:%M:%S'),
+    "three_months" : (now+timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
+}
 
 def listings_index(request):
-    # get current datetime now (type datetime.datetime)
-    now = datetime.now(timezone.utc)
-
     # query by keyword  
     q=request.GET.get('q', '')
     items = Listing.objects.filter(name__icontains=q)
@@ -127,22 +137,9 @@ def profile(request):
 
 
 def listings_create(request):
-    # calculate now and future dates:
-    now = datetime.now(timezone.utc)
-    duration = {
-        "three_hour": (now+timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M:%S'),
-        "one_day" : (now+timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S'),
-        "three_days" : (now+timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S'),
-        "one_week" : (now+timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'),
-        "two_weeks" : (now+timedelta(days=14)).strftime('%Y-%m-%d %H:%M:%S'),
-        "one_month": (now+timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S'),
-        "two_months" : (now+timedelta(days=60)).strftime('%Y-%m-%d %H:%M:%S'),
-        "three_months" : (now+timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
-    }
     return render(request, 'listings/create.html',
     {"categories": CATEGORIES,
-    "duration" : duration,
-    "now": now}
+    "duration" : duration}
     )
 
 
@@ -161,7 +158,8 @@ def listings_detail(request, listing_id):
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     return render(request, 'listings/update.html', 
-    {'item': item,})
+    {'item': item,
+    "duration" : duration})
 
 
 
