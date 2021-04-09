@@ -27,4 +27,4 @@ GitHub DataBender: Cindy
 Readme Scribe: Robin et alii
 Styling Wizard: Cindy
 Database Architect: Phillip
-Channels Monger: Robin
+Channels Tamer: Robin

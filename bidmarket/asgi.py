@@ -7,7 +7,7 @@ import main_app.routing
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bid.settings")
 
 application = ProtocolTypeRouter({
-  "https": get_asgi_application(),
+  "http": get_asgi_application(),
   "websocket": AuthMiddlewareStack(
         URLRouter(
             main_app.routing.websocket_urlpatterns
