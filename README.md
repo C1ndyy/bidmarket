@@ -92,5 +92,5 @@ API Manager: the person in charge of researching, registering with, etc. APIs.
 [Cindy Xu]: https://github.com/C1ndyy
 [Robin Hylands]: https://github.com/robin10125
 [Philip Cheung]: https://github.com/pdccheung
-[erd]: https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png =100x20
+[erd]: https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png
 
