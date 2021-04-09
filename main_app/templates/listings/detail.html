@@ -106,17 +106,31 @@
           <input type="button" value="$50">
         </div>
 
-        <div>
+        <!-- Django Flash Messages -->
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+          <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div id="bid-input-container">
           <span class="material-icons">
             attach_money
           </span>
-          <input id="bid-message-input" type="number" size="50" placeholder="enter bid..">
-          <input id="bid-message-submit" type="button" value="BID">
+          <form action="{% url 'bid' item.id %}" method="POST">
+            {% csrf_token %}
+            <input id="bid-message-input" name="bid" type="number" size="50" placeholder="enter bid..">
+            <input id="bid-message-submit" type="submit">
+          </form>
         </div>
       </section>
 
       <section class="bids">
-        <textarea id="bid-log" cols="200" rows="10"></textarea><br>
+        <!-- <textarea id="bid-log" cols="200" rows="10"></textarea><br> -->
       </section>
 
       <section id="description">
@@ -162,7 +176,7 @@
 </script>
 
 <!-- Websocket scripting-->
-{{ room_name|json_script:"room-name" }}
+<!-- {{ room_name|json_script:"room-name" }}
 
 <input type="hidden" value={{request.user.username}} id="user-name">
 <input type="hidden" value={{request.user.id}} id="userId">
@@ -219,7 +233,7 @@
     }
 
     messageInputDom.value = '';
-  };
+  }; -->
 </script>
 
 
