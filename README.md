@@ -1,3 +1,13 @@
+<style>
+    img {
+        width: 100;
+        height: 20;
+        background: none;
+    }
+    
+    
+</style>
+
 # bidmarket
 Local marketplace to sell used items using an auction concept
 
@@ -93,8 +103,4 @@ API Manager: the person in charge of researching, registering with, etc. APIs.
 [Robin Hylands]: https://github.com/robin10125
 [Philip Cheung]: https://github.com/pdccheung
 
-img {
-    width: 100;
-    height: 20;
-    background: none;
-}
+
