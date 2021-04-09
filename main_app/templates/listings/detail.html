@@ -18,7 +18,26 @@
   {% endif %}
   <div class="item-name">{{ item.name }}</div>
   <div class="status-info">
-    <div>Top Bid: $<div id="highest-bid">{{ item.current_highest_bid|floatformat:0 }}</div>
+    <div>Top Bid: $<div id="highest-bid">{{ item.current_highest_bid|floatformat:0 }}
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="24" viewBox="0 0 172 172"
+          style=" fill:#000000;">
+          <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+            stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none"
+            font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+            <path d="M0,172v-172h172v172z" fill="none"></path>
+            <g fill="#0b9472">
+              <path d="M86,14.33333l41.925,50.16667h-83.85z"></path>
+              <path d="M71.66667,53.75h28.66667v96.75h-28.66667z"></path>
+            </g>
+          </g>
+        </svg>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </div>
     </div>
     <a id="message-icon" href="{% url 'new_message' item.id %}">
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172"
@@ -108,13 +127,13 @@
 
         <!-- Django Flash Messages -->
         {% if messages %}
-        <ul class="messages">
+        <div class="messages">
           {% for message in messages %}
           <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
             {{ message }}
           </div>
           {% endfor %}
-        </ul>
+        </div>
         {% endif %}
 
         <div id="bid-input-container">
@@ -131,12 +150,35 @@
 
       <section class="bids">
         <!-- <textarea id="bid-log" cols="200" rows="10"></textarea><br> -->
+        {% if item.number_of_bids %}
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Bidder</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for bid in item.bids %}
+            <tr>
+              <td>{{ bid.datetime|date:'M d g:i A' }}</td>
+              <td>{{ bid.bidder.username }}</td>
+              <td>${{ bid.amount }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h2>Be the first to bid!</h2>
+        {% endif %}
       </section>
 
       <section id="description">
         <h3>Description</h3>
         <h6>{{ item.description }}</h6>
         <p>Category: {{ item.category }}</p>
+        <p>Seller: {{ item.seller.username }}</p>
         <p>Pick up: {{ item.address}}</p>
         <p>Listing created on: {{ item.created_date }}</p>
         <p>Bidding ends on: {{ item.expiry_date }}</p>
