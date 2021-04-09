@@ -20,8 +20,8 @@
     </div>
 </form>
 
-<div>
-    <img class="listing-image" src="{% static 'images/no-image.png' %}">
+<div class="banner-images">
+    <img class="listing-image" src="{% static 'images/main.png' %}">
 </div>
 
 <h4>Hot items right now</h4>
@@ -62,6 +62,11 @@
         </div>
     </a>
     {% endfor %}
+</div>
+
+<div class="banner-images-small">
+    <img class="listing-image" src="{% static 'images/brick.png' %}">
+    <a href="#">POST AN AD</a>
 </div>
 
 <h4>Items expiring soon</h4>
