@@ -1,6 +1,9 @@
 # bidmarket
 Local marketplace to sell used items using an auction concept
 
+Features:
+- [ ] look at the 'trello board' for features
+
 
 
 Scrum Master: the leader of the Agile processes (user stories, stand-ups, etc.) and manager of Trello.
