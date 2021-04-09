@@ -38,7 +38,12 @@ More categories will be added in future enhancements
 The first paragraph text
 
 ### Wireframes <a name="Wireframes"></a>
-Profile: <img src="https://bitmarket-assets.s3.amazonaws.com/profile.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/profile.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/details.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/detail-history.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/message.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/Search2.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/Search1.png" height="400px" width="200px" >
 
 ### Entity-Relationship Model <a name="ERD"></a>
 <img src="https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png" height="300px" width="320px" >
