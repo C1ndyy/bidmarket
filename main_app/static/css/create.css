@@ -1,3 +1,10 @@
+main {
+    max-width: 1000px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 5px;
+}
+
 /**************************** General ******************************/
 :root{
     --yellow: #F2C34F;
@@ -34,8 +41,22 @@ select {
 label {
     display: flex;
     flex-direction: column;
-    margin:10px;
+    margin:0px 10px;
 }
+
+#timeline-container {
+    margin: 10px 30px 10px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.radio-timeline {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 
 button {
     margin:auto;
@@ -46,6 +67,36 @@ button {
     border: none;
 }
 
+/********************* Custom Radio Button *************/
+input[type=radio] {
+    display: none; 
+    margin: 0px;
+}
+
+input[type=radio]:checked ~ .radio-button::after {
+    transform: scale(1);
+}
+
+.radio-button {
+    width: 1.25em;
+    height: 1.25em;
+    border: 2px solid grey;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-sizing: border-box;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.radio-button::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: grey;
+    border-radius: 50%;
+    transform: scale(0)
+}
 
 /**************************** Update Form ******************************/
 
@@ -60,7 +111,7 @@ button.edit {
 
 .image-area {
   position: relative;
-  width: 50%;
+  max-width: 100px;
   background: #333;
 }
 .image-area img{
@@ -95,3 +146,14 @@ right: -11px;
   top: -10px;
 right: -11px;
 }
+
+/**************************** MediaQuery ******************************/
+@media only screen and (min-width: 768px) {
+    #timeline-container {
+        margin: 10px 30px 10px 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+}
+
