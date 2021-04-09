@@ -1,5 +1,4 @@
 {% extends 'base.html'%}
-
 {% block content %}
 
 {% block css %}
@@ -117,7 +116,12 @@
 
 <div class="">
   <!-- display each listing as a card  -->
+  
   {% for item in items%}
+  
+    {% with e=item.expiry_date %}
+    {% if e > now %}
+    {{forloop.counter0}}
   <a href="{% url 'listings_detail' item.id %}">
     <div class="card">
 
@@ -139,7 +143,9 @@
       </div>
     </div>
   </a>
-
+  
+  {% endif %}
+  {% endwith %}
   {% endfor %}
 </div>
 
