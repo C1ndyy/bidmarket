@@ -35,19 +35,24 @@
     <h4>Price</h4>
     <label for="min_bid_price">
         <input type="number" name="min_bid_price" min="0" placeholder="Starting bid price" step="1" required
-        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57">
     </label>
     <label for="buy_now_price">
         <input type="number" name="buy_now_price" min="0" placeholder="Buy now price" required
-        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57">
     </label>
 
     <h4>Timeline</h4>
-    Set the bid duration for your item: 
+    Set the bid duration for your item:
+    <div id="timeline-container">
         {% for key, val in duration.items %}
-        <input type="radio" name="expiry_date" value="{{val}}" required>
-        <label for="expiry_date">{{key}}</label><br>
+        <div class="radio-timeline">
+            <input type="radio" name="expiry_date" value="{{val}}" id="{{val}}" required>
+            <div class="radio-button"></div>
+            <label for="{{val}}">{{key}}</label>
+        </div>
         {% endfor %}
+    </div>
 
     <h4>Upload Photos</h4>
     <label for="photo-file">
