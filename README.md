@@ -5,6 +5,8 @@ Features:
 - [ ] look at the 'trello board' for features
 
 
+### This is a third-tier heading
+
 
 Scrum Master: the leader of the Agile processes (user stories, stand-ups, etc.) and manager of Trello.
 GitHub Manager: the primary person for managing the repo and GitHub team workflow (merging pull requests, etc.).
