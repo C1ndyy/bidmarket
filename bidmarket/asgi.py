@@ -1,16 +1,5 @@
 import os
-from channels.auth import AuthMiddlewareStack
-from channels.routing import ProtocolTypeRouter, URLRouter
-from django.core.asgi import get_asgi_application
-import main_app.routing
+import django
+from channels.routing import get_default_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bid.settings")
-
-application = ProtocolTypeRouter({
-  "https": get_asgi_application(),
-  "websocket": AuthMiddlewareStack(
-        URLRouter(
-            main_app.routing.websocket_urlpatterns
-        )
-    ),
-})
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')

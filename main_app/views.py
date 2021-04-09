@@ -84,12 +84,6 @@ def new_message(request, listing_id):
         new_thread = Thread.objects.create(listing_id = listing_id, user1_id= listing.seller_id, user2_id = request.user.id)
         return redirect('message_detail', thread_id= new_thread.id)
 
-
-
-
-
-
-
 #----------------------------------Listings---------------------------------#
 
 
