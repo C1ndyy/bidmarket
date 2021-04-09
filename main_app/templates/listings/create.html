@@ -43,8 +43,11 @@
     </label>
 
     <h4>Timeline</h4>
-    Expiry date for bid: <input type="datetime-local" name="expiry_date" id="id_date" required>
-    </label>
+    Set the bid duration for your item: 
+        {% for key, val in duration.items %}
+        <input type="radio" name="expiry_date" value="{{val}}">
+        <label for="expiry_date">{{key}}</label><br>
+        {% endfor %}
 
     <h4>Upload Photos</h4>
     <label for="photo-file">

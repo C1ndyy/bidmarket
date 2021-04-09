@@ -3,12 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.utils import timezone
-import pytz
-import datetime
 import uuid
 import logging #TEMP
 import boto3
@@ -24,7 +22,6 @@ BUCKET = os.environ['BUCKET']
 AWS_ACCESS_ID = os.environ['AWS_ACCESS_ID']
 AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
-utc=pytz.UTC
 
 
 # Create your views here.
@@ -93,29 +90,15 @@ def new_message(request, listing_id):
 
 
 def listings_index(request):
-    
-    count = 0
-    d1 = datetime.datetime(2020, 5, 13, 22, 50, 55) 
-    print(d1)
-    # query by keyword
+    # get current datetime now (type datetime.datetime)
+    now = datetime.now(timezone.utc)
+
+    # query by keyword  
     q=request.GET.get('q', '')
     items = Listing.objects.filter(name__icontains=q)
     # filter by category
     category = request.GET.get('category', '')
     items = items.filter(category__icontains=category)
-
-    # compare datetime with now
-    for i in items: 
-        print(i.expiry_date)
-
-        # bid_expiry = i.expiry_date.strftime("%C")
-        # print(bid_expiry)
-        
-    #     if i.expiry_date > now:
-    #         count += 1
-    # print(count)
-
-
 
     #sort options
     sortby = request.GET.get('sortby')
@@ -133,7 +116,8 @@ def listings_index(request):
     {'items': items, 
     'q': q, 
     'sortby': sortby, 
-    'category': category})
+    'category': category,
+    'now': now})
 
 @login_required
 def profile(request):
@@ -143,8 +127,22 @@ def profile(request):
 
 
 def listings_create(request):
+    # calculate now and future dates:
+    now = datetime.now(timezone.utc)
+    duration = {
+        "three_hour": (now+timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M:%S'),
+        "one_day" : (now+timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S'),
+        "three_days" : (now+timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S'),
+        "one_week" : (now+timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'),
+        "two_weeks" : (now+timedelta(days=14)).strftime('%Y-%m-%d %H:%M:%S'),
+        "one_month": (now+timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S'),
+        "two_months" : (now+timedelta(days=60)).strftime('%Y-%m-%d %H:%M:%S'),
+        "three_months" : (now+timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
+    }
     return render(request, 'listings/create.html',
-    {"categories": CATEGORIES}
+    {"categories": CATEGORIES,
+    "duration" : duration,
+    "now": now}
     )
 
 
