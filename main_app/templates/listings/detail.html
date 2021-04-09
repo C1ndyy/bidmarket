@@ -11,14 +11,52 @@
   <!-- Only Seller can Edit/Delete their listings -->
   {% if user.id == item.seller.id %}
   <div id="edit-delete">
-    <a href="{% url 'listings_update' item.id %}">Edit Listing</a> /
+    <a href="{% url 'listings_update' item.id %}">Edit Listing / </a>
 
-    <a href="{% url 'listings_delete' item.id %}">Delete Listing</a>
+    <a onclick="document.getElementById('delete-listing').style.display='block'">Delete Listing</a>
+
+    <div id="delete-listing" class="modal">
+      <span onclick="document.getElementById('delete-listing').style.display='none'" class="close"
+        title="Close Modal">×</span>
+      <form class="modal-content" action="/action_page.php">
+        <div class="container">
+          <h1>Delete This Listing?</h1>
+          <p>Are you sure you want to delete your listing for "{{item.name}}"?</p>
+
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('delete-listing').style.display='none'"
+              class="cancelbtn">Cancel</button>
+            <a href="{% url 'listings_delete' item.id %}" id="delete-listing"><button type="button"
+                onclick="document.getElementById('delete-listing').style.display='none'" class="deletebtn">
+                Delete Listing</button></a>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
   {% endif %}
   <div class="item-name">{{ item.name }}</div>
   <div class="status-info">
-    <div>Top Bid: $<div id="highest-bid">{{ item.current_highest_bid|floatformat:0 }}</div>
+    <div>Top Bid: $<div id="highest-bid">{{ item.current_highest_bid|floatformat:0 }}
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="24" viewBox="0 0 172 172"
+          style=" fill:#000000;">
+          <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+            stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none"
+            font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+            <path d="M0,172v-172h172v172z" fill="none"></path>
+            <g fill="#0b9472">
+              <path d="M86,14.33333l41.925,50.16667h-83.85z"></path>
+              <path d="M71.66667,53.75h28.66667v96.75h-28.66667z"></path>
+            </g>
+          </g>
+        </svg>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </div>
     </div>
     <a id="message-icon" href="{% url 'new_message' item.id %}">
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172"
@@ -106,23 +144,60 @@
           <input type="button" value="$50">
         </div>
 
-        <div>
+        <!-- Django Flash Messages -->
+        {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+          <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div id="bid-input-container">
           <span class="material-icons">
             attach_money
           </span>
-          <input id="bid-message-input" type="number" size="50" placeholder="enter bid..">
-          <input id="bid-message-submit" type="button" value="BID">
+          <form action="{% url 'bid' item.id %}" method="POST">
+            {% csrf_token %}
+            <input id="bid-message-input" name="bid" type="number" size="50" placeholder="enter bid..">
+            <input id="bid-message-submit" type="submit">
+          </form>
         </div>
       </section>
 
       <section class="bids">
-        <textarea id="bid-log" cols="200" rows="10"></textarea><br>
+        <!-- <textarea id="bid-log" cols="200" rows="10"></textarea><br> -->
+        {% if item.number_of_bids %}
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Bidder</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for bid in item.bids %}
+            <tr>
+              <td>{{ bid.datetime|date:'M d g:i A' }}</td>
+              <td>{{ bid.bidder.username }}</td>
+              <td>${{ bid.amount }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h2>Be the first to bid!</h2>
+        {% endif %}
       </section>
 
       <section id="description">
         <h3>Description</h3>
         <h6>{{ item.description }}</h6>
         <p>Category: {{ item.category }}</p>
+        <p>Seller: {{ item.seller.username }}</p>
         <p>Pick up: {{ item.address}}</p>
         <p>Listing created on: {{ item.created_date }}</p>
         <p>Bidding ends on: {{ item.expiry_date }}</p>
@@ -162,7 +237,7 @@
 </script>
 
 <!-- Websocket scripting-->
-{{ room_name|json_script:"room-name" }}
+<!-- {{ room_name|json_script:"room-name" }}
 
 <input type="hidden" value={{request.user.username}} id="user-name">
 <input type="hidden" value={{request.user.id}} id="userId">
@@ -221,10 +296,20 @@
     }
 
     messageInputDom.value = '';
-  };
+  }; -->
 </script>
 
+<script>
+  // Get the modal
+  var modal = document.getElementById('delete-listing');
 
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
 
 
 {% endblock %}

@@ -3,9 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.contrib import messages
+from django.utils import timezone
 import uuid
 import logging #TEMP
 import boto3
@@ -23,7 +25,6 @@ AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
 
 # Create your views here.
-
 
 def home(request):
     hottest_listings = Listing.objects.annotate(number_of_bids = Count('bid')).order_by('-number_of_bids')[:10]
@@ -84,15 +85,29 @@ def new_message(request, listing_id):
 
 
 #----------------------------------Listings---------------------------------#
+# get current datetime now (type datetime.datetime)
+now = datetime.now(timezone.utc)
 
+# get time intervals for bidding
+duration = {
+    "three_hour": (now+timedelta(hours=3)).strftime('%Y-%m-%d %H:%M:%S'),
+    "one_day" : (now+timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S'),
+    "three_days" : (now+timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S'),
+    "one_week" : (now+timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'),
+    "two_weeks" : (now+timedelta(days=14)).strftime('%Y-%m-%d %H:%M:%S'),
+    "one_month": (now+timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S'),
+    "two_months" : (now+timedelta(days=60)).strftime('%Y-%m-%d %H:%M:%S'),
+    "three_months" : (now+timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
+}
 
 def listings_index(request):
-    # query by keyword
+    # query by keyword  
     q=request.GET.get('q', '')
     items = Listing.objects.filter(name__icontains=q)
     # filter by category
     category = request.GET.get('category', '')
     items = items.filter(category__icontains=category)
+
     #sort options
     sortby = request.GET.get('sortby')
     if sortby == 'price-LH':
@@ -109,7 +124,8 @@ def listings_index(request):
     {'items': items, 
     'q': q, 
     'sortby': sortby, 
-    'category': category})
+    'category': category,
+    'now': now})
 
 @login_required
 def profile(request):
@@ -117,10 +133,11 @@ def profile(request):
     bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
     return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})
 
-
+@login_required
 def listings_create(request):
-    return render(request, 'listings/create.html', 
-    {"categories": CATEGORIES}
+    return render(request, 'listings/create.html',
+    {"categories": CATEGORIES,
+    "duration" : duration}
     )
 
 
@@ -135,11 +152,30 @@ def listings_detail(request, listing_id):
         'user': request.user
     })
 
+#bidding without web socket
+@login_required
+def bid(request, listing_id):
+    bid_amount = int(request.POST['bid'])
+    listing = Listing.objects.get(id=listing_id)
+    if bid_amount > listing.current_highest_bid:
+        new_bid = Bid.objects.create(listing_id = listing_id, 
+        bidder_id = request.user.id, 
+        amount = bid_amount,
+        datetime = datetime.now())
+        listing.current_highest_bid = bid_amount
+        listing.save()
+        messages.success(request, "Your bid has been recieved!")
+        return redirect('listings_detail', listing_id = listing_id)
+    else:
+        messages.error(request, "Oops, someone may have outbid you or your bid is too low. Try again!")
+        return redirect('listings_detail', listing_id = listing_id)
+
 @login_required
 def listings_update(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     return render(request, 'listings/update.html', 
-    {'item': item,})
+    {'item': item,
+    "duration" : duration})
 
 
 
@@ -152,6 +188,7 @@ def listings_delete(request, listing_id):
 
 
 # AWS s3 photo upload:
+@login_required
 def photo_upload(request, item_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -170,11 +207,13 @@ def photo_upload(request, item_id):
             print(e)
 
 
+@login_required
 def add_photo(request, listing_id):
     photo_upload(request, listing_id)
     response = listings_update(request, listing_id)
     return response
 
+@login_required
 def update_item(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     item.name = request.POST.get("name")
@@ -185,7 +224,7 @@ def update_item(request, listing_id):
     response = redirect('/listings/')
     return response
 
-
+@login_required
 def delete_photo(request, photo_id,):
     photo = Photo.objects.get(id=photo_id)
     listing_id = photo.listing_id
