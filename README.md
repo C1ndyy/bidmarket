@@ -38,11 +38,10 @@ More categories will be added in future enhancements
 The first paragraph text
 
 ### Wireframes <a name="Wireframes"></a>
-This is a sub paragraph, formatted in heading 3 style
+Profile: <img src="https://bitmarket-assets.s3.amazonaws.com/profile.png" height="400px" width="200px" >
 
 ### Entity-Relationship Model <a name="ERD"></a>
 <img src="https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png" height="300px" width="320px" >
-![ERD for bidmarket](https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png =100x20)
 
 ### Github Projects <a name="trello"></a>
 Github Projects was used to organize and manage the 
