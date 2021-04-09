@@ -2,21 +2,37 @@
 Local marketplace to sell used items using an auction concept
 
 # Table of contents
-1. [About Bidmarket](#about)
+1. [Web app Link](#link)
+2. [About Bidmarket](#about)
     1.  [Features](#features)
-2. [Web app Link](#link)
+    2.  [Categories](#categories)
+
 3. [Design and planning](#designandplanning)
     1. [Wireframes](#Wireframes)
-    2. [Github Projects](#trello)
+    2. [Entity-Relationship Model](#ERD)
+    3. [Github Projects](#trello)
 4. [Contributors and Collaborators](#contributors)
 5. [Technologies Used](#technology)
 6. [Future Enhancements](#futureenhancement)
 
+## Web app Link <a name="link"></a>
+[Web app link here](https://bidmarket.herokuapp.com/)
+
 ## About Bidmarket <a name="about"></a>
 Some introduction text, formatted in heading 2 style
 
-## Web app Link <a name="link"></a>
-The first paragraph text
+### Features <a name="features"></a>
+This is a sub paragraph, formatted in heading 3 style
+
+### Current categories on bidmarket <a name="categories"></a>
+Currently there are five general categories for posting items: 
+- Book
+- Home
+- Fashion
+- Tech
+- Sporting
+
+More categories will be added in future enhancements
 
 ## Design and planning <a name="designandplanning"></a>
 The first paragraph text
@@ -24,8 +40,11 @@ The first paragraph text
 ### Wireframes <a name="Wireframes"></a>
 This is a sub paragraph, formatted in heading 3 style
 
+### Entity-Relationship Model <a name="ERD"></a>
+![ERD for bidmarket][erd]
+
 ### Github Projects <a name="trello"></a>
-This is a sub paragraph, formatted in heading 3 style
+Github Projects was used to organize and manage the 
 
 ## Contributors and Collaborators <a name="contributors"></a>
 #### Designers (roles):
@@ -73,3 +92,5 @@ API Manager: the person in charge of researching, registering with, etc. APIs.
 [Cindy Xu]: https://github.com/C1ndyy
 [Robin Hylands]: https://github.com/robin10125
 [Philip Cheung]: https://github.com/pdccheung
+[erd]: https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png
+
