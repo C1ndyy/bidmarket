@@ -40,12 +40,14 @@
   z-index: 998;
   display: flex;
   flex-direction: column;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 #side-nav a{
   margin: 10px 20px;
   text-decoration: none;
   color:black;
+  margin-top: 15px;
 }
 
 #sidenav-overlay {
@@ -62,9 +64,30 @@
 /******************** Top Nav Desktop ************************/
 #desktop-nav {
   display: none;
-  background-color: #f8f8f8 !important;
+  background-color: white !important;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  align-items: center;
+  height: 60px
 }
 
+#desktop-nav a.navbar-brand {
+  margin-left: 10px;
+}
+
+#desktop-nav li {
+  padding: auto 20px;
+  height: 100%;
+}
+
+#desktop-nav a.nav-link {
+  border-right: 1px solid black;
+  height: 30px;
+}
+
+#desktop-nav li:hover{
+  font-weight: 800;
+}
 
 @media only screen and (min-width: 768px) {
   #side-nav {
@@ -76,46 +99,8 @@
   
   #desktop-nav {
     display: flex;
+
   }
 
-
-
 }
 
-.image-area {
-  position: relative;
-  width: 50%;
-  background: #333;
-}
-.image-area img{
-  max-width: 100%;
-  height: auto;
-}
-.remove-image {
-display: none;
-position: absolute;
-top: -10px;
-right: -10px;
-border-radius: 10em;
-padding: 2px 6px 3px;
-text-decoration: none;
-font: 700 21px/20px sans-serif;
-background: #555;
-border: 3px solid #fff;
-color: #FFF;
-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.3);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-  -webkit-transition: background 0.5s;
-  transition: background 0.5s;
-}
-.remove-image:hover {
- background: #E54E4E;
-  padding: 3px 7px 5px;
-  top: -11px;
-right: -11px;
-}
-.remove-image:active {
- background: #E54E4E;
-  top: -10px;
-right: -11px;
-}
