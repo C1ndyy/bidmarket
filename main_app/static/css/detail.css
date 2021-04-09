@@ -15,10 +15,13 @@ main{
 /**************************** Edit/Delete******************************/
 #edit-delete {
     text-align: center;
+    cursor: pointer;
 }
 
 #edit-delete a {
     color: rgb(90, 90, 90);
+    text-decoration: none;
+    font-weight: 600;
 }
 
 #edit-delete a:hover{
@@ -50,15 +53,15 @@ main{
 }
 
 #highest-bid {
-    color: rgb(11, 148, 114)
+    color: rgb(11, 148, 114);
 }
 
 #time-remaining {
-    color: rgb(212, 74, 74)
+    color: rgb(212, 74, 74);
 }
 
 #number-bids {
-    color: black
+    color: black;
 }
 
 /**************************** Image ******************************/
@@ -149,6 +152,13 @@ main{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
+#bid-input-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    align-items: center;
+    justify-self: center;
+}
 
 input[type="button"]{
     background-color: white;
@@ -187,6 +197,30 @@ input[type="button"]:hover{
     outline: none;
 }
 
+.messages {
+    padding: 5px;
+    min-width: 80%;
+    min-height: 40px;
+}
+
+div.success {
+    text-align: center;
+    color: rgb(11, 148, 114);
+    background-color: rgba(170, 233, 209, 0.5);
+    border-radius: 10px;
+    height:100%
+}
+
+div.error {
+    text-align: center;
+    color:rgb(212, 74, 74);
+    background-color: rgb(245, 179, 179, 0.5);
+    border-radius: 10px;
+    height:100%
+}
+
+
+
 /**************************** Bid History ******************************/
 #bid-log {
     max-width: 90vw;
@@ -203,6 +237,84 @@ input[type="button"]:hover{
     margin-bottom: 30px;
 }
 
+/**************************** Popup Modal ******************************/
+.clearfix {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+    background-color: white;
+    height: 50px;
+    width: 120px;
+    color: black;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+    background-color: #f44336;
+    height: 50px;
+    width: 150px;
+    color: white;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+
+/* Add padding and center-align text to the container */
+.container {
+    margin-top:50px;
+    padding: 16px;
+}
+
+/* The Modal (background) */
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    left: auto;
+    top: auto;
+    width: 100vw; /* Full width */
+    height: 100vh; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4);
+    margin-top: -40px;
+    margin-left: -10px;
+    z-index: 501;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 20% auto auto auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Modal Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Modal Content/Box */
+.close:hover {
+    color: rgb(212, 74, 74);
+    cursor: pointer;
+}
+
+.modal a {
+    text-decoration: none !important;
+}
+  
 /**************************** MediaQuery ******************************/
 @media only screen and (min-width: 768px) {
     main{
@@ -228,87 +340,3 @@ input[type="button"]:hover{
     }
 }
 
-
-/* The Modal (background) For the Delete Button in Detail.html*/
-
-button {
-    background-color: #f86767;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 30%;
-    opacity: 0.9;
-    text-decoration: none;  
-  }
-  
-  .cancelbtn, .deletebtn {
-    float: left;
-    width: 50%;
-  }
-  
-  /* Add a color to the cancel button */
-  .cancelbtn {
-    background-color: #ccc;
-    color: black;
-  }
-  
-  /* Add a color to the delete button */
-  .deletebtn {
-    background-color: #f44336;
-  }
-  
-  
-  /* Add padding and center-align text to the container */
-  .container {
-    padding: 16px;
-    text-align: center;
-  }
-  
-  /* The Modal (background) */
-  
-  .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    left: auto;
-    top: auto;
-    width: 70%; /* Full width */
-    height: 70%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: #a0a1a1;
-    padding-top: 50px;
-    z-index: 501;
-  }
-  
-  .modal-content {
-    background-color: #fefefe;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-  }
-  
-  /* The Modal Close Button (x) */
-  .close {
-    position: absolute;
-    right: 35px;
-    top: 15px;
-    font-size: 40px;
-    font-weight: bold;
-    color: #f1f1f1;
-  }
-  
-  /* Modal Content/Box */
-  .close:hover,
-  .close:focus {
-    color: #d82619;
-    cursor: pointer;
-  }
-  
-  /* Clear floats */
-  .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-  

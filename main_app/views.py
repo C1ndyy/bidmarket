@@ -6,6 +6,7 @@ from .models import Listing, Bid, Thread, Message, CATEGORIES, Photo
 from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.contrib import messages
 from django.utils import timezone
 import uuid
 import logging #TEMP
@@ -85,14 +86,13 @@ def new_message(request, listing_id):
         return redirect('message_detail', thread_id= new_thread.id)
 
 
-
 #----------------------------------Listings---------------------------------#
 # get current datetime now (type datetime.datetime)
 now = datetime.now(timezone.utc)
 
 # get time intervals for bidding
 duration = {
-    "three_hour": (now+timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M:%S'),
+    "three_hour": (now+timedelta(hours=3)).strftime('%Y-%m-%d %H:%M:%S'),
     "one_day" : (now+timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S'),
     "three_days" : (now+timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S'),
     "one_week" : (now+timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'),
@@ -153,6 +153,23 @@ def listings_detail(request, listing_id):
         'room_name': room_name,
         'user': request.user
     })
+
+#bidding without web socket
+def bid(request, listing_id):
+    bid_amount = int(request.POST['bid'])
+    listing = Listing.objects.get(id=listing_id)
+    if bid_amount > listing.current_highest_bid:
+        new_bid = Bid.objects.create(listing_id = listing_id, 
+        bidder_id = request.user.id, 
+        amount = bid_amount,
+        datetime = datetime.now())
+        listing.current_highest_bid = bid_amount
+        listing.save()
+        messages.success(request, "Your bid has been recieved!")
+        return redirect('listings_detail', listing_id = listing_id)
+    else:
+        messages.error(request, "Oops, someone may have outbid you or your bid is too low. Try again!")
+        return redirect('listings_detail', listing_id = listing_id)
 
 @login_required
 def listings_update(request, listing_id):
