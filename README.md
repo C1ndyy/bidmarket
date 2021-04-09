@@ -19,6 +19,9 @@ Local marketplace to sell used items using an auction concept
 [Web app link here](https://bidmarket.herokuapp.com/)
 
 ## About Bidmarket <a name="about"></a>
+bidmarket is an unique local online marketplace that allow users to quickly post and sell items while maximizing sales price based on demand. 
+What makes bidmarket unique is its combination of bidding and buy-now features. Bidding allows the seller to received the highest price possible based demand, while a buy-now price (coming soon in version 2.0) is the pre-determined price by the sellers, that allows the buyer to purchase the item before the bidding expiry date/time.
+
 As a Non-Authenticated User: 
 - I want to be able to view all listings
 - I want to search by keyword
