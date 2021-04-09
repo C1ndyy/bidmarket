@@ -19,10 +19,37 @@ Local marketplace to sell used items using an auction concept
 [Web app link here](https://bidmarket.herokuapp.com/)
 
 ## About Bidmarket <a name="about"></a>
-Some introduction text, formatted in heading 2 style
+As a Non-Authenticated User: 
+- I want to be able to view all listings
+- I want to search by keyword
+- I want to sort by category
+- I want to create an account via sign-up form
+
+As a user: 
+- I want to be able to log in
+- I want to post items for bidding
+- I want to edit and/or delete my listings
+- I want to send and receive messages from other users in relation to the listed items
+- I want to view all the items I have bid on
+
+
+<img src="https://bitmarket-assets.s3.amazonaws.com/mobile-home.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/side-nav-mobile.png" height="400px" width="200px" >
+<img src="https://bitmarket-assets.s3.amazonaws.com/website-details.png" height="300px" width="320px" >
 
 ### Features <a name="features"></a>
-This is a sub paragraph, formatted in heading 3 style
+- Login and Sign up
+- post items for bidding
+- add/delete photos related to my items 
+- update my items
+- delete my items
+- listing of all items (expired listings auto deleted from the list)
+- Search by keyword
+- Filter/sort by category, price, bid expiry date
+- confirmations for bids, and deletes
+- 8 preset increments for bid expiry date (3 hours, 24 hours, 3 days, 1 week, 2weeks, 1 month, 2 months, 3 months)
+- messaging other users about posted items
+- see my bid histroy and bid history on a particular item 
 
 ### Current categories on bidmarket <a name="categories"></a>
 Currently there are five general categories for posting items: 
@@ -35,7 +62,6 @@ Currently there are five general categories for posting items:
 More categories will be added in future enhancements
 
 ## Design and planning <a name="designandplanning"></a>
-The first paragraph text
 
 ### Wireframes <a name="Wireframes"></a>
 <img src="https://bitmarket-assets.s3.amazonaws.com/profile.png" height="400px" width="200px" >
@@ -49,7 +75,8 @@ The first paragraph text
 <img src="https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png" height="300px" width="320px" >
 
 ### Github Projects <a name="trello"></a>
-Github Projects was used to organize and manage the 
+Github Projects was used to organize and manage the our progress during our daily stands ups
+[Github Projects]
 
 ## Contributors and Collaborators <a name="contributors"></a>
 #### Designers (roles):
@@ -58,7 +85,7 @@ Github Projects was used to organize and manage the
 * [Roseanna Meas] (Designer)
 
 #### Developers (roles):
-* [Cindy Xu] (GitHub Manager, Project Lead)
+* [Cindy Xu] (GitHub Manager, Project Liaison)
 * [Robin Hylands] (Database manager)
 * [Philip Cheung] (Scrum Master)
 
@@ -73,23 +100,9 @@ Github Projects was used to organize and manage the
 * Hosted on Heroku
 
 ## Future Enhancements <a name="futureenhancement"></a>
-
-
-
-- [ ] look at the 'trello board' for features
-
-
-### This is a third-tier heading
-
-
-Scrum Master: the leader of the Agile processes (user stories, stand-ups, etc.) and manager of Trello.
-GitHub Manager: the primary person for managing the repo and GitHub team workflow (merging pull requests, etc.).
-Documenter: the person in charge of the README, etc.
-Designer: the person in charge of UI design/layout and styling.
-Database manager: this person will be in charge of creating and managing the models and their relationships.
-API Manager: the person in charge of researching, registering with, etc. APIs.
-
-
+- implement a buy now price feature for users to buy an item immediately at an pre-determined price (by seller)
+- search by location, to view items being sold nearby
+- creadit card and bitcoin payment method
 
 [Charissa Ho]: https://www.linkedin.com/in/charissatho/
 [Quentin Caron]: https://www.linkedin.com/in/q-caron/
@@ -97,5 +110,5 @@ API Manager: the person in charge of researching, registering with, etc. APIs.
 [Cindy Xu]: https://github.com/C1ndyy
 [Robin Hylands]: https://github.com/robin10125
 [Philip Cheung]: https://github.com/pdccheung
-
+[Github Projects]: https://github.com/C1ndyy/bidmarket/projects/1
 
