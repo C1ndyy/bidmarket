@@ -1,3 +1,10 @@
+main {
+    max-width: 1200px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
 /**************************** Search Bar ******************************/
 #search-bar {
     display: flex;
@@ -5,7 +12,7 @@
     border: 4px solid #F2C34F;
     border-radius: 30px;
     max-width: 800px;
-    margin: 20px;
+    margin: 20px auto;
 }
 
 #search-bar button {
@@ -26,17 +33,70 @@
     outline:none
 }
 
-/****************** Main Graphic *************/
-.listing-image {
-    width: 100%;
-    max-width: 100%;
-    max-height: 50vh;
+/****************** Graphics *****************/
+
+.banner-images {
+    max-height: 40vh;
+    min-height: 30vh;
+    overflow:hidden;
+    position:relative;
 }
 
+
+.banner-images > img{
+    position:absolute;
+    height:100%;
+    width:100%;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    object-fit: cover;
+}
+
+.banner-images-small {
+    max-height: 20vh;
+    min-height: 20vh;
+    overflow:hidden;
+    position:relative;
+}
+
+
+.banner-images-small > img{
+    position:absolute;
+    height:100%;
+    width:100%;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    object-fit: cover;
+}
+
+.banner-images-small> a {
+    position:absolute;
+    top:50%;
+    left:35%;
+    margin:auto;
+    text-decoration: none;
+    color:white;
+    font-size: 3vw;
+    border: 1vw solid white;
+    border-radius: 5%;
+    padding: 10px;
+}
+
+.banner-images-small> a:hover {
+    color:black;
+    border-color: black;
+}
 
 /****************** Hottest/Ending Soon Listings *************/
 h4 {
     margin-top: 30px;
+    padding-left: 5px;
 }
 
 #listing-container {
@@ -82,4 +142,25 @@ h4 {
 
 #expring-soon {
     color:rgb(192, 77, 77);
+}
+
+/****************** Media Queries *************/
+@media only screen and (min-width: 768px) {
+
+    .banner-images {
+        min-height: 50vh;
+        max-height: 60vh;
+    }
+
+    .banner-images-small {
+        max-height: 40vh;
+        min-height: 30vh;
+    }
+
+    .banner-images-small> a {
+        
+        font-size: 35px;
+        border: 10px solid white;
+        left:40%;
+    }
 }
