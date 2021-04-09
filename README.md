@@ -41,7 +41,7 @@ The first paragraph text
 This is a sub paragraph, formatted in heading 3 style
 
 ### Entity-Relationship Model <a name="ERD"></a>
-![ERD for bidmarket][erd]
+![ERD for bidmarket] (https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png =100x20)
 
 ### Github Projects <a name="trello"></a>
 Github Projects was used to organize and manage the 
@@ -92,5 +92,4 @@ API Manager: the person in charge of researching, registering with, etc. APIs.
 [Cindy Xu]: https://github.com/C1ndyy
 [Robin Hylands]: https://github.com/robin10125
 [Philip Cheung]: https://github.com/pdccheung
-[erd]: https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png
 
