@@ -1,13 +1,3 @@
-<style>
-    img {
-        width: 100;
-        height: 20;
-        background: none;
-    }
-    
-    
-</style>
-
 # bidmarket
 Local marketplace to sell used items using an auction concept
 
@@ -51,6 +41,7 @@ The first paragraph text
 This is a sub paragraph, formatted in heading 3 style
 
 ### Entity-Relationship Model <a name="ERD"></a>
+<img src="https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png" height="100px" width="400px" >
 ![ERD for bidmarket](https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png =100x20)
 
 ### Github Projects <a name="trello"></a>
