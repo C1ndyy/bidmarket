@@ -1,1 +1,1 @@
-gunicorn bidmarket.wsgi
+web: gunicorn bidmarket.wsgi
