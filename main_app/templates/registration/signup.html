@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% block title %} Sign up {% endblock %}
 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/registration.css' %}">
+{% endblock %}
+
 
 {% block content %}
-<h1>SIGN UP PAGE</h1>
+<h1>Sign Up</h1>
 
 <form method="POST" action="">
     {% csrf_token %}
@@ -26,14 +31,14 @@
         {{ form.password2 }}
     </div>
     <div id="error-message" class="mb-3"> {{ error_message }}</div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit">Submit</button>
 </form>
 
 <script>
     const form_fields = document.getElementsByTagName('input')
-    form_fields[1].classList.add("form-control")
-    form_fields[2].classList.add("form-control")
-    form_fields[3].classList.add("form-control")
+    form_fields[1].classList.add("registration")
+    form_fields[2].classList.add("registration")
+    form_fields[3].classList.add("registration")
 
 </script>
 

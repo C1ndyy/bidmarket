@@ -7,18 +7,26 @@
 {% endblock %}
 
 {% block content %}
-<h1>LOG IN PAGE</h1>
+<h1>Log in</h1>
 <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Log in</button>
+    <h3> Username </h3>
+    <div>{{ form.username }}</div>
+    <h3> Password</h3>
+    <div>{{ form.password }}</div>
+    <button type="submit">Log in</button>
     <input type="hidden" name="next" value="{{ next }}">
+
+    <p>Don't have an account? <a href="{% url 'signup' %}"> Sign Up</a></p>
+
 </form>
+
+
 
 <script>
     const form_fields = document.getElementsByTagName('input')
-    form_fields[1].classList.add("form-control")
-    form_fields[2].classList.add("form-control")
+    form_fields[1].classList.add("registration")
+    form_fields[2].classList.add("registration")
 </script>
 
 {% endblock %}

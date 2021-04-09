@@ -174,18 +174,21 @@ input[type="button"]{
     width: 80px;
     height: 40px;
     margin: 5px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 input[type="button"]:hover{
-    background-color: var(--yellow);
+    background-color: black;
     outline:none;
+    color:white;
 }
 
 #bid-message-input {
-    width: 120px;
-    height: 40px;
+    width: 100px;
+    height: 45px;
     border: 2px solid black;
-    border-radius: 0%;
+    border-radius: 5px;
+    font-size: 18px;
 }
 
 #bid-message-input:hover{
@@ -193,10 +196,13 @@ input[type="button"]:hover{
 }
 
 #bid-message-submit {
-    background-color: var(--yellow);
+    background-color: black;
     border: 2px solid black;
-    width: 120px;
-    height:40px;
+    border-radius: 5px;
+    width: 100px;
+    height:45px;
+    color:white;
+    font-size: 18px;
 }
 
 #bid-message-submit:hover {
