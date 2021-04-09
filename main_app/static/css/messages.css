@@ -115,7 +115,7 @@ small.text-muted {
 }
 
 .my-messages div {
-    background-color: rgb(174, 209, 255);
+    background-color: #fce6ae;
     border-radius: 10px;
     overflow-wrap: break-word;
 }

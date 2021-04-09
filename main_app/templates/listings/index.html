@@ -116,12 +116,10 @@
 
 <div class="">
   <!-- display each listing as a card  -->
-  
+  {% if items %}
   {% for item in items%}
-  
-    {% with e=item.expiry_date %}
-    {% if e > now %}
-    {{forloop.counter0}}
+  {% with e=item.expiry_date %}
+  {% if e > now %}
   <a href="{% url 'listings_detail' item.id %}">
     <div class="card">
 
@@ -143,10 +141,13 @@
       </div>
     </div>
   </a>
-  
+
   {% endif %}
   {% endwith %}
   {% endfor %}
+  {% else %}
+  <h4> No results matched your search</h4>
+  {% endif %}
 </div>
 
 

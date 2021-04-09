@@ -135,7 +135,7 @@ def profile(request):
     bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
     return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})
 
-
+@login_required
 def listings_create(request):
     return render(request, 'listings/create.html',
     {"categories": CATEGORIES,
@@ -155,6 +155,7 @@ def listings_detail(request, listing_id):
     })
 
 #bidding without web socket
+@login_required
 def bid(request, listing_id):
     bid_amount = int(request.POST['bid'])
     listing = Listing.objects.get(id=listing_id)
@@ -189,6 +190,7 @@ def listings_delete(request, listing_id):
 
 
 # AWS s3 photo upload:
+@login_required
 def photo_upload(request, item_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -207,11 +209,13 @@ def photo_upload(request, item_id):
             print(e)
 
 
+@login_required
 def add_photo(request, listing_id):
     photo_upload(request, listing_id)
     response = listings_update(request, listing_id)
     return response
 
+@login_required
 def update_item(request, listing_id):
     item = Listing.objects.get(id=listing_id)
     item.name = request.POST.get("name")
@@ -222,7 +226,7 @@ def update_item(request, listing_id):
     response = redirect('/listings/')
     return response
 
-
+@login_required
 def delete_photo(request, photo_id,):
     photo = Photo.objects.get(id=photo_id)
     listing_id = photo.listing_id

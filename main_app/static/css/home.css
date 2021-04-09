@@ -10,7 +10,7 @@ main {
     display: flex;
     justify-content: space-between;
     border: 4px solid #F2C34F;
-    border-radius: 30px;
+    border-radius: 10px;
     max-width: 800px;
     margin: 20px auto;
 }
@@ -18,7 +18,7 @@ main {
 #search-bar button {
     background-color: white;
     border: none;
-    border-radius: 30;
+    border-radius: 10px;
     margin-right: 15px;
 }
 
@@ -114,6 +114,7 @@ h4 {
     text-decoration: none;
     color: black;
     z-index:900;
+    margin-bottom: 30px;
 }
 
 .card-image {
@@ -124,16 +125,20 @@ h4 {
 }
 
 #listing-container img{
-    min-width: 150px;
+    /* min-width: 150px;
     max-width: 150px;
     max-height: 150px;
-    margin: 0px;
+    margin: 0px; */
+    height: 100%;
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .listing-card {
     display: flex;
     flex-direction: column;
     max-width: 160px;
+    margin-right: 5px;
 }
 
 #number-of-bids {
@@ -153,8 +158,8 @@ h4 {
     }
 
     .banner-images-small {
-        max-height: 40vh;
-        min-height: 30vh;
+        max-height: 50vh;
+        min-height: 40vh;
     }
 
     .banner-images-small> a {
