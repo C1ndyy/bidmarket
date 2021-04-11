@@ -1,11 +1,11 @@
 # bidmarket
-Local marketplace to sell used items using an auction concept
+Local marketplace to sell used items using an auction concept. Check it out [here](https://bidmarket.herokuapp.com/)
 
-# Table of contents
+## Table of contents
 1. [Web app Link](#link)
 2. [About Bidmarket](#about)
     1.  [Features](#features)
-    2.  [Categories](#categories)
+    2.  [Screenshots](#screenshots)
 
 3. [Design and planning](#designandplanning)
     1. [Wireframes](#Wireframes)
@@ -22,47 +22,27 @@ Local marketplace to sell used items using an auction concept
 bidmarket is an unique local online marketplace that allow users to quickly post and sell items while maximizing sales price based on demand. 
 What makes bidmarket unique is its combination of bidding and buy-now features. Bidding allows the seller to received the highest price possible based demand, while a buy-now price (coming soon in version 2.0) is the pre-determined price by the sellers, that allows the buyer to purchase the item before the bidding expiry date/time.
 
-As a Non-Authenticated User: 
-- I want to be able to view all listings
-- I want to search by keyword
-- I want to sort by category
-- I want to create an account via sign-up form
-
-As a user: 
-- I want to be able to log in
-- I want to post items for bidding
-- I want to edit and/or delete my listings
-- I want to send and receive messages from other users in relation to the listed items
-- I want to view all the items I have bid on
-
-
-<img src="https://bitmarket-assets.s3.amazonaws.com/mobile-home.png" height="400px" width="200px" >
-<img src="https://bitmarket-assets.s3.amazonaws.com/side-nav-mobile.png" height="400px" width="200px" >
-<img src="https://bitmarket-assets.s3.amazonaws.com/website-details.png" height="300px" width="320px" >
 
 ### Features <a name="features"></a>
 - Login and Sign up
-- post items for bidding
-- add/delete photos related to my items 
-- update my items
-- delete my items
-- listing of all items (expired listings auto deleted from the list)
-- Search by keyword
-- Filter/sort by category, price, bid expiry date
-- confirmations for bids, and deletes
-- 8 preset increments for bid expiry date (3 hours, 24 hours, 3 days, 1 week, 2weeks, 1 month, 2 months, 3 months)
-- messaging other users about posted items
-- see my bid histroy and bid history on a particular item 
+- post/edit/delete your own ads
+- add/delete photos on ads
+- search by keyword, sort, and filter through search results
+- bid on other items
+- message seller, view conversations saved in inbox
+- profile showing your listings and bids
+- mobile and desktop view
 
-### Current categories on bidmarket <a name="categories"></a>
-Currently there are five general categories for posting items: 
-- Book
-- Home
-- Fashion
-- Tech
-- Sporting
+### Screenshots <a name="screenshots"></a>
+<img src="https://i.imgur.com/rSUOl9u.png" height="400px" width="600px" >
+<img src="https://i.imgur.com/9m28aar.png" height="400px" width="200px" >
+<img src="https://i.imgur.com/pBE1CAw.png" height="400px" width="200px" >
+<img src="https://i.imgur.com/xwIsJI0.png" height="400px" width="200px" >
+<img src="https://i.imgur.com/19rr3Ol.png" height="400px" width="200px" >
+<img src="https://i.imgur.com/6ZldmU8.png" height="400px" width="200px" >
+<img src="https://i.imgur.com/NMoPq6J.png" height="400px" width="200px" >
 
-More categories will be added in future enhancements
+
 
 ## Design and planning <a name="designandplanning"></a>
 
@@ -88,9 +68,9 @@ Github Projects was used to organize and manage the our progress during our dail
 * [Roseanna Meas] (Designer)
 
 #### Developers (roles):
-* [Cindy Xu] (GitHub Manager, Project Liaison)
-* [Robin Hylands] (Database manager)
-* [Philip Cheung] (Scrum Master)
+* [Cindy Xu] 
+* [Robin Hylands] 
+* [Philip Cheung] 
 
 ## Dev Tools Used <a name="technology"></a>
 * HTML 5
@@ -105,7 +85,8 @@ Github Projects was used to organize and manage the our progress during our dail
 ## Future Enhancements <a name="futureenhancement"></a>
 - implement a buy now price feature for users to buy an item immediately at an pre-determined price (by seller)
 - search by location, to view items being sold nearby
-- creadit card and bitcoin payment method
+- real time messaging and notifications
+- watchlist for favorited items
 
 [Charissa Ho]: https://www.linkedin.com/in/charissatho/
 [Quentin Caron]: https://www.linkedin.com/in/q-caron/
