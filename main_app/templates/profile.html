@@ -51,8 +51,12 @@
                         {% endif %}
                         <span>${{ listing.current_highest_bid }}</span>
                         <div>
-                            <span> {{ listing.number_of_bids }} bids </span>
+                            <span> {{ listing.number_of_bids }} bids &#8226; </span>
+                            {% if listing.isexpired %}
+                            <span> Expired</span>
+                            {% else %}
                             <span> {{ listing.time_remaining}}</span>
+                            {% endif %}
                         </div>
                     </div>
                 </a>

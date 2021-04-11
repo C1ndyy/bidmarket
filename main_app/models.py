@@ -50,6 +50,12 @@ class Listing(models.Model):
     
     def bids_by_value(self):
         return self.bid_set.all().order_by('-amount')
+    
+    def isexpired(self):
+        if timezone.now() > self.expiry_date:
+            return True
+        else:
+            return False
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

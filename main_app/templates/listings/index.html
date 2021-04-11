@@ -108,11 +108,8 @@
   <!-- display each listing as a card  -->
   {% if items %}
   {% for item in items%}
-  {% with e=item.expiry_date %}
-  {% if e > now %}
   <a href="{% url 'listings_detail' item.id %}">
     <div class="card">
-
       <!-- AWS photo uploads -->
       {% if item.photo_set.all %}
       <div class="card-image">
@@ -131,9 +128,6 @@
       </div>
     </div>
   </a>
-
-  {% endif %}
-  {% endwith %}
   {% endfor %}
   {% else %}
   <h4> No results matched your search</h4>

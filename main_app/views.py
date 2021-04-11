@@ -25,8 +25,8 @@ AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
 #----------------------------------Home/Signup---------------------------------#
 def home(request):
-    hottest_listings = Listing.objects.annotate(number_of_bids = Count('bid')).order_by('-number_of_bids')[:10]
-    ending_soon_listings = Listing.objects.order_by('expiry_date')[:10]
+    hottest_listings = Listing.objects.filter(expiry_date__gt=datetime.now()).annotate(number_of_bids = Count('bid')).order_by('-number_of_bids')[:10]
+    ending_soon_listings = Listing.objects.filter(expiry_date__gt=datetime.now()).order_by('expiry_date')[:10]
     return render(request, 'home.html', {'hottest_listings': hottest_listings, 'ending_soon_listings': ending_soon_listings})
 
 def signup(request):
@@ -101,7 +101,7 @@ duration = {
 def listings_index(request):
     # query by keyword  
     q=request.GET.get('q', '')
-    items = Listing.objects.filter(name__icontains=q)
+    items = Listing.objects.filter(name__icontains=q).filter(expiry_date__gt=datetime.now())
     # filter by category
     category = request.GET.get('category', '')
     items = items.filter(category__icontains=category)
