@@ -42,11 +42,10 @@
     New bidding expiry date (from now):
     <div id="timeline-container">
         {% for key, val in duration.items %}
-        <div class="radio-timeline">
+        <label class="radio-container">{{key}}
             <input type="radio" name="expiry_date" value="{{val}}" id="{{val}}" required>
             <div class="radio-button"></div>
-            <label for="{{val}}">{{key}}</label>
-        </div>
+        </label>
         {% endfor %}
     </div>
 
