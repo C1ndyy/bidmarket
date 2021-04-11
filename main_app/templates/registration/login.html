@@ -7,20 +7,19 @@
 {% endblock %}
 
 {% block content %}
-<h1>Log in</h1>
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <h3> Username </h3>
-    <div>{{ form.username }}</div>
-    <h3> Password</h3>
-    <div>{{ form.password }}</div>
-    <button type="submit">Log in</button>
-    <input type="hidden" name="next" value="{{ next }}">
-
-    <p>Don't have an account? <a href="{% url 'signup' %}"> Sign Up</a></p>
-
-</form>
-
+<div class="login-container">
+    <h1>Log in</h1>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <h3> Username </h3>
+        <div>{{ form.username }}</div>
+        <h3> Password</h3>
+        <div>{{ form.password }}</div>
+        <button type="submit">LOG IN</button>
+        <input type="hidden" name="next" value="{{ next }}">
+        <p>Don't have an account? <a href="{% url 'signup' %}"> Sign Up</a></p>
+    </form>
+</div>
 
 
 <script>
