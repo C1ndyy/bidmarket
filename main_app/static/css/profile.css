@@ -98,3 +98,7 @@ section {
 }
 
 /**************************** Bids ******************************/
+section.bids td {
+    max-width: 100px;
+    overflow-x: hidden;
+}

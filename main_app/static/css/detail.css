@@ -264,6 +264,11 @@ div.error {
     max-width: 90vw;
 }
 
+section.bids td {
+    max-width: 100px;
+    overflow-x: hidden;
+}
+
 /**************************** Description ******************************/
 #description p {
     font-size: 14px;
