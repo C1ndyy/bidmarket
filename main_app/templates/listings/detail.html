@@ -116,7 +116,11 @@
   <!-- Tab Sections -->
   <div class="status-info">
     <div id="number-bids"> {{ item.number_of_bids }} bids </div>
+    {% if item.isexpired %}
+    <div id="time-remaining"> Expired</div>
+    {% else %}
     <div id="time-remaining"> {{ item.time_remaining}} left</div>
+    {% endif %}
   </div>
 </div>
 <div id="right-section">
