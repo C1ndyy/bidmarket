@@ -23,11 +23,7 @@ BUCKET = os.environ['BUCKET']
 AWS_ACCESS_ID = os.environ['AWS_ACCESS_ID']
 AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
-
-
-# Create your views here.
-
-
+#----------------------------------Home/Signup---------------------------------#
 def home(request):
     hottest_listings = Listing.objects.annotate(number_of_bids = Count('bid')).order_by('-number_of_bids')[:10]
     ending_soon_listings = Listing.objects.order_by('expiry_date')[:10]
@@ -130,10 +126,23 @@ def listings_index(request):
     'now': now})
 
 @login_required
-def profile(request):
-    listings = Listing.objects.filter(seller__id=request.user.id)
-    bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
-    return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})
+def listings_new(request):
+    photo_file = request.FILES.get('photo-file', None)
+    item = Listing(name=request.POST.get("name"),
+    seller_id=request.user.id,
+    description=request.POST.get("description"),
+    address=request.POST.get("address"),
+    category=request.POST.get("category"),
+    min_bid_price=int(request.POST.get("min_bid_price")),
+    current_highest_bid=int(request.POST.get("min_bid_price")),
+    buy_now_price=int(request.POST.get("buy_now_price")),
+    created_date=datetime.now(),
+    expiry_date=request.POST.get("expiry_date"),
+    )
+    item.save()
+    photo_upload(request, item.id)
+    response = redirect('/listings/')
+    return response
 
 @login_required
 def listings_create(request):
@@ -142,7 +151,41 @@ def listings_create(request):
     "duration" : duration}
     )
 
+@login_required
+def listings_update(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    return render(request, 'listings/update.html', 
+    {'item': item,
+    "duration" : duration})
 
+@login_required
+def listings_delete(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    item.delete()
+    response = redirect('/listings/')
+    return response
+
+@login_required
+def update_item(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    item.name = request.POST.get("name")
+    item.address = request.POST.get("address")
+    item.description = request.POST.get("description")
+    item.expiry_date = request.POST.get("expiry_date")
+    item.save()
+    response = redirect('/listings/')
+    return response
+
+#---------------------------------Profile---------------------------------#
+@login_required
+def profile(request):
+    listings = Listing.objects.filter(seller__id=request.user.id)
+    bids = Bid.objects.filter(bidder__id=request.user.id).order_by('-datetime')
+    return render(request, 'profile.html', {'listings': listings, 'username': request.user.username, 'bids': bids})
+
+
+#--------------------------------Bidding---------------------------------#
+@login_required
 #now has websocket functionality
 def listings_detail(request, listing_id):
     item = Listing.objects.get(id=listing_id)
@@ -172,22 +215,7 @@ def bid(request, listing_id):
         messages.error(request, "Oops, someone may have outbid you or your bid is too low. Try again!")
         return redirect('listings_detail', listing_id = listing_id)
 
-@login_required
-def listings_update(request, listing_id):
-    item = Listing.objects.get(id=listing_id)
-    return render(request, 'listings/update.html', 
-    {'item': item,
-    "duration" : duration})
-
-
-
-@login_required
-def listings_delete(request, listing_id):
-    item = Listing.objects.get(id=listing_id)
-    item.delete()
-    response = redirect('/listings/')
-    return response
-
+#--------------------------------Photos--------------------------------#
 
 # AWS s3 photo upload:
 @login_required
@@ -215,16 +243,6 @@ def add_photo(request, listing_id):
     response = listings_update(request, listing_id)
     return response
 
-@login_required
-def update_item(request, listing_id):
-    item = Listing.objects.get(id=listing_id)
-    item.name = request.POST.get("name")
-    item.address = request.POST.get("address")
-    item.description = request.POST.get("description")
-    item.expiry_date = request.POST.get("expiry_date")
-    item.save()
-    response = redirect('/listings/')
-    return response
 
 @login_required
 def delete_photo(request, photo_id,):
@@ -234,21 +252,3 @@ def delete_photo(request, photo_id,):
     response = listings_update(request, listing_id)
     return response
 
-@login_required
-def listings_new(request):
-    photo_file = request.FILES.get('photo-file', None)
-    item = Listing(name=request.POST.get("name"),
-    seller_id=request.user.id,
-    description=request.POST.get("description"),
-    address=request.POST.get("address"),
-    category=request.POST.get("category"),
-    min_bid_price=int(request.POST.get("min_bid_price")),
-    current_highest_bid=int(request.POST.get("min_bid_price")),
-    buy_now_price=int(request.POST.get("buy_now_price")),
-    created_date=datetime.now(),
-    expiry_date=request.POST.get("expiry_date"),
-    )
-    item.save()
-    photo_upload(request, item.id)
-    response = redirect('/listings/')
-    return response

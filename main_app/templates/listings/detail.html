@@ -7,34 +7,38 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/detail.css' %}">
 {% endblock %}
 
-<div id="left-section">
-  <!-- Only Seller can Edit/Delete their listings -->
-  {% if user.id == item.seller.id %}
-  <div id="edit-delete">
-    <a href="{% url 'listings_update' item.id %}">Edit Listing / </a>
 
-    <a onclick="document.getElementById('delete-listing').style.display='block'">Delete Listing</a>
+<!-- Only Seller can Edit/Delete their listings -->
+{% if user.id == item.seller.id %}
+<div id="edit-delete">
+  <a href="{% url 'listings_update' item.id %}">Edit Listing / </a>
 
-    <div id="delete-listing" class="modal">
-      <span onclick="document.getElementById('delete-listing').style.display='none'" class="close"
-        title="Close Modal">×</span>
-      <form class="modal-content" action="/action_page.php">
-        <div class="container">
-          <h1>Delete This Listing?</h1>
-          <p>Are you sure you want to delete your listing for "{{item.name}}"?</p>
+  <a onclick="document.getElementById('delete-listing').style.display='block'">Delete Listing</a>
 
-          <div class="clearfix">
-            <button type="button" onclick="document.getElementById('delete-listing').style.display='none'"
-              class="cancelbtn">Cancel</button>
-            <a href="{% url 'listings_delete' item.id %}" id="delete-listing"><button type="button"
-                onclick="document.getElementById('delete-listing').style.display='none'" class="deletebtn">
-                Delete Listing</button></a>
-          </div>
+  <div id="delete-listing" class="modal">
+    <span onclick="document.getElementById('delete-listing').style.display='none'" class="close"
+      title="Close Modal">×</span>
+    <form class="modal-content" action="/action_page.php">
+      <div class="container">
+        <h1>Delete This Listing?</h1>
+        <p>Are you sure you want to delete your listing for "{{item.name}}"?</p>
+
+        <div class="clearfix">
+          <button type="button" onclick="document.getElementById('delete-listing').style.display='none'"
+            class="cancelbtn">Cancel</button>
+          <a href="{% url 'listings_delete' item.id %}" id="delete-listing"><button type="button"
+              onclick="document.getElementById('delete-listing').style.display='none'" class="deletebtn">
+              Delete Listing</button></a>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
-  {% endif %}
+</div>
+<br>
+{% endif %}
+
+
+<div id="left-section">
   <div class="item-name">{{ item.name }}</div>
   <div class="status-info">
     <div>Top Bid: $<div id="highest-bid">{{ item.current_highest_bid|floatformat:0 }}
@@ -91,7 +95,7 @@
       {% endif %}
       {% endfor %}
       {% else %}
-      <div id="image">
+      <div class="image">
         <img class="listing-image" src="{% static 'images/no-image.png' %}">
       </div>
       {% endif %}
@@ -134,6 +138,7 @@
     <div id="content">
 
       <section id="bid" class="active">
+        {% if user.is_authenticated %}
         <h4>Quick Bids</h4>
         <div id="quickbids">
           <input type="button" value="$1">
@@ -165,6 +170,13 @@
             <input id="bid-message-submit" type="submit">
           </form>
         </div>
+        {% else %}
+        <h3>You must be logged in to bid</h3>
+        <div>
+          <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+          <a href="{% url 'signup' %}?next={{ request.path }}">Signup</a>
+        </div>
+        {% endif %}
       </section>
 
       <section class="bids">
