@@ -35,24 +35,21 @@ What makes bidmarket unique is its combination of bidding and buy-now features. 
 
 ### Screenshots <a name="screenshots"></a>
 <img src="https://i.imgur.com/rSUOl9u.png" height="400px" width="600px" >
-<img src="https://i.imgur.com/9m28aar.png" height="400px" width="200px" >
-<img src="https://i.imgur.com/pBE1CAw.png" height="400px" width="200px" >
-<img src="https://i.imgur.com/xwIsJI0.png" height="400px" width="200px" >
-<img src="https://i.imgur.com/19rr3Ol.png" height="400px" width="200px" >
-<img src="https://i.imgur.com/6ZldmU8.png" height="400px" width="200px" >
-<img src="https://i.imgur.com/NMoPq6J.png" height="400px" width="200px" >
 
+| Mobile   |          |             |
+|----------|:-------------:|---------------:|
+|<img src="https://i.imgur.com/9m28aar.png">|<img src="https://i.imgur.com/pBE1CAw.png">|<img src="https://i.imgur.com/xwIsJI0.png">|
+|<img src="https://i.imgur.com/19rr3Ol.png">|<img src="https://i.imgur.com/6ZldmU8.png">|<img src="https://i.imgur.com/NMoPq6J.png">|
 
 
 ## Design and planning <a name="designandplanning"></a>
 
 ### Wireframes <a name="Wireframes"></a>
-<img src="https://bitmarket-assets.s3.amazonaws.com/profile.png" height="400px" width="200px" >
-<img src="https://bitmarket-assets.s3.amazonaws.com/details.png" height="400px" width="200px" >
-<img src="https://bitmarket-assets.s3.amazonaws.com/detail-history.png" height="400px" width="200px" >
-<img src="https://bitmarket-assets.s3.amazonaws.com/message.png" height="400px" width="200px" >
-<img src="https://bitmarket-assets.s3.amazonaws.com/Search2.png" height="400px" width="200px" >
-<img src="https://bitmarket-assets.s3.amazonaws.com/Search1.png" height="400px" width="200px" >
+|    |          |             |
+|----------|:-------------:|---------------:|
+|<img src="https://bitmarket-assets.s3.amazonaws.com/profile.png">|<img src="https://bitmarket-assets.s3.amazonaws.com/details.png">|<img src="https://bitmarket-assets.s3.amazonaws.com/detail-history.png">|
+|<img src="https://bitmarket-assets.s3.amazonaws.com/message.png">|<img src="https://bitmarket-assets.s3.amazonaws.com/Search2.png">|<img src="https://bitmarket-assets.s3.amazonaws.com/Search1.png">|
+
 
 ### Entity-Relationship Model <a name="ERD"></a>
 <img src="https://bitmarket-assets.s3.amazonaws.com/bidmarket+ERD-v1.1.png" height="300px" width="320px" >
