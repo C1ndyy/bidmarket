@@ -185,7 +185,7 @@ def profile(request):
 
 
 #--------------------------------Bidding---------------------------------#
-@login_required
+
 #now has websocket functionality
 def listings_detail(request, listing_id):
     item = Listing.objects.get(id=listing_id)
